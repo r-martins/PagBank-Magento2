@@ -1,0 +1,46 @@
+& when (@media-common = true) {
+    .admin-config-ricardomartins-pagbank {
+        .heading {
+            background: url("../RicardoMartins_PagBank/images/logo-pagbank.svg") no-repeat;
+            padding-left: 20rem;
+        }
+
+        .button-container {
+            float: right;
+        }
+
+        &.section-config {
+            &.active > .admin__collapsible-block + input + fieldset {
+                margin-left: 40px;
+            }
+        }
+
+        .button {
+            &.action-link {
+                display: inline-block;
+                margin-top: 5px;
+                padding: 5px 10px;
+                border: 1px solid #ccc;
+                color: #30302D !important;
+
+                &:hover {
+                    color: #FFFFFF;
+                    background: #CCCCCC;
+                    text-decoration: none !important;
+                }
+            }
+        }
+    }
+
+    .sales-order-view {
+        .order-payment-method {
+            .ricardomartins-pagbank {
+                .code-container {
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-end;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,60 @@
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="credit_card" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+        <label>Credit Card</label>
+        <field id="active" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Active</label>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <config_path>payment/ricardomartins_pagbank_cc/active</config_path>
+        </field>
+        <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Title</label>
+            <config_path>payment/ricardomartins_pagbank_cc/title</config_path>
+        </field>
+        <field id="sort_order" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Sort Order</label>
+            <config_path>payment/ricardomartins_pagbank_cc/sort_order</config_path>
+        </field>
+        <field id="soft_descriptor" translate="label tooltip" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Soft Descriptor</label>
+            <tooltip>Name that will be displayed on the Customer's invoice. Choose a name that reminds the customer that they purchased from your store and avoids chargebacks.</tooltip>
+            <config_path>payment/ricardomartins_pagbank_cc/soft_descriptor</config_path>
+        </field>
+        <field id="installments_options" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Installment Options</label>
+            <config_path>payment/ricardomartins_pagbank_cc/installments_options</config_path>
+            <source_model>RicardoMartins\PagBank\Model\Config\Source\InstallmentOptions</source_model>
+        </field>
+        <field id="installments_options_fixed" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Number of Interest-Free Installments</label>
+            <config_path>payment/ricardomartins_pagbank_cc/installments_options_fixed</config_path>
+            <validate>validate-digits no-whitespace</validate>
+            <depends>
+                <field id="installments_options">fixed</field>
+            </depends>
+        </field>
+        <field id="installments_options_min_total" translate="label comment" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Minimum Interest-Free Installment Value</label>
+            <comment><![CDATA[Valor inteiro sem decimais. Exemplo: 10 para R$ 10,00.<small>Neste exemplo, um pedido de R$100 poderá ser parcelado em 10x sem juros.
+                Taxa padrão de juros: 2,99% a.m (consulte valor atualizado).</small>]]></comment>
+            <config_path>payment/ricardomartins_pagbank_cc/installments_options_min_total</config_path>
+            <validate>validate-digits no-whitespace</validate>
+            <depends>
+                <field id="installments_options">min_total</field>
+            </depends>
+        </field>
+        <field id="enable_installments_limit" translate="label comment" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Limit installments</label>
+            <comment>Recommendation: Do not prevent your customer from purchasing with a high installment plan even if they want to pay the interest. There is no greater cost to you.</comment>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <config_path>payment/ricardomartins_pagbank_cc/enable_installments_limit</config_path>
+        </field>
+        <field id="installments_limit" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Maximum Number of Installments</label>
+            <config_path>payment/ricardomartins_pagbank_cc/installments_limit</config_path>
+            <validate>validate-integer no-whitespace</validate>
+            <depends>
+                <field id="enable_installments_limit">1</field>
+            </depends>
+        </field>
+    </group>
+</include>

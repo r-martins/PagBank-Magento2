@@ -1,0 +1,31 @@
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="boleto" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+        <label>Boleto</label>
+        <field id="active" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Active</label>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <config_path>payment/ricardomartins_pagbank_boleto/active</config_path>
+        </field>
+        <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Title</label>
+            <config_path>payment/ricardomartins_pagbank_boleto/title</config_path>
+        </field>
+        <field id="sort_order" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Sort Order</label>
+            <config_path>payment/ricardomartins_pagbank_boleto/sort_order</config_path>
+        </field>
+        <field id="expiration_time" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Expiration time (days)</label>
+            <validate>validate-digits no-whitespace</validate>
+            <config_path>payment/ricardomartins_pagbank_boleto/expiration_time</config_path>
+        </field>
+        <field id="instruction_line_one" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Instructions (line one)</label>
+            <config_path>payment/ricardomartins_pagbank_boleto/instruction_line_one</config_path>
+        </field>
+        <field id="instruction_line_two" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Instructions (line two)</label>
+            <config_path>payment/ricardomartins_pagbank_boleto/instruction_line_two</config_path>
+        </field>
+    </group>
+</include>

@@ -1,0 +1,14 @@
+{
+    "quote": {
+        "column": {
+            "ricardomartins_pagbank_interest_amount": true,
+            "ricardomartins_pagbank_base_interest_amount": true
+        }
+    },
+    "sales_order": {
+        "column": {
+            "ricardomartins_pagbank_interest_amount": true,
+            "ricardomartins_pagbank_base_interest_amount": true
+        }
+    }
+}

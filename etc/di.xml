@@ -1,0 +1,308 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Interfaces -->
+    <preference for="RicardoMartins\PagBank\Api\Connect\ItemInterface" type="RicardoMartins\PagBank\Model\Request\Item" />
+    <preference for="RicardoMartins\PagBank\Api\Connect\CustomerInterface" type="RicardoMartins\PagBank\Model\Request\Customer" />
+    <preference for="RicardoMartins\PagBank\Api\Connect\PhoneInterface" type="RicardoMartins\PagBank\Model\Request\Customer\Phone" />
+    <preference for="RicardoMartins\PagBank\Api\Connect\AddressInterface" type="RicardoMartins\PagBank\Model\Request\Customer\Address" />
+    <preference for="RicardoMartins\PagBank\Api\Connect\ChargeInterface" type="RicardoMartins\PagBank\Model\Request\Charge" />
+    <preference for="RicardoMartins\PagBank\Api\Connect\AmountInterface" type="RicardoMartins\PagBank\Model\Request\Amount" />
+    <preference for="RicardoMartins\PagBank\Api\Connect\PaymentMethodInterface" type="RicardoMartins\PagBank\Model\Request\PaymentMethod" />
+    <preference for="RicardoMartins\PagBank\Api\Connect\PaymentMethod\CardInterface" type="RicardoMartins\PagBank\Model\Request\PaymentMethod\Card" />
+    <preference for="RicardoMartins\PagBank\Api\Connect\HolderInterface" type="RicardoMartins\PagBank\Model\Request\Holder" />
+    <preference for="RicardoMartins\PagBank\Api\Connect\PaymentMethod\BoletoInterface" type="RicardoMartins\PagBank\Model\Request\PaymentMethod\Boleto" />
+    <preference for="RicardoMartins\PagBank\Api\Connect\PaymentMethod\InstructionLinesInterface" type="RicardoMartins\PagBank\Model\Request\PaymentMethod\Boleto\InstructionLines" />
+    <preference for="RicardoMartins\PagBank\Api\Connect\PaymentMethod\QrCodeInterface" type="RicardoMartins\PagBank\Model\Request\PaymentMethod\QrCode" />
+    <preference for="RicardoMartins\PagBank\Api\Connect\InstallmentsInterface" type="RicardoMartins\PagBank\Model\Request\Installments" />
+    <preference for="RicardoMartins\PagBank\Api\ListInstallmentsInterface" type="RicardoMartins\PagBank\Model\Api\ListInstallments" />
+    <preference for="RicardoMartins\PagBank\Api\InterestInterface" type="RicardoMartins\PagBank\Model\Api\Interest" />
+    <preference for="RicardoMartins\PagBank\Api\Connect\PublicKeyInterface" type="RicardoMartins\PagBank\Model\Api\PublicKey" />
+
+    <!-- Gatewat Facade -->
+    <virtualType name="RicardoMartinsPagBankCcFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">RicardoMartins\PagBank\Gateway\Config\ConfigCc::METHOD_CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form\Cc</argument>
+            <argument name="infoBlockType" xsi:type="string">RicardoMartinsPagBankCcConfigurableInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">RicardoMartinsPagBankValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">RicardoMartinsPagBankCcCommandPool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartinsPagBankBoletoFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">RicardoMartins\PagBank\Gateway\Config\ConfigBoleto::METHOD_CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">RicardoMartinsPagBankBoletoConfigurableInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">RicardoMartinsPagBankBoletoValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">RicardoMartinsPagBankBoletoCommandPool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartinsPagBankQrCodeFacade" type="Magento\Payment\Model\Method\Adapter">
+        <arguments>
+            <argument name="code" xsi:type="const">RicardoMartins\PagBank\Gateway\Config\ConfigQrCode::METHOD_CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">RicardoMartinsPagBankQrCodeConfigurableInfo</argument>
+            <argument name="valueHandlerPool" xsi:type="object">RicardoMartinsPagBankQrCodeValueHandlerPool</argument>
+            <argument name="commandPool" xsi:type="object">RicardoMartinsPagBankQrCodeCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value Handler Pool: Credit Card -->
+    <virtualType name="RicardoMartinsPagBankValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">RicardoMartinsPagBankConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartinsPagBankConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">RicardoMartins\PagBank\Gateway\Config\ConfigCc</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value Handler Pool: Boleto -->
+    <virtualType name="RicardoMartinsPagBankBoletoValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">RicardoMartinsPagBankBoletoConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartinsPagBankBoletoConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">RicardoMartins\PagBank\Gateway\Config\ConfigBoleto</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value Handler Pool: QrCode -->
+    <virtualType name="RicardoMartinsPagBankQrCodeValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">RicardoMartinsPagBankQrCodeConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartinsPagBankQrCodeConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">RicardoMartins\PagBank\Gateway\Config\ConfigQrCode</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Command Pool Configuration -->
+    <virtualType name="RicardoMartinsPagBankCcCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="initialize" xsi:type="string">RicardoMartinsPagBankCommand</item>
+                <item name="authorize" xsi:type="string">RicardoMartinsPagBankCommand</item>
+                <item name="capture" xsi:type="string">RicardoMartinsPagBankCommand</item>
+                <item name="fetch_transaction_information" xsi:type="string">RicardoMartinsPagBankFetchTransactionCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartinsPagBankBoletoCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="initialize" xsi:type="string">RicardoMartinsPagBankBoletoInitializeCommand</item>
+                <item name="fetch_transaction_information" xsi:type="string">RicardoMartinsPagBankFetchTransactionCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartinsPagBankQrCodeCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="initialize" xsi:type="string">RicardoMartinsPagBankQrCodeInitializeCommand</item>
+                <item name="fetch_transaction_information" xsi:type="string">RicardoMartinsPagBankFetchTransactionCommand</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Commands -->
+    <virtualType name="RicardoMartinsPagBankCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">RicardoMartinsPagBankCcTransactionBuilders</argument>
+            <argument name="transferFactory" xsi:type="object">RicardoMartins\PagBank\Gateway\Http\TransferFactory\PostOrderTransferFactory</argument>
+            <argument name="client" xsi:type="object">RicardoMartins\PagBank\Gateway\Http\Client\GeneralClient</argument>
+            <argument name="handler" xsi:type="object">RicardoMartinsPagBankCompleteHandler</argument>
+            <argument name="validator" xsi:type="object">RicardoMartins\PagBank\Gateway\Validator\ResponseValidator</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartinsPagBankBoletoInitializeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">RicardoMartinsPagBankBoletoTransactionBuilders</argument>
+            <argument name="transferFactory" xsi:type="object">RicardoMartins\PagBank\Gateway\Http\TransferFactory\PostOrderTransferFactory</argument>
+            <argument name="client" xsi:type="object">RicardoMartins\PagBank\Gateway\Http\Client\GeneralClient</argument>
+            <argument name="handler" xsi:type="object">RicardoMartinsPagBankBoletoCompleteHandler</argument>
+            <argument name="validator" xsi:type="object">RicardoMartins\PagBank\Gateway\Validator\ResponseValidator</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartinsPagBankQrCodeInitializeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">RicardoMartinsPagBankQrCodeInitializeTransactionBuilders</argument>
+            <argument name="transferFactory" xsi:type="object">RicardoMartins\PagBank\Gateway\Http\TransferFactory\PostOrderTransferFactory</argument>
+            <argument name="client" xsi:type="object">RicardoMartins\PagBank\Gateway\Http\Client\GeneralClient</argument>
+            <argument name="handler" xsi:type="object">RicardoMartinsPagBankQrCodeCompleteHandler</argument>
+            <argument name="validator" xsi:type="object">RicardoMartins\PagBank\Gateway\Validator\ResponseValidator</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartinsPagBankFetchTransactionCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">RicardoMartinsPagBankFetchTransactionRequest</argument>
+            <argument name="transferFactory" xsi:type="object">RicardoMartins\PagBank\Gateway\Http\TransferFactory\GetTransactionInfoTransferFactory</argument>
+            <argument name="client" xsi:type="object">RicardoMartins\PagBank\Gateway\Http\Client\GeneralClient</argument>
+            <argument name="handler" xsi:type="object">RicardoMartinsPagBankFetchTransactionResponseHandler</argument>
+            <argument name="validator" xsi:type="object">RicardoMartins\PagBank\Gateway\Validator\ResponseValidator</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Request Transactions Builders -->
+    <virtualType name="RicardoMartinsPagBankCcTransactionBuilders" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="order" xsi:type="string">RicardoMartins\PagBank\Gateway\Request\Builder\Order</item>
+                <item name="items" xsi:type="string">RicardoMartins\PagBank\Gateway\Request\Builder\Items</item>
+                <item name="customer" xsi:type="string">RicardoMartins\PagBank\Gateway\Request\Builder\Customer</item>
+                <item name="shipping" xsi:type="string">RicardoMartins\PagBank\Gateway\Request\Builder\Shipping</item>
+                <item name="charges" xsi:type="string">RicardoMartins\PagBank\Gateway\Request\Builder\Charges\CreditCard</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartinsPagBankBoletoTransactionBuilders" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="order" xsi:type="string">RicardoMartins\PagBank\Gateway\Request\Builder\Order</item>
+                <item name="items" xsi:type="string">RicardoMartins\PagBank\Gateway\Request\Builder\Items</item>
+                <item name="customer" xsi:type="string">RicardoMartins\PagBank\Gateway\Request\Builder\Customer</item>
+                <item name="shipping" xsi:type="string">RicardoMartins\PagBank\Gateway\Request\Builder\Shipping</item>
+                <item name="charges" xsi:type="string">RicardoMartins\PagBank\Gateway\Request\Builder\Charges\Boleto</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartinsPagBankQrCodeInitializeTransactionBuilders" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="order" xsi:type="string">RicardoMartins\PagBank\Gateway\Request\Builder\Order</item>
+                <item name="items" xsi:type="string">RicardoMartins\PagBank\Gateway\Request\Builder\Items</item>
+                <item name="customer" xsi:type="string">RicardoMartins\PagBank\Gateway\Request\Builder\Customer</item>
+                <item name="shipping" xsi:type="string">RicardoMartins\PagBank\Gateway\Request\Builder\Shipping</item>
+                <item name="qrCodes" xsi:type="string">RicardoMartins\PagBank\Gateway\Request\Builder\QrCodes</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="RicardoMartinsPagBankFetchTransactionRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="payment_id" xsi:type="string">RicardoMartins\PagBank\Gateway\Request\Builder\PaymentId</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Response Handlers -->
+    <virtualType name="RicardoMartinsPagBankCompleteHandler" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="payment_details" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\PaymentDetailsHandler</item>
+                <item name="transaction_details" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\TransactionAdditionalInfoHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartinsPagBankBoletoCompleteHandler" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="payment_details" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\PaymentDetailsHandler</item>
+                <item name="transaction_details" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\TransactionAdditionalInfoHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartinsPagBankQrCodeCompleteHandler" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="payment_details" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\QrCodeDetailsHandler</item>
+                <item name="transaction_details" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\TransactionAdditionalInfoHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="RicardoMartinsPagBankFetchTransactionResponseHandler" type="Magento\Payment\Gateway\Response\HandlerChain">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="fetch" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\FetchPaymentHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Configurable Info -->
+    <virtualType name="RicardoMartinsPagBankCcConfigurableInfo" type="Magento\Payment\Block\ConfigurableInfo">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="is_secure_mode" xsi:type="string">0</item>
+                <item name="methodCode" xsi:type="const">RicardoMartins\PagBank\Gateway\Config\ConfigCc::METHOD_CODE</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartinsPagBankQrCodeConfigurableInfo" type="RicardoMartins\PagBank\Block\ConfigurableInfo">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="methodCode" xsi:type="const">RicardoMartins\PagBank\Gateway\Config\ConfigQrCode::METHOD_CODE</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartinsPagBankBoletoConfigurableInfo" type="RicardoMartins\PagBank\Block\ConfigurableInfo">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="methodCode" xsi:type="const">RicardoMartins\PagBank\Gateway\Config\ConfigBoleto::METHOD_CODE</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Logger -->
+    <virtualType name="RicardoMartins\PagBank\Model\Method\VirtualDebug" type="Magento\Framework\Logger\Handler\Base">
+        <arguments>
+            <argument name="fileName" xsi:type="string">/var/log/pagbank.log</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartins\PagBank\Model\Method\VirtualLogger" type="Magento\Framework\Logger\Monolog">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="debug" xsi:type="object">RicardoMartins\PagBank\Model\Method\VirtualDebug</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartins\PagBank\Model\Method\Logger" type="Magento\Payment\Model\Method\Logger">
+        <arguments>
+            <argument name="config" xsi:type="object">RicardoMartins\PagBank\Gateway\Config\Config</argument>
+            <argument name="logger" xsi:type="object">RicardoMartins\PagBank\Model\Method\VirtualLogger</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="RicardoMartins\PagBank\Gateway\Http\Client\GeneralClient">
+        <arguments>
+            <argument name="logger" xsi:type="object">RicardoMartins\PagBank\Model\Method\Logger</argument>
+            <argument name="converter" xsi:type="object">RicardoMartins\PagBank\Gateway\Converter\JsonToArray</argument>
+        </arguments>
+    </type>
+    <type name="RicardoMartins\PagBank\Gateway\Validator\ResponseValidator">
+        <arguments>
+            <argument name="logger" xsi:type="object">RicardoMartins\PagBank\Model\Method\Logger</argument>
+        </arguments>
+    </type>
+    <type name="RicardoMartins\PagBank\Controller\Notifications\Index">
+        <arguments>
+            <argument name="logger" xsi:type="object">RicardoMartins\PagBank\Model\Method\Logger</argument>
+        </arguments>
+    </type>
+
+
+    <!-- Converter -->
+    <type name="RicardoMartins\PagBank\Gateway\Converter\JsonToArray">
+        <arguments>
+            <argument name="serializer" xsi:type="object">Magento\Framework\Serialize\Serializer\Json</argument>
+        </arguments>
+    </type>
+    <type name="RicardoMartins\PagBank\Gateway\Converter\Converter">
+        <arguments>
+            <argument name="converter" xsi:type="object">RicardoMartins\PagBank\Gateway\Converter\ArrayToJson</argument>
+        </arguments>
+    </type>
+</config>

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Payment\Model\CcGenericConfigProvider">
+        <arguments>
+            <argument name="methodCodes" xsi:type="array">
+                <item name="ricardomartins_pagbank_cc" xsi:type="const">RicardoMartins\PagBank\Gateway\Config\ConfigCc::METHOD_CODE</item>
+                <item name="ricardomartins_pagbank_boleto" xsi:type="const">RicardoMartins\PagBank\Gateway\Config\ConfigBoleto::METHOD_CODE</item>
+                <item name="ricardomartins_pagbank_pix" xsi:type="const">RicardoMartins\PagBank\Gateway\Config\ConfigQrCode::METHOD_CODE</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="ricardomartins_pagbank_config_provider" xsi:type="object">RicardoMartins\PagBank\Model\Ui\ConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="RicardoMartinsPagBankCcConfigurableInfo">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="is_secure_mode" xsi:type="string">1</item>
+                <item name="methodCode" xsi:type="const">RicardoMartins\PagBank\Gateway\Config\ConfigCc::METHOD_CODE</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

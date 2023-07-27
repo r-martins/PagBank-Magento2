@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+
+    <!-- Get installments list -->
+    <route url="/V1/carts/pagbank/list-installments" method="POST">
+        <service class="RicardoMartins\PagBank\Api\ListInstallmentsInterface" method="execute"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <!-- Set installments interest -->
+    <route url="/V1/carts/pagbank/set-installment-interest" method="POST">
+        <service class="RicardoMartins\PagBank\Api\InterestInterface" method="execute"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+</routes>

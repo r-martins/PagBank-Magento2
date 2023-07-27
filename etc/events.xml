@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="payment_method_assign_data_ricardomartins_pagbank_cc">
+        <observer name="ricardomartins_pagbank_cc_data_assign" instance="RicardoMartins\PagBank\Observer\DataAssignObserver" />
+    </event>
+</config>

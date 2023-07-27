@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="payment">
+            <group id="ricardomartins_pagbank" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Ricardo Martins PagBank</label>
+                <comment>A forma mais fácil e segura de receber pagamentos. Uma solução completa para que você ofereça de forma simples e transparente o processamento dos pedidos em seu site.</comment>
+                <fieldset_css>complex admin-config-ricardomartins-pagbank</fieldset_css>
+                <frontend_model>RicardoMartins\PagBank\Block\Adminhtml\Config\Fieldset</frontend_model>
+                <attribute type="displayIn">recommended_solutions</attribute>
+                <include path="RicardoMartins_PagBank::system/general_settings.xml"/>
+                <include path="RicardoMartins_PagBank::system/credit_card.xml"/>
+                <include path="RicardoMartins_PagBank::system/boleto.xml"/>
+                <include path="RicardoMartins_PagBank::system/pix.xml"/>
+            </group>
+        </section>
+    </system>
+</config>

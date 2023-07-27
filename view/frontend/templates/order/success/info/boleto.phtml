@@ -1,0 +1,30 @@
+<?php
+/** @var $block \RicardoMartins\PagBank\Block\Checkout\Onepage\Info */
+/** @var $escaper \Magento\Framework\Escaper */
+?>
+<h2><?= $escaper->escapeHtml(__('Pay your ticket')) ?></h2>
+<p><?= $escaper->escapeHtml(__('Copy the barcode below and pay directly to your bank.')) ?></p>
+<div class="code-container">
+    <label for="barcode">
+        <?= $escaper->escapeHtml(__('Bar code:')) ?>
+    </label>
+    <div class="code-content">
+        <input type="text" id="barcode" class="payment-code" value="<?= $block->getPaymentTextBoleto(); ?>" readonly="readonly"/>
+        <img src="<?= $block->getViewFileUrl('RicardoMartins_PagBank::images/copy-icon.svg') ?>" alt="<?= $escaper->escapeHtmlAttr(__('Copy')) ?>" title="<?= $escaper->escapeHtmlAttr(__('Copy')) ?>" class="copy-btn"/>
+        <p class="copied" style="display: none"><?= $escaper->escapeHtml(__('Copied ✔')) ?></p>
+    </div>
+</div>
+<div class="boleto-exiration-container">
+    <p><strong><?= $escaper->escapeHtml(__('Your ticket expires in %1', $block->formatDate($block->getExpirationDate(), \IntlDateFormatter::SHORT, false))) ?></strong></p>
+</div>
+<div class="actions-toolbar">
+    <a href="<?= $block->getPaymentLinkBoleto(); ?>" target="_blank" class="action primary"><?= $escaper->escapeHtml(__('Download ticket file')) ?></a>
+    <a href="<?= $block->getPaymentLinkBoleto(); ?>" target="_blank" class="action primary"><?= $escaper->escapeHtml(__('Print ticket file')) ?></a>
+</div>
+<script type="text/x-magento-init">
+{
+    ".copy-btn": {
+        "RicardoMartins_PagBank/js/action/copy-button": {}
+    }
+}
+</script>

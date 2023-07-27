@@ -1,0 +1,28 @@
+{
+    "name": "ricardomartins/pagbank-magento2",
+    "description": "Magento 2 Transparent Payment Module / PagBank Transparente para Magento 2",
+    "type": "magento2-module",
+    "license": "GPL-3.0-or-later",
+    "version": "4.0.0",
+    "require": {
+        "php": "~8.1.0||~8.2.0"
+    },
+    "authors": [
+        {
+            "name": "Ricardo Martins",
+            "email": "pagseguro-transparente@ricardomartins.net.br"
+        },
+        {
+            "name": "Ligia Salzano",
+            "email": "ligiasalzano@gmail.com"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "RicardoMartins\\PagBank\\": ""
+        }
+    }
+}

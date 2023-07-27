@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<body>
+    <referenceContainer name="order.success.additional.info">
+        <block name="additional.info.ricardomartins.pagbank"
+               class="\RicardoMartins\PagBank\Block\Checkout\Onepage\Info"
+               template="RicardoMartins_PagBank::order/success/info.phtml"
+               after="-" >
+            <block name="additional.info.ricardomartins.pagbank.pix"
+                   template="RicardoMartins_PagBank::order/success/info/pix.phtml" />
+            <block name="additional.info.ricardomartins.pagbank.boleto"
+                   template="RicardoMartins_PagBank::order/success/info/boleto.phtml" />
+        </block>
+    </referenceContainer>
+</body>
