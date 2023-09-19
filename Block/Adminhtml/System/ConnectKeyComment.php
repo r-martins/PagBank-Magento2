@@ -14,6 +14,10 @@ class ConnectKeyComment extends AbstractBlock implements CommentInterface
      */
     public function getCommentText($elementValue): string
     {
+        if (!$elementValue) {
+            return '';
+        }
+
         if (str_contains($elementValue, 'CONSANDBOX')) {
             return '⚠️ Você está usando o <strong>modo de testes</strong>. Veja <a href="https://dev.pagbank.uol.com.br/reference/simulador" target="_blank">documentação</a>.' .
                     '<br/>Para usar o modo de produção, altere suas credenciais.' .
