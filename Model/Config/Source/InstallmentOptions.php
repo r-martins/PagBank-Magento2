@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace RicardoMartins\PagBank\Model\Config\Source;
 
-class InstallmentOptions implements \Magento\Framework\Option\ArrayInterface
+use Magento\Framework\Data\OptionSourceInterface;
+
+class InstallmentOptions implements OptionSourceInterface
 {
     /**
      * @inheritDoc

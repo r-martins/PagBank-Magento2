@@ -13,7 +13,12 @@
             <comment model="RicardoMartins\PagBank\Block\Adminhtml\System\ConnectKeyComment" />
             <backend_model>RicardoMartins\PagBank\Model\Config\Backend\ConnectKey</backend_model>
         </field>
-        <field id="debug" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+        <field id="document_from" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+            <label>Get Document From</label>
+            <source_model>RicardoMartins\PagBank\Model\Config\Source\DocumentFromOptions</source_model>
+            <config_path>payment/ricardomartins_pagbank/document_from</config_path>
+        </field>
+        <field id="debug" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
             <label>Enable Debug</label>
             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
             <config_path>payment/ricardomartins_pagbank/debug</config_path>

@@ -68,8 +68,10 @@ class Boleto implements BuilderInterface
         $address->setCountry();
 
         $holder = $this->holderFactory->create();
+        $taxId = $orderModel->getCustomerTaxvat();
+        $taxId = "12345678909";
         $holder->setName($orderModel->getCustomerFirstname() . ' ' . $orderModel->getCustomerLastname());
-        $holder->setTaxId($orderModel->getCustomerTaxvat());
+        $holder->setTaxId($taxId);
         $holder->setEmail($orderModel->getCustomerEmail());
         $holder->setAddress($address->getData());
 

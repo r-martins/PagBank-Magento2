@@ -21,7 +21,8 @@ class ConfigProvider implements ConfigProviderInterface
         return [
             'payment' => [
                 Config::METHOD_CODE => [
-                    PublicKeyInterface::PUBLIC_KEY => $this->config->getPublicKey()
+                    Config::CONFIG_PUBLIC_KEY => $this->config->getPublicKey(),
+                    Config::CONFIG_DOCUMENT_FROM => $this->config->getDocumentFrom(),
                 ]
             ]
         ];

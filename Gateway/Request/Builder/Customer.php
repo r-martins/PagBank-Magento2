@@ -10,6 +10,7 @@ use Magento\Sales\Model\Order;
 use RicardoMartins\PagBank\Api\Connect\CustomerInterfaceFactory;
 use RicardoMartins\PagBank\Api\Connect\PhoneInterface;
 use RicardoMartins\PagBank\Api\Connect\PhoneInterfaceFactory;
+use RicardoMartins\PagBank\Gateway\Config\Config;
 
 class Customer implements BuilderInterface
 {
@@ -21,10 +22,12 @@ class Customer implements BuilderInterface
     /**
      * @param CustomerInterfaceFactory $customerFactory
      * @param PhoneInterfaceFactory $phoneFactory
+     * @param Config $config
      */
     public function __construct(
         private CustomerInterfaceFactory $customerFactory,
-        private PhoneInterfaceFactory $phoneFactory
+        private PhoneInterfaceFactory $phoneFactory,
+        private Config $config
     ) {}
 
     /**
@@ -40,15 +43,23 @@ class Customer implements BuilderInterface
         $orderModel = $payment->getOrder();
         $telephone = $orderModel->getBillingAddress()->getTelephone();
 
+        $documentFrom = $this->config->getDocumentFrom();
+
+        $document = match ($documentFrom) {
+            'taxvat' => $orderModel->getCustomerTaxvat(),
+            'vat_id' => $orderModel->getBillingAddress()->getVatId(),
+            default => $payment->getAdditionalInformation('tax_id'),
+        };
+
         $phones = $this->phoneFactory->create();
         $phones->setCountry(PhoneInterface::DEFAULT_COUNTRY_CODE);
         $phones->setArea((int) substr($telephone, 0, 2));
         $phones->setNumber((int) substr($telephone, 2));
-        $phones->setType($this->getPhoneType($telephone, $orderModel->getCustomerTaxvat()));
+        $phones->setType($this->getPhoneType($telephone, $document));
 
         $customer = $this->customerFactory->create();
         $customer->setName($orderModel->getCustomerFirstname() . ' ' . $orderModel->getCustomerLastname());
-        $customer->setTaxId($orderModel->getCustomerTaxvat());
+        $customer->setTaxId($document);
         $customer->setEmail($orderModel->getCustomerEmail());
         $customer->setPhones([$phones->getData()]);
 
@@ -59,11 +70,15 @@ class Customer implements BuilderInterface
 
     /**
      * @param string $telephone
-     * @param string $taxvat
+     * @param string|null $taxvat
      * @return string
      */
-    private function getPhoneType(string $telephone, string $taxvat): string
+    private function getPhoneType(string $telephone, string $taxvat = null): string
     {
+        if (!$taxvat) {
+            return PhoneInterface::TYPE_MOBILE;
+        }
+
         $countTaxvatCharacters = strlen($taxvat);
         if ($countTaxvatCharacters === 14) {
             return PhoneInterface::TYPE_BUSINESS;

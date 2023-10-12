@@ -69,6 +69,9 @@
                               valueUpdate: 'keyup' "/>
         </div>
     </div>
+
+    <!-- ko template: 'RicardoMartins_PagBank/payment/customer-fields' --><!-- /ko -->
+
     <div class="field date required" data-bind="attr: {id: getCode() + '_cc_type_exp_div'}">
         <label data-bind="attr: {for: getCode() + '_expiration'}" class="label">
             <span><!-- ko i18n: 'Expiration Date'--><!-- /ko --></span>

@@ -6,6 +6,7 @@
                 <active>1</active>
                 <model>RicardoMartinsPagBankCcFacade</model>
                 <title>PagBank</title>
+                <document_from>payment_form</document_from>
                 <debug>1</debug>
                 <sandbox_flag>1</sandbox_flag>
                 <connect_key />

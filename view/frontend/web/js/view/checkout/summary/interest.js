@@ -7,17 +7,13 @@ define(
     ],
     function (Component, quote, priceUtils, totals) {
         "use strict";
+
         return Component.extend({
             defaults: {
                 template: 'RicardoMartins_PagBank/checkout/summary/interest',
                 active: true
             },
             totals: quote.getTotals(),
-
-            // initObservable() {
-            //     this._super().observe(['active']);
-            //     return this;
-            // },
 
             isDisplayed: function() {
                 return this.getPureValue() !== 0;

@@ -59,7 +59,8 @@ class PaymentDetailsHandler implements HandlerInterface
         }
 
         try {
-            $payment->setAdditionalInformation($data);
+            $additionalInfo = $payment->getAdditionalInformation();
+            $payment->setAdditionalInformation(array_push($additionalInfo, $data));
         } catch (\Exception $e) {}
     }
 }

@@ -5,10 +5,12 @@ define([
         'Magento_Payment/js/view/payment/cc-form',
         'Magento_Checkout/js/model/quote',
         'Magento_Payment/js/model/credit-card-validation/credit-card-data',
+        'RicardoMartins_PagBank/js/model/payment-validation/pagbank-customer-data',
         'Magento_Payment/js/model/credit-card-validation/credit-card-number-validator',
         'RicardoMartins_PagBank/js/action/get-installments',
         'RicardoMartins_PagBank/js/action/set-interest',
         'RicardoMartins_PagBank/js/action/encrypt-card',
+        'RicardoMartins_PagBank/js/view/payment/form/customer-fields',
         'Magento_Checkout/js/model/full-screen-loader',
         'mage/translate'
     ], function (
@@ -18,10 +20,12 @@ define([
         Component,
         quote,
         creditCardData,
+        pagbankCustomerData,
         cardNumberValidator,
         getInstallments,
         setInterest,
         encryptCard,
+        customerFields,
         fullScreenLoader,
         $t
     ) {
@@ -34,7 +38,8 @@ define([
                 creditCardNumberEncrypted: '',
                 creditCardInstallments: null,
                 creditCardInstallmentsOptions: null,
-                creditCardOwner: ''
+                creditCardOwner: '',
+                taxId: null
             },
 
             validate: function () {
@@ -49,7 +54,8 @@ define([
                         'creditCardNumberEncrypted',
                         'creditCardInstallments',
                         'creditCardInstallmentsOptions',
-                        'creditCardOwner'
+                        'creditCardOwner',
+                        'taxId'
                     ]);
 
                 return this;
@@ -106,6 +112,12 @@ define([
                 this.creditCardOwner.subscribe(function (value) {
                     creditCardData.creditCardOwner = value;
                 });
+
+                //Set document to data object
+                this.taxId.subscribe(function (value) {
+                    value = value.replace(/\D/g, '');
+                    pagbankCustomerData.taxId = value;
+                });
             },
 
             placeOrder: function (data, event) {
@@ -132,12 +144,15 @@ define([
                 return {
                     'method': this.getCode(),
                     'additional_data': {
-                        'cc_number_encrypted': this.creditCardNumberEncrypted(),
-                        'cc_installments': this.creditCardInstallments(),
-                        'cc_cid': this.creditCardVerificationNumber(),
                         'cc_owner': this.creditCardOwner(),
+                        'cc_type': this.creditCardType(),
+                        'cc_last_4': this.getLast4Numbers(),
+                        'cc_exp_month': this.creditCardExpMonth(),
+                        'cc_exp_year': this.creditCardExpYear(),
+                        'cc_installments': this.creditCardInstallments(),
+                        'tax_id': pagbankCustomerData.taxId
                     }
-                };
+                }
             },
 
             /**
@@ -233,6 +248,27 @@ define([
                     return true;
                 }
             },
+
+            /**
+             * Get last 4 numbers of credit card
+             * @returns {*|string}
+             */
+            getLast4Numbers() {
+                let cardNumber = this.creditCardNumber();
+                if (!_.isUndefined(cardNumber)) {
+                    return cardNumber.slice(-4);
+                }
+
+                return "";
+            },
+
+            /**
+             * Request tax id at checkout
+             * @returns {boolean}
+             */
+            requestTaxIdAtCheckout: function () {
+                return customerFields().requestTaxIdAtCheckout();
+            }
         });
     }
 );

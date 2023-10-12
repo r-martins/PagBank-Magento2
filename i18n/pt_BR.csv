@@ -68,3 +68,7 @@
 "Download ticket file","Baixar Boleto"
 "Print ticket file","Imprimir Boleto"
 "Copy","Copiar"
+"Get Document From","Obter CPF/CNPJ a partir de"
+"Customer: TAX/VAT number (taxvat)","Cliente: CPF/CNPJ (taxvat)"
+"Billing Address: VAT Number (vat_id)","Endereço de Cobrança: CPF/CNPJ (vat_id)"
+"Checkout: Request in the payment form","Solicitar no formulário de pagamento"

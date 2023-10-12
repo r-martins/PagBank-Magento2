@@ -21,6 +21,26 @@ class Config extends BaseConfig implements ConfigInterface
     public const METHOD_CODE = 'ricardomartins_pagbank';
 
     /**
+     * Config input name for connect key
+     */
+    public const CONFIG_CONNECT_KEY = 'connect_key';
+
+    /**
+     * Config input name for public key
+     */
+    public const CONFIG_PUBLIC_KEY = 'public_key';
+
+    /**
+     * Config input name for document from
+     */
+    public const CONFIG_DOCUMENT_FROM = 'document_from';
+
+    /**
+     * Config input name for debug
+     */
+    public const CONFIG_DEBUG = 'debug';
+
+    /**
      * @param EncryptorInterface $encryptor
      * @param ProductMetadataInterface $productMetadata
      * @param ComponentRegistrarInterface $componentRegistrar
@@ -91,7 +111,7 @@ class Config extends BaseConfig implements ConfigInterface
      */
     public function getConnectKey(): string
     {
-        return $this->getValue('connect_key');
+        return $this->getValue(self::CONFIG_CONNECT_KEY);
     }
 
     /**
@@ -99,7 +119,15 @@ class Config extends BaseConfig implements ConfigInterface
      */
     public function getPublicKey(): string
     {
-        return $this->getValue('public_key');
+        return $this->getValue(self::CONFIG_PUBLIC_KEY);
+    }
+
+    /**
+     * @return string
+     */
+    public function getDocumentFrom(): string
+    {
+        return $this->getValue(self::CONFIG_DOCUMENT_FROM);
     }
 
     /**
@@ -107,7 +135,7 @@ class Config extends BaseConfig implements ConfigInterface
      */
     public function isDebugActived(): bool
     {
-        return (bool) $this->getValue('debug');
+        return (bool) $this->getValue(self::CONFIG_DEBUG);
     }
 
     /**

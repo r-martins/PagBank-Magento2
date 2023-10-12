@@ -1,6 +1,12 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
     <event name="payment_method_assign_data_ricardomartins_pagbank_cc">
-        <observer name="ricardomartins_pagbank_cc_data_assign" instance="RicardoMartins\PagBank\Observer\DataAssignObserver" />
+        <observer name="ricardomartins_pagbank_cc_data_assign" instance="RicardoMartins\PagBank\Observer\CcDataAssignObserver" />
+    </event>
+    <event name="payment_method_assign_data_ricardomartins_pagbank_pix">
+        <observer name="ricardomartins_pagbank_pix_data_assign" instance="RicardoMartins\PagBank\Observer\DataAssignObserver" />
+    </event>
+    <event name="payment_method_assign_data_ricardomartins_pagbank_boleto">
+        <observer name="ricardomartins_pagbank_boleto_data_assign" instance="RicardoMartins\PagBank\Observer\DataAssignObserver" />
     </event>
 </config>
