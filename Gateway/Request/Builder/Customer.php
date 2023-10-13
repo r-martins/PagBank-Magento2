@@ -51,6 +51,10 @@ class Customer implements BuilderInterface
             default => $payment->getAdditionalInformation('tax_id'),
         };
 
+        if (!$document) {
+            $document = $payment->getAdditionalInformation('tax_id');
+        }
+
         $phones = $this->phoneFactory->create();
         $phones->setCountry(PhoneInterface::DEFAULT_COUNTRY_CODE);
         $phones->setArea((int) substr($telephone, 0, 2));
