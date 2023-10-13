@@ -2,15 +2,15 @@ define([
     'Magento_Checkout/js/view/payment/default',
     'Magento_Customer/js/model/customer',
     'RicardoMartins_PagBank/js/model/payment-validation/pagbank-customer-data',
-    'RicardoMartins_PagBank/js/view/payment/form/customer-fields'
-], function (Component, customer, pagbankCustomerData, customerFields) {
+    'RicardoMartins_PagBank/js/view/payment/form/customer-fields',
+    'mage/translate'
+], function (Component, customer, pagbankCustomerData, customerFields, $t) {
     'use strict';
 
     return Component.extend({
         defaults: {
             code: 'ricardomartins_pagbank_pix',
             template: 'RicardoMartins_PagBank/payment/pix',
-            document_from: window.checkoutConfig.payment.ricardomartins_pagbank.document_from,
             taxId: null
         },
 
@@ -72,6 +72,27 @@ define([
          */
         requestTaxIdAtCheckout: function () {
             return customerFields().requestTaxIdAtCheckout();
+        },
+
+        /**
+         * Get expiration message
+         * @returns {string}
+         */
+        getExpirationMessage: function () {
+            let expiration = null,
+                expiration_minutes = window.checkoutConfig.payment[this.getCode()].expiration;
+
+            if (expiration_minutes < 60) {
+                expiration = $t('%1 minutes').replace('%1', expiration_minutes);
+            }
+            if (expiration_minutes === 60) {
+                expiration = $t('%1 hour').replace('%1', 1);
+            }
+            if (expiration_minutes > 60) {
+                expiration = $t('%1 hours').replace('%1', expiration_minutes / 60);
+            }
+
+            return $t('You will have %1 to pay with your Pix code.').replace('%1', expiration);
         }
     });
 });

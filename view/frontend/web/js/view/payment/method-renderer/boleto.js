@@ -2,15 +2,15 @@ define([
     'Magento_Checkout/js/view/payment/default',
     'Magento_Customer/js/model/customer',
     'RicardoMartins_PagBank/js/model/payment-validation/pagbank-customer-data',
-    'RicardoMartins_PagBank/js/view/payment/form/customer-fields'
-], function (Component, customer, pagbankCustomerData, customerFields) {
+    'RicardoMartins_PagBank/js/view/payment/form/customer-fields',
+    'mage/translate'
+], function (Component, customer, pagbankCustomerData, customerFields, $t) {
     'use strict';
 
     return Component.extend({
         defaults: {
             code: 'ricardomartins_pagbank_boleto',
             template: 'RicardoMartins_PagBank/payment/boleto',
-            document_from: window.checkoutConfig.payment.ricardomartins_pagbank.document_from,
             taxId: null
         },
 
@@ -63,7 +63,7 @@ define([
          * @returns {Boolean}
          */
         isActive() {
-            return this.getCode() === this.isChecked();;
+            return this.getCode() === this.isChecked();
         },
 
         /**
@@ -72,6 +72,15 @@ define([
          */
         requestTaxIdAtCheckout: function () {
             return customerFields().requestTaxIdAtCheckout();
+        },
+
+        /**
+         * Get expiration message
+         * @returns {string}
+         */
+        getExpirationMessage: function () {
+            let expiration_days = window.checkoutConfig.payment[this.getCode()].expiration;
+            return $t('Your bill expires in %1 day(s).').replace('%1', expiration_days);
         }
     });
 });

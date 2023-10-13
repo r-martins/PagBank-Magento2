@@ -15,6 +15,11 @@ class ConfigBoleto extends BaseConfig implements ConfigInterface
     public const METHOD_CODE = 'ricardomartins_pagbank_boleto';
 
     /**
+     * Config input name for expiration time
+     */
+    public const CONFIG_EXPIRATION = 'expiration';
+
+    /**
      * @param ScopeConfigInterface $scopeConfig
      * @param string $methodCode
      * @param string $pathPattern

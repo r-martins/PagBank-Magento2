@@ -1,4 +1,4 @@
-<div class="payment-method" data-bind="css: {'_active': (getCode() == isChecked())}">
+<div class="payment-method ricardomartins-pagbank-form" data-bind="css: {'_active': (getCode() == isChecked())}">
     <div class="payment-method-title field choice">
         <input type="radio"
                name="payment[method]"
@@ -6,8 +6,9 @@
                data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()" />
         <label class="label" data-bind="attr: {'for': getCode()}">
             <!-- Logo -->
-            <img data-bind="attr: {alt: 'PagBank'}"
-                 class="payment-icon"/>
+            <img data-bind="attr: {alt: getTitle(),
+                            src:require.toUrl('RicardoMartins_PagBank/images/boleto.svg')}"
+                 class="payment-icon boleto-icon" />
             <!-- Logo -->
             <span class="title-wrapper">
                 <span class="title" data-bind="text: getTitle()"></span>
@@ -19,18 +20,28 @@
         <!-- ko foreach: getRegion('messages') -->
         <!-- ko template: getTemplate() --><!-- /ko -->
         <!-- /ko -->
-        <div class="payment-method-billing-address">
-            <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
-            <!-- ko template: getTemplate() --><!-- /ko -->
-            <!--/ko-->
+
+        <div class="opc-block-summary">
+            <div class="payment-information">
+                <p><!-- ko i18n: 'After completing your order, print or copy the barcode of your bill to pay at the bank or lottery outlet before the due date.'--><!-- /ko --></p>
+                <p><!-- ko i18n: getExpirationMessage() --><!-- /ko --></p>
+            </div>
         </div>
 
         <form class="form" action="#" method="post" data-bind="attr: {id: getCode() + '_payment-form'}">
-            <!-- ko template: 'RicardoMartins_PagBank/payment/customer-fields' --><!-- /ko -->
+            <fieldset class="fieldset">
+                <!-- ko template: 'RicardoMartins_PagBank/payment/customer-fields' --><!-- /ko -->
+            </fieldset>
         </form>
 
         <div class="checkout-agreements-block">
             <!-- ko foreach: $parent.getRegion('before-place-order') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </div>
+
+        <div class="payment-method-billing-address">
+            <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
             <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
         </div>

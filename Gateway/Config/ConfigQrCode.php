@@ -15,6 +15,11 @@ class ConfigQrCode extends \Magento\Payment\Gateway\Config\Config implements Con
     public const METHOD_CODE = 'ricardomartins_pagbank_pix';
 
     /**
+     * Config input name for expiration time
+     */
+    public const CONFIG_EXPIRATION = 'expiration';
+
+    /**
      * @param ScopeConfigInterface $scopeConfig
      * @param string $methodCode
      * @param string $pathPattern
