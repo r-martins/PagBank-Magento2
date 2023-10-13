@@ -37,7 +37,8 @@ class QrCodeDetailsHandler implements HandlerInterface
         $data['expiration_date'] = $qrCodes['expiration_date'];
 
         try {
-            $payment->setAdditionalInformation($data);
+            $additionalInfo = $payment->getAdditionalInformation();
+            $payment->setAdditionalInformation(array_merge($additionalInfo, $data));
         } catch (\Exception $e) {}
     }
 }
