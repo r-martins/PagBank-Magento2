@@ -17,6 +17,7 @@
     <preference for="RicardoMartins\PagBank\Api\ListInstallmentsInterface" type="RicardoMartins\PagBank\Model\Api\ListInstallments" />
     <preference for="RicardoMartins\PagBank\Api\GuestListInstallmentsInterface" type="RicardoMartins\PagBank\Model\Api\GuestListInstallments" />
     <preference for="RicardoMartins\PagBank\Api\InterestInterface" type="RicardoMartins\PagBank\Model\Api\Interest" />
+    <preference for="RicardoMartins\PagBank\Api\GuestInterestInterface" type="RicardoMartins\PagBank\Model\Api\GuestInterest" />
     <preference for="RicardoMartins\PagBank\Api\Connect\PublicKeyInterface" type="RicardoMartins\PagBank\Model\Api\PublicKey" />
 
     <!-- Gatewat Facade -->

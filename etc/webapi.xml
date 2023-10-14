@@ -19,6 +19,12 @@
     <route url="/V1/carts/pagbank/set-installment-interest" method="POST">
         <service class="RicardoMartins\PagBank\Api\InterestInterface" method="execute"/>
         <resources>
+            <resource ref="self" />
+        </resources>
+    </route>
+    <route url="/V1/guest-carts/pagbank/set-installment-interest" method="POST">
+        <service class="RicardoMartins\PagBank\Api\GuestInterestInterface" method="execute"/>
+        <resources>
             <resource ref="anonymous" />
         </resources>
     </route>
