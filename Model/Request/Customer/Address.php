@@ -68,10 +68,10 @@ class Address extends DataObject implements AddressInterface
     }
 
     /**
-     * @param string|null $complement
+     * @param string $complement
      * @return Address
      */
-    public function setComplement(?string $complement): Address
+    public function setComplement(string $complement): Address
     {
         $complement = substr($complement, 0, 40);
         return $this->setData(AddressInterface::COMPLEMENT, $complement);
@@ -86,10 +86,10 @@ class Address extends DataObject implements AddressInterface
     }
 
     /**
-     * @param ?string $locality
+     * @param string $locality
      * @return Address
      */
-    public function setLocality(?string $locality): Address
+    public function setLocality(string $locality): Address
     {
         $locality = substr($locality, 0, 60);
         return $this->setData(AddressInterface::LOCALITY, $locality);
