@@ -15,6 +15,7 @@
     <preference for="RicardoMartins\PagBank\Api\Connect\PaymentMethod\QrCodeInterface" type="RicardoMartins\PagBank\Model\Request\PaymentMethod\QrCode" />
     <preference for="RicardoMartins\PagBank\Api\Connect\InstallmentsInterface" type="RicardoMartins\PagBank\Model\Request\Installments" />
     <preference for="RicardoMartins\PagBank\Api\ListInstallmentsInterface" type="RicardoMartins\PagBank\Model\Api\ListInstallments" />
+    <preference for="RicardoMartins\PagBank\Api\GuestListInstallmentsInterface" type="RicardoMartins\PagBank\Model\Api\GuestListInstallments" />
     <preference for="RicardoMartins\PagBank\Api\InterestInterface" type="RicardoMartins\PagBank\Model\Api\Interest" />
     <preference for="RicardoMartins\PagBank\Api\Connect\PublicKeyInterface" type="RicardoMartins\PagBank\Model\Api\PublicKey" />
 

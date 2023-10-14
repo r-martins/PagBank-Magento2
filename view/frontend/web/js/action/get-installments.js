@@ -3,12 +3,13 @@ define([
     'jquery',
     'underscore',
     'mage/translate',
+    'mage/url',
+    'Magento_Checkout/js/model/url-builder',
     'Magento_Checkout/js/model/quote',
     'Magento_Catalog/js/price-utils',
-    'Magento_Checkout/js/model/url-builder',
-    'mage/url',
+    'Magento_Customer/js/model/customer',
     'Magento_Checkout/js/model/error-processor'
-], function ($, _, $t, quote, priceUtils, urlBuilder, url, errorProcessor) {
+], function ($, _, $t, url, urlBuilder, quote, priceUtils, customer, errorProcessor) {
     'use strict';
 
     return function (cartId, creditCardBin) {
@@ -18,6 +19,10 @@ define([
             deferred = $.Deferred();
 
         requestUrl = urlBuilder.createUrl('/carts/pagbank/list-installments', {});
+
+        if (!customer.isLoggedIn()) {
+            requestUrl = urlBuilder.createUrl('/guest-carts/pagbank/list-installments', {});
+        }
 
         payload = {
             'cartId': cartId,

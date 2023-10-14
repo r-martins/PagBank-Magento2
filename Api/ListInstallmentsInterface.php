@@ -3,7 +3,8 @@
 namespace RicardoMartins\PagBank\Api;
 
 interface ListInstallmentsInterface
-{    /**
+{
+    /**
      * @param int $cartId
      * @param int $creditCardBin
      * @return mixed

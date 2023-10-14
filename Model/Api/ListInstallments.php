@@ -7,12 +7,13 @@ use Magento\Checkout\Model\Session;
 use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Quote\Api\CartTotalRepositoryInterface;
 use RicardoMartins\PagBank\Api\Connect\InstallmentsInterface;
+use RicardoMartins\PagBank\Api\ListInstallmentsInterface;
 use RicardoMartins\PagBank\Gateway\Config\ConfigCc;
 use RicardoMartins\PagBank\Gateway\Http\Client\GeneralClient;
 use RicardoMartins\PagBank\Gateway\Http\TransferFactory\GetInterestsTransferFactory;
 use RicardoMartins\PagBank\Model\Request\InstallmentsFactory;
 
-class ListInstallments implements \RicardoMartins\PagBank\Api\ListInstallmentsInterface
+class ListInstallments implements ListInstallmentsInterface
 {
     /**
      * @param CartRepositoryInterface $cartRepository

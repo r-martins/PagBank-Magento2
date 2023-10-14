@@ -5,6 +5,12 @@
     <route url="/V1/carts/pagbank/list-installments" method="POST">
         <service class="RicardoMartins\PagBank\Api\ListInstallmentsInterface" method="execute"/>
         <resources>
+            <resource ref="self" />
+        </resources>
+    </route>
+    <route url="/V1/guest-carts/pagbank/list-installments" method="POST">
+        <service class="RicardoMartins\PagBank\Api\GuestListInstallmentsInterface" method="execute"/>
+        <resources>
             <resource ref="anonymous" />
         </resources>
     </route>
