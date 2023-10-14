@@ -144,6 +144,7 @@ define([
                 return {
                     'method': this.getCode(),
                     'additional_data': {
+                        'cc_number_encrypted': this.creditCardNumberEncrypted(),
                         'cc_owner': this.creditCardOwner(),
                         'cc_type': this.creditCardType(),
                         'cc_last_4': this.getLast4Numbers(),

@@ -14,7 +14,7 @@ class CcDataAssignObserver extends AbstractDataAssignObserver
     public const CC_EXP_MONTH = 'cc_exp_month';
     public const CC_EXP_YEAR = 'cc_exp_year';
     public const CC_INSTALLMENTS = 'cc_installments';
-    public const CC_NUMBER_ENCRYPTED = 'cc_number_enc';
+    public const CC_NUMBER_ENCRYPTED = 'cc_number_encrypted';
     public const CUSTOMER_TAX_ID = 'tax_id';
 
     private array $paymentFields = [
