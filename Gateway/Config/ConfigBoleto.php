@@ -38,7 +38,7 @@ class ConfigBoleto extends BaseConfig implements ConfigInterface
      */
     public function getExpirationTime($storeId = null): string
     {
-        return $this->getValue('expiration_time', $storeId);
+        return $this->getValue('expiration_time', $storeId) ?? '';
     }
 
     /**

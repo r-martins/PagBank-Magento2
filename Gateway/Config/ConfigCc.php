@@ -42,7 +42,7 @@ class ConfigCc extends BaseConfig implements ConfigInterface
      */
     public function getInstallmentsOptions($storeId = null): string
     {
-        return $this->getValue('installments_options', $storeId);
+        return $this->getValue('installments_options', $storeId) ?? '';
     }
 
     /**

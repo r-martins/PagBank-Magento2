@@ -15,7 +15,7 @@
             <config_path>payment/ricardomartins_pagbank_boleto/sort_order</config_path>
         </field>
         <field id="expiration_time" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-            <label>Expiration time (days)</label>
+            <label>Boleto expires in (days)</label>
             <validate>validate-digits no-whitespace</validate>
             <config_path>payment/ricardomartins_pagbank_boleto/expiration_time</config_path>
         </field>
