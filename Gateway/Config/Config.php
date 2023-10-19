@@ -178,7 +178,7 @@ class Config extends BaseConfig implements ConfigInterface
     /**
      * @return string
      */
-    private function getMagentoPlatform(): string
+    public function getMagentoPlatform(): string
     {
         return $this->productMetadata->getName() . ' ' . $this->productMetadata->getEdition();
     }
@@ -186,7 +186,7 @@ class Config extends BaseConfig implements ConfigInterface
     /**
      * @return string
      */
-    private function getMagentoVersion(): string
+    public function getMagentoVersion(): string
     {
         return $this->productMetadata->getVersion();
     }
@@ -194,7 +194,7 @@ class Config extends BaseConfig implements ConfigInterface
     /**
      * @return string
      */
-    private function getModuleVersion(): string
+    public function getModuleVersion(): string
     {
         try {
             $path = $this->componentRegistrar->getPath(

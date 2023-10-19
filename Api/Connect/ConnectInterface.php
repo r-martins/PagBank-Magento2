@@ -28,6 +28,14 @@ interface ConnectInterface
     public const WS_ENDPOINT_PUBLIC_KEY = self::WS_URI . self::WS_ENDPOINT . 'public-keys';
 
     /**
+     * Public Key Validate WS Endpoint.
+     * This endpoint is used to validate the public key.
+     * Request Method: GET
+     * @var string
+     */
+    public const WS_ENDPOINT_PUBLIC_KEY_VALIDATE = self::WS_URI . self::WS_ENDPOINT . 'public-keys/card';
+
+    /**
      * Orders WS Endpoint.
      * This endpoint is used to create a new order.
      * Request Method: POST
