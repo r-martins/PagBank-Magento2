@@ -4,5 +4,8 @@
         <route id="pagbank" frontName="pagbank">
             <module name="RicardoMartins_PagBank" />
         </route>
+        <route id="pseguro" frontName="pseguro">
+            <module name="RicardoMartins_PagBank" />
+        </route>
     </router>
 </config>
