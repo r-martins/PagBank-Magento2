@@ -9,11 +9,11 @@ use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Sales\Model\Order;
 use RicardoMartins\PagBank\Api\Connect\AddressInterfaceFactory;
 use RicardoMartins\PagBank\Api\Connect\ChargeInterfaceFactory;
-use RicardoMartins\PagBank\Api\Connect\CustomerInterfaceFactory;
 use RicardoMartins\PagBank\Api\Connect\HolderInterfaceFactory;
 use RicardoMartins\PagBank\Api\Connect\PaymentMethod\BoletoInterfaceFactory;
 use RicardoMartins\PagBank\Api\Connect\PaymentMethod\InstructionLinesInterfaceFactory;
-use RicardoMartins\PagBank\Gateway\Config\ConfigCc;
+use RicardoMartins\PagBank\Gateway\Config\ConfigBoleto;
+use RicardoMartins\PagBank\Gateway\Config\Config as GeneralConfig;
 use RicardoMartins\PagBank\Api\Connect\AmountInterfaceFactory;
 use RicardoMartins\PagBank\Api\Connect\PaymentMethodInterface;
 use RicardoMartins\PagBank\Api\Connect\PaymentMethodInterfaceFactory;
@@ -34,7 +34,8 @@ class Boleto implements BuilderInterface
         private InstructionLinesInterfaceFactory $instructionLinesFactory,
         private HolderInterfaceFactory $holderFactory,
         private AddressInterfaceFactory $addressFactory,
-        private \RicardoMartins\PagBank\Gateway\Config\ConfigBoleto $config
+        private ConfigBoleto $config,
+        private GeneralConfig $generalConfig
     ) {}
 
     /**
@@ -67,11 +68,20 @@ class Boleto implements BuilderInterface
         $address->setPostalCode($billingAddress->getPostcode());
         $address->setCountry();
 
+        $documentFrom = $this->generalConfig->getDocumentFrom();
+        $document = match ($documentFrom) {
+            'taxvat' => $orderModel->getCustomerTaxvat(),
+            'vat_id' => $orderModel->getBillingAddress()->getVatId(),
+            default => $payment->getAdditionalInformation('tax_id'),
+        };
+
+        if (!$document) {
+            $document = $payment->getAdditionalInformation('tax_id');
+        }
+
         $holder = $this->holderFactory->create();
-        $taxId = $orderModel->getCustomerTaxvat();
-        $taxId = "12345678909";
         $holder->setName($orderModel->getCustomerFirstname() . ' ' . $orderModel->getCustomerLastname());
-        $holder->setTaxId($taxId);
+        $holder->setTaxId($document);
         $holder->setEmail($orderModel->getCustomerEmail());
         $holder->setAddress($address->getData());
 
