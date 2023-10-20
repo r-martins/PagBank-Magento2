@@ -49,20 +49,19 @@ class Shipping implements BuilderInterface
         }
 
         $shippingAddress = $order->getShippingAddress();
-        $streetAddress = $shippingAddress->getStreet();
 
         $address = $this->addressFactory->create();
-        $address->setStreet($streetAddress[0]);
-        $address->setNumber($streetAddress[1]);
-        $address->setLocality($streetAddress[3]);
+        $address->setStreet($shippingAddress->getStreetLine(1));
+        $address->setNumber($shippingAddress->getStreetLine(2));
+        $address->setLocality($shippingAddress->getStreetLine(4));
         $address->setCity($shippingAddress->getCity());
         $address->setRegion($shippingAddress->getRegionCode(), $shippingAddress->getCountryId());
         $address->setRegionCode($shippingAddress->getRegionCode());
         $address->setPostalCode($shippingAddress->getPostcode());
         $address->setCountry();
 
-        if (isset($streetAddress[2]) && !empty($streetAddress[2])) {
-            $address->setComplement($streetAddress[2]);
+        if ($shippingAddress->getStreetLine(3)) {
+            $address->setComplement($shippingAddress->getStreetLine(3));
         }
 
         $result[self::SHIPPING][self::SHIPPING_ADDRESS] = $address->getData();

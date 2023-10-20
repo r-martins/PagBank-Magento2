@@ -20,6 +20,9 @@
     <preference for="RicardoMartins\PagBank\Api\GuestInterestInterface" type="RicardoMartins\PagBank\Model\Api\GuestInterest" />
     <preference for="RicardoMartins\PagBank\Api\Connect\PublicKeyInterface" type="RicardoMartins\PagBank\Model\Api\PublicKey" />
 
+    <preference for="RicardoMartins\PagBank\Api\Gateway\Data\AddressAdapterInterface" type="RicardoMartins\PagBank\Gateway\Data\Order\AddressAdapter"/>
+    <preference for="Magento\Payment\Gateway\Data\Order\OrderAdapter" type="RicardoMartins\PagBank\Gateway\Data\Order\OrderAdapter"/>
+
     <!-- Gatewat Facade -->
     <virtualType name="RicardoMartinsPagBankCcFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>

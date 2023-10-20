@@ -55,13 +55,12 @@ class Boleto implements BuilderInterface
         $storeId = $orderModel->getStoreId();
 
         $billingAddress = $order->getBillingAddress();
-        $streetAddress = $billingAddress->getStreet();
 
         $address = $this->addressFactory->create();
-        $address->setStreet($streetAddress[0]);
-        $address->setNumber($streetAddress[1]);
-        $address->setComplement(isset($streetAddress[2]) ? $streetAddress[2] : null);
-        $address->setLocality(isset($streetAddress[3]) ? $streetAddress[3] : null);
+        $address->setStreet($billingAddress->getStreetLine(1));
+        $address->setNumber($billingAddress->getStreetLine(2));
+        $address->setComplement($billingAddress->getStreetLine(3));
+        $address->setLocality($billingAddress->getStreetLine(4));
         $address->setCity($billingAddress->getCity());
         $address->setRegion($billingAddress->getRegionCode(), $billingAddress->getCountryId());
         $address->setRegionCode($billingAddress->getRegionCode());
