@@ -4,14 +4,43 @@ namespace RicardoMartins\PagBank\Block\Checkout\Onepage;
 
 use Magento\Checkout\Model\Session;
 use Magento\Framework\View\Element\Template\Context;
+use Magento\Sales\Model\Order;
+use RicardoMartins\PagBank\Gateway\Config\ConfigBoleto;
+use RicardoMartins\PagBank\Gateway\Config\ConfigCc;
+use RicardoMartins\PagBank\Gateway\Config\ConfigQrCode;
 
 class Info extends \Magento\Framework\View\Element\Template
 {
+    /**
+     * Payment method prefix.
+     */
+    public const PAYMENT_METHOD_PREFIX = 'ricardomartins_pagbank';
+
+    /**
+     * @var Order $order
+     */
+    private Order $order;
+
     public function __construct(
         private readonly Session $checkoutSession,
         Context $context
     ) {
+        $this->order = $this->checkoutSession->getLastRealOrder();
         parent::__construct($context);
+    }
+
+    /**
+     * Render block HTML
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        if (!$this->isVisible()) {
+            return '';
+        }
+
+        return parent::_toHtml();
     }
 
     /**
@@ -30,9 +59,7 @@ class Info extends \Magento\Framework\View\Element\Template
      */
     protected function prepareBlockData()
     {
-        $order = $this->checkoutSession->getLastRealOrder();
-
-        $payment = $order->getPayment();
+        $payment = $this->order->getPayment();
         $methodCode = $payment->getMethod();
 
         $this->addData(
@@ -50,15 +77,13 @@ class Info extends \Magento\Framework\View\Element\Template
      */
     public function getAdditionalInfoHtml()
     {
-        $order = $this->checkoutSession->getLastRealOrder();
-
-        $payment = $order->getPayment();
+        $payment = $this->order->getPayment();
         $methodCode = $payment->getMethod();
         $additionalInfo = $payment->getAdditionalInformation();
 
         $blockName = match ($methodCode) {
-            'ricardomartins_pagbank_boleto' => 'additional.info.ricardomartins.pagbank.boleto',
-            'ricardomartins_pagbank_pix' => 'additional.info.ricardomartins.pagbank.pix',
+            ConfigBoleto::METHOD_CODE => 'additional.info.ricardomartins.pagbank.boleto',
+            ConfigQrCode::METHOD_CODE => 'additional.info.ricardomartins.pagbank.pix',
             default => ''
         };
 
@@ -69,12 +94,31 @@ class Info extends \Magento\Framework\View\Element\Template
         return $this->_layout->renderElement($blockName);
     }
 
+    /**
+     * @return bool
+     */
+    private function isVisible()
+    {
+        try {
+            $payment = $this->order->getPayment();
+            $methodCode = $payment->getMethod();
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return str_starts_with($methodCode, self::PAYMENT_METHOD_PREFIX);
+    }
+
+    /**
+     * @param $code
+     * @return string
+     */
     private function getCssClassByPaymentMethod($code)
     {
         return match ($code) {
-            'ricardomartins_pagbank_cc' => 'credit-card',
-            'ricardomartins_pagbank_boleto' => 'boleto',
-            'ricardomartins_pagbank_pix' => 'pix',
+            ConfigCc::METHOD_CODE => 'credit-card',
+            ConfigBoleto::METHOD_CODE => 'boleto',
+            ConfigQrCode::METHOD_CODE => 'pix',
             default => ''
         };
     }

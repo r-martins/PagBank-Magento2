@@ -5,8 +5,6 @@
                class="RicardoMartins\PagBank\Block\Checkout\Onepage\Info"
                template="RicardoMartins_PagBank::order/success/info.phtml"
                after="-" >
-            <visibilityCondition name="can_view_ricardomartins_pagbank_payment_info_block"
-                                 className="RicardoMartins\PagBank\Block\Checkout\Onepage\Visibility" />
             <block name="additional.info.ricardomartins.pagbank.pix"
                    template="RicardoMartins_PagBank::order/success/info/pix.phtml" />
             <block name="additional.info.ricardomartins.pagbank.boleto"
