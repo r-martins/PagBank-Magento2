@@ -17,12 +17,12 @@ class InstructionLines extends DataObject implements InstructionLinesInterface
     }
 
     /**
-     * @param string $lineOne
+     * @param string|null $lineOne
      * @return InstructionLinesInterface
      */
-    public function setLineOne(string $lineOne): InstructionLinesInterface
+    public function setLineOne(?string $lineOne): InstructionLinesInterface
     {
-        $lineOne = substr($lineOne, 0, 75);
+        $lineOne = $lineOne ? substr($lineOne, 0, 75): null;
         return $this->setData(InstructionLinesInterface::INSTRUCTION_LINE_ONE, $lineOne);
     }
 
@@ -35,12 +35,12 @@ class InstructionLines extends DataObject implements InstructionLinesInterface
     }
 
     /**
-     * @param string $lineTwo
+     * @param string|null $lineTwo
      * @return InstructionLinesInterface
      */
-    public function setLineTwo(string $lineTwo): InstructionLinesInterface
+    public function setLineTwo(?string $lineTwo): InstructionLinesInterface
     {
-        $lineTwo = substr($lineTwo, 0, 75);
+        $lineTwo = $lineTwo ? substr($lineTwo, 0, 75) : null;
         return $this->setData(InstructionLinesInterface::INSTRUCTION_LINE_TWO, $lineTwo);
     }
 }

@@ -43,18 +43,18 @@ class ConfigBoleto extends BaseConfig implements ConfigInterface
 
     /**
      * @param null $storeId
-     * @return string
+     * @return ?string
      */
-    public function getInstructionLineOne($storeId = null): string
+    public function getInstructionLineOne($storeId = null): ?string
     {
         return $this->getValue('instruction_line_one', $storeId);
     }
 
     /**
      * @param null $storeId
-     * @return string
+     * @return ?string
      */
-    public function getInstructionLineTwo($storeId = null): string
+    public function getInstructionLineTwo($storeId = null): ?string
     {
         return $this->getValue('instruction_line_two', $storeId);
     }
