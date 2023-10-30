@@ -7,6 +7,11 @@
                     <item name="components" xsi:type="array">
                         <item name="checkout" xsi:type="array">
                             <item name="children" xsi:type="array">
+                                <item name="errors" xsi:type="array">
+                                    <item name="config" xsi:type="array">
+                                        <item name="hideTimeout" xsi:type="string">10000</item>
+                                    </item>
+                                </item>
                                 <item name="steps" xsi:type="array">
                                     <item name="children" xsi:type="array">
                                         <item name="billing-step" xsi:type="array">
