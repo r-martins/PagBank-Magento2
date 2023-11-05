@@ -18,8 +18,8 @@
     <p><strong><?= $escaper->escapeHtml(__('Your ticket expires in %1', $block->formatDate($block->getExpirationDate(), \IntlDateFormatter::SHORT, false))) ?></strong></p>
 </div>
 <div class="actions-toolbar">
-    <a href="<?= $block->getPaymentLinkBoleto(); ?>" target="_blank" class="action primary"><?= $escaper->escapeHtml(__('Download ticket file')) ?></a>
-    <a href="<?= $block->getPaymentLinkBoleto(); ?>" target="_blank" class="action primary"><?= $escaper->escapeHtml(__('Print ticket file')) ?></a>
+    <a href="<?= $block->getPaymentLinkBoletoPdf(); ?>" target="_blank" class="action primary"><?= $escaper->escapeHtml(__('Download ticket file')) ?></a>
+    <a href="<?= $block->getPaymentLinkBoletoImage(); ?>" target="_blank" class="action primary"><?= $escaper->escapeHtml(__('Print ticket file')) ?></a>
 </div>
 <script type="text/x-magento-init">
 {

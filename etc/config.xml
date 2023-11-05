@@ -61,7 +61,7 @@
                 <can_accept_payment>0</can_accept_payment>
                 <can_fetch_transaction_info>1</can_fetch_transaction_info>
                 <can_fetch_transaction_information>1</can_fetch_transaction_information>
-                <paymentInfoKeys>payment_id,expiration_date,payment_link_boleto,payment_text_boleto</paymentInfoKeys>
+                <paymentInfoKeys>payment_id,expiration_date,payment_link_boleto_pdf,payment_link_boleto_image,payment_text_boleto</paymentInfoKeys>
                 <privateInfoKeys>payment_id</privateInfoKeys>
                 <instruction_line_one>Seu pedido só será processado após o pagamento.</instruction_line_one>
                 <instruction_line_two>Obrigado pela preferência.</instruction_line_two>

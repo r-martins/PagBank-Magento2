@@ -33,8 +33,8 @@ class PaymentDetailsHandler implements HandlerInterface
             'status' => $charges['status']
         ];
 
-        $chargeIdWithouPrefix = str_replace('CHAR_', '', $data['charge_id']);
-        $transctionLink = ConnectInterface::PAGBANK_TRANSACTION_DETAILS_URL . $chargeIdWithouPrefix;
+        $chargeIdWithoutPrefix = str_replace('CHAR_', '', $data['charge_id']);
+        $transctionLink = ConnectInterface::PAGBANK_TRANSACTION_DETAILS_URL . $chargeIdWithoutPrefix;
         $data['charge_link'] = $transctionLink;
 
         if ($paymentType === 'CREDIT_CARD') {
@@ -52,8 +52,10 @@ class PaymentDetailsHandler implements HandlerInterface
 
             foreach ($links as $link) {
                 if ($link['media'] == 'application/pdf') {
-                    $data['payment_link_boleto'] = $link['href'];
-                    break;
+                    $data['payment_link_boleto_pdf'] = $link['href'];
+                }
+                if ($link['media'] == 'image/png') {
+                    $data['payment_link_boleto_image'] = $link['href'];
                 }
             }
         }
