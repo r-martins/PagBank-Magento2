@@ -18,17 +18,19 @@ use Magento\Payment\Gateway\Validator\ResultInterfaceFactory;
 use Magento\Payment\Model\Method\Logger;
 use Magento\Sales\Model\Order\Payment;
 use RicardoMartins\PagBank\Api\Connect\ResponseInterface;
+use RicardoMartins\PagBank\Plugin\Webapi\Controller\Rest;
 
 class ResponseValidator extends AbstractValidator
 {
-    private $responseErrorStatus = [
+    private array $responseErrorStatus = [
         ResponseInterface::STATUS_CANCELED,
         ResponseInterface::STATUS_DECLINED
     ];
 
     public function __construct(
+        private readonly Rest $webapiRestPlugin,
         private readonly Logger $logger,
-        ResultInterfaceFactory  $resultFactory
+        ResultInterfaceFactory $resultFactory
     ) {
        parent::__construct($resultFactory);
     }
@@ -59,6 +61,9 @@ class ResponseValidator extends AbstractValidator
         }
 
         if (!$isValid) {
+            /** Do not redirect to shipping step */
+            $this->webapiRestPlugin->setClearHeader(true);
+
             /** @var PaymentDataObjectInterface $paymentDataObject */
             $paymentDataObject = $validationSubject['payment'];
 

@@ -23,6 +23,12 @@
     <preference for="RicardoMartins\PagBank\Api\Gateway\Data\AddressAdapterInterface" type="RicardoMartins\PagBank\Gateway\Data\Order\AddressAdapter"/>
     <preference for="Magento\Payment\Gateway\Data\Order\OrderAdapter" type="RicardoMartins\PagBank\Gateway\Data\Order\OrderAdapter"/>
 
+    <!-- Plugins -->
+    <!-- Magento 2.4.6 fix shipping redirect -->
+    <type name="Magento\Webapi\Controller\Rest">
+        <plugin name="ricardomartins_pagbank_webapi_rest" type="RicardoMartins\PagBank\Plugin\Webapi\Controller\Rest" sortOrder="30" />
+    </type>
+
     <!-- Gatewat Facade -->
     <virtualType name="RicardoMartinsPagBankCcFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
