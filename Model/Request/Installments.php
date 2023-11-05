@@ -51,10 +51,10 @@ class Installments extends DataObject implements InstallmentsInterface
     }
 
     /**
-     * @param int|null $maxInstallments
+     * @param string|null $maxInstallments
      * @return InstallmentsInterface
      */
-    public function setMaxInstallments(?int $maxInstallments): InstallmentsInterface
+    public function setMaxInstallments(?string $maxInstallments): InstallmentsInterface
     {
         return $this->setData(InstallmentsInterface::MAX_INSTALLMENTS, $maxInstallments);
     }

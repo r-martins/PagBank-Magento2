@@ -59,7 +59,7 @@ class ListInstallments implements ListInstallmentsInterface
         $installmentsData->setCreditCardBin($creditCardBin);
 
         if ($this->config->isEnabledInstallmentsLimit($storeId)) {
-            $maxIntallments = (int) $this->config->getInstallmentsLimit($storeId);
+            $maxIntallments = $this->config->getInstallmentsLimit($storeId);
             $installmentsData->setMaxInstallments($maxIntallments);
         }
 

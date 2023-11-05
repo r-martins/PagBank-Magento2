@@ -7,6 +7,7 @@ use Magento\Quote\Api\Data\ShippingAssignmentInterface;
 use Magento\Quote\Model\Quote;
 use Magento\Quote\Model\Quote\Address\Total;
 use Magento\Quote\Model\Quote\Address\Total\AbstractTotal;
+use RicardoMartins\PagBank\Gateway\Config\ConfigCc;
 
 class Interest extends AbstractTotal
 {
@@ -57,6 +58,11 @@ class Interest extends AbstractTotal
         $interest = $quote->getRicardomartinsPagbankInterestAmount();
         $baseInterest = $quote->getBaseRicardomartinsPagbankInterestAmount();
 
+        if ($quote->getPayment()->getMethod() != ConfigCc::METHOD_CODE) {
+            $this->clearValues($quote, $total);
+            return $this;
+        }
+
         $total->setRicardomartinsPagbankInterestAmount($interest);
         $total->setBaseRicardomartinsPagbankInterestAmount($baseInterest);
 
@@ -72,19 +78,16 @@ class Interest extends AbstractTotal
     /**
      * Clear Values.
      *
+     * @param Quote $quote
      * @param Total $total
+     * @return void
      */
-    protected function clearValues(Total $total)
+    protected function clearValues(Quote $quote, Total $total): void
     {
-        $total->setTotalAmount('subtotal', 0);
-        $total->setBaseTotalAmount('subtotal', 0);
-        $total->setTotalAmount('tax', 0);
-        $total->setBaseTotalAmount('tax', 0);
-        $total->setTotalAmount('discount_tax_compensation', 0);
-        $total->setBaseTotalAmount('discount_tax_compensation', 0);
-        $total->setTotalAmount('shipping_discount_tax_compensation', 0);
-        $total->setBaseTotalAmount('shipping_discount_tax_compensation', 0);
-        $total->setSubtotalInclTax(0);
-        $total->setBaseSubtotalInclTax(0);
+        $interest = 0;
+        $total->setTotalAmount('ricardomartins_pagbank_interest_amount', $interest);
+        $total->setBaseTotalAmount('ricardomartins_pagbank_base_interest_amount', $interest);
+        $quote->setData('ricardomartins_pagbank_interest_amount', $interest);
+        $quote->setData('ricardomartins_pagbank_interest_base_amount', $interest);
     }
 }
