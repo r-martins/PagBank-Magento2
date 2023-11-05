@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Payment:etc/error_mapping.xsd">
+    <message_list>
+        <!-- ################################################################################ -->
+        <!-- Order denied codes (https://dev.pagbank.uol.com.br/reference/order-denied-codes) -->
+
+        <!-- Reversible -->
+        <message code="10000" translate="true">[Erro 10000] Transação não autorizada, utilize outro meio de pagamento.</message>
+        <message code="10002" translate="true">[Erro 10002] A transação não foi autorizada pelo emissor do cartão.</message>
+        <message code="20001" translate="true">[Erro 20001] Transação não autorizada, entre em contato com a central de atendimento do seu cartão ou use outra forma de pagamento.</message>
+        <message code="20003" translate="true">[Erro 20003] Transação não autorizada. Tente novamente mais tarde ou entre em contato conosco.</message>
+        <message code="20007" translate="true">[Erro 20007] Verifique os dados do seu cartão.</message>
+        <message code="20019" translate="true">[Erro 20019] Houve uma falha na comunicação do pagamento. Por favor, tente novamente mais tarde.</message>
+        <message code="20101" translate="true">[Erro 20101] Senha inválida.</message>
+        <message code="20102" translate="true">[Erro 20102] Senha inválida. Utilize a nova senha ou entre em contato conosco.</message>
+        <message code="20103" translate="true">[Erro 20103] O limite de tentativas foi excedido. Entre em contato com a central de atendimento do seu cartão ou use outra forma de pagamento.</message>
+        <message code="20104" translate="true">[Erro 20104] O valor foi excedido. Entre em contato com a central de atendimento do seu cartão ou use outra forma de pagamento.</message>
+        <message code="20105" translate="true">[Erro 20105] Quantidade de saques excedida. Entre em contato com a central de atendimento do seu cartão ou use outra forma de pagamento.</message>
+        <message code="20113" translate="true">[Erro 20113] Utiliza a função crédito.</message>
+        <message code="20114" translate="true">[Erro 20114] Utiliza a função débito.</message>
+        <message code="20119" translate="true">[Erro 20119] Houve uma falha no pagamento. Por favor, tente novamente.</message>
+        <message code="20158" translate="true">[Erro 20158] A transação não foi autorizada. Tente novamente mais tarde ou entre em contato conosco.</message>
+        <message code="20159" translate="true">[Erro 20159] A transação não foi autorizada. Tente novamente usando autenticação ou entre em contato conosco.</message>
+        <message code="20169" translate="true">[Erro 20169] O seu cartão não permite transação internacional.</message>
+        <message code="20301" translate="true">[Erro 20301] O seu cartão está bloqueado. Desbloqueie e tente novamente.</message>
+        <message code="20999" translate="true">[Erro 20999] Houve um problema. O lojista deverá entrar em contato com o PagBank antes de tentar novamente. Por favor, entre em contato conosco.</message>
+
+        <!-- Irreversible -->
+        <message code="10001" translate="true">[Erro 10001] Quantidade de tentativas excedidas. Utilize outro meio de pagamento ou entre em contato conosco.</message>
+        <message code="10003" translate="true">[Erro 10003] Transação inválida. Utilize outro meio de pagamento ou entre em contato conosco.</message>
+        <message code="10004" translate="true">[Erro 10003] Transação não permitida. Utilize outro meio de pagamento ou entre em contato conosco.</message>
+        <message code="20008" translate="true">[Erro 20008] Parcelamento inválido. Utilize outro meio de pagamento ou entre em contato conosco.</message>
+        <message code="20012" translate="true">[Erro 20012] O valor desta transação não foi autorizado. Utilize outro meio de pagamento ou entre em contato conosco.</message>
+        <message code="20016" translate="true">[Erro 20016] Senha inválida. Utilize outro meio de pagamento ou entre em contato conosco.</message>
+        <message code="20017" translate="true">[Erro 20017] Transação não permitida. Utilize outro meio de pagamento ou entre em contato conosco.</message>
+        <message code="20018" translate="true">[Erro 20018] Transação não autorizada, entre em contato com a central de atendimento do seu cartão ou use outra forma de pagamento.</message>
+        <message code="20039" translate="true">[Erro 20039] Transação não autorizada para este cartão. Utilize outro meio de pagamento ou entre em contato conosco.</message>
+        <message code="20110" translate="true">[Erro 20110] A conta de destino é inválida. Utilize outro meio de pagamento ou entre em contato conosco.</message>
+        <message code="20111" translate="true">[Erro 20111] A conta de origem é inválida. Utilize outro meio de pagamento ou entre em contato conosco.</message>
+        <message code="20112" translate="true">[Erro 20112] O valor é diferente da pré-autorização. Utilize outro meio de pagamento ou entre em contato conosco.</message>
+        <message code="20115" translate="true">[Erro 20115] Saque não disponível. Utilize outro meio de pagamento ou entre em contato conosco.</message>
+        <message code="20116" translate="true">[Erro 20116] Os dados do cartão são inválidos. Utilize outro meio de pagamento ou entre em contato conosco.</message>
+        <message code="20117" translate="true">[Erro 20117] Houve um erro relacionado ao cartão. Utilize outro meio de pagamento ou entre em contato conosco.</message>
+        <message code="20118" translate="true">[Erro 20118] O pagamento recorrente foi suspenso. Utilize outro meio de pagamento ou entre em contato conosco.</message>
+
+        <!-- ###################################################################################### -->
+        <!-- Order API error codes (https://dev.pagbank.uol.com.br/reference/codigos-de-erro-order) -->
+        <message code="40001" translate="true">[Erro 40001] Houve um erro com os dados informados durante o pagamento. Por favor, entre em contato conosco.</message>
+        <message code="40002" translate="true">[Erro 40002] Houve um erro com os dados informados durante o pagamento. Por favor, entre em contato conosco.</message>
+        <message code="40003" translate="true">[Erro 40003] Houve um erro com os dados informados durante o pagamento. Por favor, entre em contato conosco.</message>
+        <message code="40004" translate="true">[Erro 40004] Houve um erro com os dados informados durante o pagamento. Por favor, entre em contato conosco.</message>
+        <message code="40005" translate="true">[Erro 40005] Houve um erro com os dados informados durante o pagamento. Por favor, entre em contato conosco.</message>
+        <message code="40006" translate="true">[Erro 40006] Houve um erro com os dados informados durante o pagamento. Por favor, entre em contato conosco.</message>
+        <message code="40007" translate="true">[Erro 40007] Reembolso já realizado, ou valor solicitado acima do permitido. Por favor, entre em contato conosco.</message>
+
+        <!-- ###################################################################################### -->
+        <!-- Connect error codes (https://dev.pagbank.uol.com.br/reference/codigos-de-erro-connect) -->
+        <message code="41001" translate="true">[Erro 41001] Houve um problema com a requisição do pagamento. Por favor, entre em contato conosco.</message>
+        <message code="41002" translate="true">[Erro 41002] Houve um problema com a requisição do pagamento. Por favor, entre em contato conosco.</message>
+        <message code="41003" translate="true">[Erro 41003] Houve um problema com a requisição do pagamento. Por favor, entre em contato conosco.</message>
+        <message code="41004" translate="true">[Erro 41004] Houve um problema com a requisição do pagamento. Por favor, entre em contato conosco.</message>
+        <message code="41005" translate="true">[Erro 41005] Houve um problema com a requisição do pagamento. Por favor, entre em contato conosco.</message>
+        <message code="41006" translate="true">[Erro 41006] Houve um problema com a requisição do pagamento. Por favor, entre em contato conosco.</message>
+        <message code="41007" translate="true">[Erro 41007] Houve um problema com a requisição do pagamento. Por favor, entre em contato conosco.</message>
+        <message code="41008" translate="true">[Erro 41008] Houve um problema com a requisição do pagamento. Por favor, entre em contato conosco.</message>
+        <message code="41012" translate="true">[Erro 41012] Houve um problema com a requisição do pagamento. Por favor, entre em contato conosco.</message>
+        <message code="41013" translate="true">[Erro 41013] Houve um problema com a requisição do pagamento. Por favor, entre em contato conosco.</message>
+        <message code="41014" translate="true">[Erro 41014] Houve um problema com a requisição do pagamento. Por favor, entre em contato conosco.</message>
+        <message code="41015" translate="true">[Erro 41015] Houve um problema com a requisição do pagamento. Por favor, entre em contato conosco.</message>
+        <message code="41016" translate="true">[Erro 41016] Houve um problema com a requisição do pagamento. Por favor, entre em contato conosco.</message>
+
+        <!-- ################################################################################ -->
+        <!-- Internal error codes -->
+        <message code="INVALID_RESPONSE" translate="true">Estamos com um problema neste método de pagamento. Por favor, entre em contato conosco.</message>
+    </message_list>
+</mapping>

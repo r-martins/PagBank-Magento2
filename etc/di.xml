@@ -136,6 +136,7 @@
             <argument name="client" xsi:type="object">RicardoMartins\PagBank\Gateway\Http\Client\GeneralClient</argument>
             <argument name="handler" xsi:type="object">RicardoMartinsPagBankCompleteHandler</argument>
             <argument name="validator" xsi:type="object">RicardoMartins\PagBank\Gateway\Validator\ResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">RicardoMartins\PagBank\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
     <virtualType name="RicardoMartinsPagBankBoletoInitializeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
@@ -145,6 +146,7 @@
             <argument name="client" xsi:type="object">RicardoMartins\PagBank\Gateway\Http\Client\GeneralClient</argument>
             <argument name="handler" xsi:type="object">RicardoMartinsPagBankBoletoCompleteHandler</argument>
             <argument name="validator" xsi:type="object">RicardoMartins\PagBank\Gateway\Validator\ResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">RicardoMartins\PagBank\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
     <virtualType name="RicardoMartinsPagBankQrCodeInitializeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
@@ -154,6 +156,7 @@
             <argument name="client" xsi:type="object">RicardoMartins\PagBank\Gateway\Http\Client\GeneralClient</argument>
             <argument name="handler" xsi:type="object">RicardoMartinsPagBankQrCodeCompleteHandler</argument>
             <argument name="validator" xsi:type="object">RicardoMartins\PagBank\Gateway\Validator\ResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">RicardoMartins\PagBank\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
     <virtualType name="RicardoMartinsPagBankFetchTransactionCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
@@ -304,7 +307,6 @@
         </arguments>
     </type>
 
-
     <!-- Converter -->
     <type name="RicardoMartins\PagBank\Gateway\Converter\JsonToArray">
         <arguments>
@@ -316,4 +318,22 @@
             <argument name="converter" xsi:type="object">RicardoMartins\PagBank\Gateway\Converter\ArrayToJson</argument>
         </arguments>
     </type>
+
+    <!-- Error Mapper -->
+    <virtualType name="RicardoMartins\PagBank\Gateway\ErrorMapper\VirtualConfigReader" type="Magento\Payment\Gateway\ErrorMapper\VirtualConfigReader">
+        <arguments>
+            <argument name="fileName" xsi:type="string">ricardomartins_pagbank_error_mapping.xml</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartins\PagBank\Gateway\ErrorMapper\VirtualMappingData" type="Magento\Payment\Gateway\ErrorMapper\MappingData">
+        <arguments>
+            <argument name="reader" xsi:type="object">RicardoMartins\PagBank\Gateway\ErrorMapper\VirtualConfigReader</argument>
+            <argument name="cacheId" xsi:type="string">ricardomartins_pagbank_error_mapper</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartins\PagBank\Gateway\ErrorMapper\VirtualErrorMessageMapper" type="Magento\Payment\Gateway\ErrorMapper\ErrorMessageMapper">
+        <arguments>
+            <argument name="messageMapping" xsi:type="object">RicardoMartins\PagBank\Gateway\ErrorMapper\VirtualMappingData</argument>
+        </arguments>
+    </virtualType>
 </config>

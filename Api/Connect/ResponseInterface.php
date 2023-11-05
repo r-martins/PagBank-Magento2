@@ -134,5 +134,26 @@ interface ResponseInterface
      * QrCode id
      * Format: QRCO_XXXXXXXXXXXX
      */
-    const QRCODE_ID = 'id';
+    public const QRCODE_ID = 'id';
+
+    /**
+     * Payment error messages
+     * Array of error messages
+     */
+    public const ERROR_MESSAGES = 'error_messages';
+
+    /**
+     * Payment error message code
+     */
+    public const ERROR_MESSAGE_CODE = 'code';
+
+    /**
+     * Payment error message description
+     */
+    public const ERROR_MESSAGE_DESCRIPTION = 'description';
+
+    /**
+     * Payment error parameter name
+     */
+    public const ERROR_MESSAGE_PARAMETER_NAME = 'parameter_name';
 }

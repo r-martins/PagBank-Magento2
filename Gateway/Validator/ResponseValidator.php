@@ -1,13 +1,4 @@
 <?php
-/**
- * Bringit
- *
- * @category  Bringit
- * @package   Nupay
- * @version   1.0.0
- * @author    Ligia Salzano <ligia.salzano@proxysgroup.com>
- */
-
 declare(strict_types=1);
 
 namespace RicardoMartins\PagBank\Gateway\Validator;
@@ -41,23 +32,34 @@ class ResponseValidator extends AbstractValidator
     public function validate(array $validationSubject)
     {
         $isValid = true;
+        $errorMessages = [];
+        $errorCodes = [];
 
         if (!isset($validationSubject['response']) || !is_array($validationSubject['response'])) {
             $message = "There is something wrong with the gateway's response";
             $this->logger->debug(['message' => $message, 'validate' => $validationSubject]);
-            return $this->createResult(false, [$message]);
+            $isValid = false;
+            $errorMessages[] = $message;
+            $errorCodes[] = 'INVALID_RESPONSE';
+            return $this->createResult($isValid, $errorMessages, $errorCodes);
         }
 
         $response = $validationSubject['response'];
-        $errorMessages = [];
 
-        foreach ($this->getResponseValidators() as $validator) {
-            $validationResult = $validator($response);
-
-            $isValid = $validationResult[0] && $isValid;
-            if (!$validationResult[0]) {
-                $errorMessages = array_merge($errorMessages,$validationResult[1]);
+        if (isset($response[ResponseInterface::ERROR_MESSAGES])) {
+            $isValid = false;
+            foreach ($response[ResponseInterface::ERROR_MESSAGES] as $error) {
+                $errorCodes[] = $error[ResponseInterface::ERROR_MESSAGE_CODE];
+                $errorMessages[] = "{$error[ResponseInterface::ERROR_MESSAGE_DESCRIPTION]} ({$error[ResponseInterface::ERROR_MESSAGE_PARAMETER_NAME]})";
             }
+        }
+
+        $charge = isset($response[ResponseInterface::CHARGES]) ? $response[ResponseInterface::CHARGES][0] : [];
+        $status = isset($charge[ResponseInterface::CHARGE_STATUS]) ? $charge[ResponseInterface::CHARGE_STATUS] : '';
+        if (in_array($status, $this->responseErrorStatus)) {
+            $isValid = false;
+            $errorCodes[] = $charge[ResponseInterface::PAYMENT_RESPONSE][ResponseInterface::PAYMENT_RESPONSE_CODE];
+            $errorMessages[] = $charge[ResponseInterface::PAYMENT_RESPONSE][ResponseInterface::PAYMENT_RESPONSE_MESSAGE];
         }
 
         if (!$isValid) {
@@ -72,36 +74,13 @@ class ResponseValidator extends AbstractValidator
             $order = $payment->getOrder();
 
             $orderIncrementId = $order->getIncrementId();
+            $errorMessagesWithCodes = array_combine($errorCodes, $errorMessages);
             $data = [
-                "Response Error for order #{$orderIncrementId}" => $errorMessages
+                "Response Error for order #{$orderIncrementId}" => $errorMessagesWithCodes
             ];
             $this->logger->debug($data,null,true);
         }
 
-        return $this->createResult($isValid,$errorMessages);
-    }
-
-    /**
-     * @return array
-     */
-    private function getResponseValidators(): array
-    {
-        return [
-            function ($response) {
-                return [
-                    !isset($response['error_messages']),
-                    [__('There was a problem with the request.')]
-                ];
-            },
-            function ($response) {
-                $charge = isset($response['charges']) ? $response['charges'][0] : [];
-                $status = isset($charge['status']) ? $charge['status'] : '';
-                $message = isset($charge['payment_response']['message']) ? $charge['payment_response']['message'] : 'Payment not authorized.';
-                return [
-                    !in_array($status, $this->responseErrorStatus),
-                    [__($message)],
-                ];
-            },
-        ];
+        return $this->createResult($isValid, $errorMessages, $errorCodes);
     }
 }
