@@ -87,9 +87,11 @@ class Info extends \Magento\Framework\View\Element\Template
             default => ''
         };
 
-        if ($blockName) {
-            $this->_layout->getBlock($blockName)->setData($additionalInfo);
+        if (!$blockName) {
+            return '';
         }
+
+        $this->_layout->getBlock($blockName)->setData($additionalInfo);
 
         return $this->_layout->renderElement($blockName);
     }
