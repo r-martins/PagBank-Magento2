@@ -1,6 +1,6 @@
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
     <group id="general_settings" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
-        <label>Ricardo Martins PagBank Settings</label>
+        <label>Settings</label>
         <comment><![CDATA[Para utilizar o PagBank Connect, você precisa autorizar nossa aplicação e obter suas credenciais connect.<br />
             <a href="https://pagseguro.ricardomartins.net.br/connect/autorizar.html?utm_source=magentoadmin" target="_blank" class="button action-link secondary">Obter Connect Key</a>
             <a href="https://pagseguro.ricardomartins.net.br/connect/sandbox.html?utm_source=magentoadmin" target="_blank" class="button action-link secondary">Obter Connect Key para Testes</a>

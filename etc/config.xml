@@ -36,8 +36,8 @@
                 <can_accept_payment>1</can_accept_payment>
                 <can_fetch_transaction_info>1</can_fetch_transaction_info>
                 <can_fetch_transaction_information>1</can_fetch_transaction_information>
-                <paymentInfoKeys>payment_id,charge_id,cc_owner,cc_last_4,status,installments,charge_link</paymentInfoKeys>
-                <privateInfoKeys>payment_id,charge_id,charge_link</privateInfoKeys>
+                <paymentInfoKeys>is_sandbox,payment_id,charge_id,cc_owner,cc_last_4,installments,charge_link</paymentInfoKeys>
+                <privateInfoKeys>is_sandbox,payment_id,charge_id,charge_link,status</privateInfoKeys>
             </ricardomartins_pagbank_cc>
             <ricardomartins_pagbank_boleto>
                 <active>1</active>
@@ -61,8 +61,8 @@
                 <can_accept_payment>0</can_accept_payment>
                 <can_fetch_transaction_info>1</can_fetch_transaction_info>
                 <can_fetch_transaction_information>1</can_fetch_transaction_information>
-                <paymentInfoKeys>payment_id,expiration_date,payment_link_boleto_pdf,payment_link_boleto_image,payment_text_boleto</paymentInfoKeys>
-                <privateInfoKeys>payment_id</privateInfoKeys>
+                <paymentInfoKeys>is_sandbox,payment_id,expiration_date,payment_link_boleto_pdf,payment_link_boleto_image,payment_text_boleto</paymentInfoKeys>
+                <privateInfoKeys>is_sandbox,payment_id</privateInfoKeys>
                 <instruction_line_one>Seu pedido só será processado após o pagamento.</instruction_line_one>
                 <instruction_line_two>Obrigado pela preferência.</instruction_line_two>
             </ricardomartins_pagbank_boleto>
@@ -83,8 +83,8 @@
                 <can_fetch_transaction_info>1</can_fetch_transaction_info>
                 <can_fetch_transaction_information>1</can_fetch_transaction_information>
                 <qr_code_expiration>+1 day</qr_code_expiration>
-                <paymentInfoKeys>payment_id,expiration_date,payment_link_qrcode,payment_text_pix</paymentInfoKeys>
-                <privateInfoKeys>payment_id</privateInfoKeys>
+                <paymentInfoKeys>is_sandbox,payment_id,expiration_date,payment_link_qrcode,payment_text_pix</paymentInfoKeys>
+                <privateInfoKeys>is_sandbox,payment_id</privateInfoKeys>
             </ricardomartins_pagbank_pix>
         </payment>
     </default>

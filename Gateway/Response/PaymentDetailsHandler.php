@@ -33,9 +33,13 @@ class PaymentDetailsHandler implements HandlerInterface
             'status' => $charges['status']
         ];
 
-        $chargeIdWithoutPrefix = str_replace('CHAR_', '', $data['charge_id']);
-        $transctionLink = ConnectInterface::PAGBANK_TRANSACTION_DETAILS_URL . $chargeIdWithoutPrefix;
-        $data['charge_link'] = $transctionLink;
+        $data['is_sandbox'] = key_exists('is_sandbox', $response) ? $response['is_sandbox'] : false;
+
+        if (!$data['is_sandbox']) {
+            $chargeIdWithoutPrefix = str_replace('CHAR_', '', $data['charge_id']);
+            $transactionLink = ConnectInterface::PAGBANK_TRANSACTION_DETAILS_URL . $chargeIdWithoutPrefix;
+            $data['charge_link'] = $transactionLink;
+        }
 
         if ($paymentType === 'CREDIT_CARD') {
             $creditCard = $paymetMethod['card'];

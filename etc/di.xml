@@ -247,7 +247,7 @@
     </virtualType>
 
     <!-- Configurable Info -->
-    <virtualType name="RicardoMartinsPagBankCcConfigurableInfo" type="Magento\Payment\Block\ConfigurableInfo">
+    <virtualType name="RicardoMartinsPagBankCcConfigurableInfo" type="RicardoMartins\PagBank\Block\ConfigurableInfo">
         <arguments>
             <argument name="data" xsi:type="array">
                 <item name="is_secure_mode" xsi:type="string">0</item>

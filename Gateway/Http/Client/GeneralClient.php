@@ -64,6 +64,15 @@ class GeneralClient implements ClientInterface
                 ? $this->converter->convert($response->getBody())
                 : [$response->getBody()];
 
+            $isSandbox = false;
+            $parsedParams = parse_url($transferObject->getUri(), PHP_URL_QUERY);
+            if ($parsedParams) {
+                parse_str($parsedParams, $parsedStr);
+                $isSandbox = (bool)$parsedStr['isSandbox'];
+            }
+
+            $result['is_sandbox'] = $isSandbox;
+
         } catch (\Exception $e) {
             $this->logger->debug(['error' => $e->getMessage()]);
         } finally {

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace RicardoMartins\PagBank\Block;
 
+use Magento\Framework\DataObject;
 use Magento\Framework\Phrase;
 
 class ConfigurableInfo extends \Magento\Payment\Block\ConfigurableInfo
@@ -21,8 +22,9 @@ class ConfigurableInfo extends \Magento\Payment\Block\ConfigurableInfo
         'payment_link_boleto_pdf' => 'Download ticket file',
         'payment_link_boleto_image' => 'Print ticket file',
         'payment_link_qrcode' => 'QR Code Pix',
-        'payment_text_boleto' => 'Código de barras',
-        'payment_text_pix' => 'Código Pix',
+        'payment_text_boleto' => 'Barcode',
+        'payment_text_pix' => 'Pix Code',
+        'is_sandbox' => 'Sandbox mode',
     ];
 
     private const FIELD_VALUES = [
@@ -33,20 +35,21 @@ class ConfigurableInfo extends \Magento\Payment\Block\ConfigurableInfo
         'payment_link_qrcode' => 'image',
         'payment_text_boleto' => 'copy',
         'payment_text_pix' => 'copy',
+        'is_sandbox' => 'yesno'
     ];
 
     /**
      * Sets data to transport
      *
-     * @param \Magento\Framework\DataObject $transport
+     * @param DataObject $transport
      * @param string $field
      * @param string $value
      * @return void
      */
     protected function setDataToTransfer(
-        \Magento\Framework\DataObject $transport,
-                                      $field,
-                                      $value
+        DataObject $transport,
+        $field,
+        $value
     ) {
         $transport->setData(
             (string)$this->getLabel($field),

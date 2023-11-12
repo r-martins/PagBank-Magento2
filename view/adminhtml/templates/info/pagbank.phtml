@@ -17,6 +17,11 @@ $title = $escaper->escapeHtml($block->getMethod()->getTitle());
                             <td colspan="2">
                                 <a href="<?= $escaper->escapeHtmlAttr($valueInner) ?>" target="_blank"><?= $escaper->escapeHtml($label) ?></a>
                             </td>
+                        <?php elseif($type === 'yesno'): ?>
+                            <th scope="row"><?= $escaper->escapeHtml($label) ?></th>
+                            <td>
+                                <?= $valueInner ? __('Yes') : __('No') ?>
+                            </td>
                         <?php elseif($type === 'image'): ?>
                             <th scope="row"><?= $escaper->escapeHtml($label) ?></th>
                             <td>
