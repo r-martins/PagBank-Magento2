@@ -48,9 +48,9 @@
         <message code="40001" translate="true">[Erro 40001] Houve um erro com os dados informados durante o pagamento. Por favor, entre em contato conosco.</message>
         <message code="40002" translate="true">[Erro 40002] Houve um erro com os dados informados durante o pagamento. Por favor, entre em contato conosco.</message>
         <message code="40003" translate="true">[Erro 40003] Houve um erro com os dados informados durante o pagamento. Por favor, entre em contato conosco.</message>
-        <message code="40004" translate="true">[Erro 40004] Houve um erro com os dados informados durante o pagamento. Por favor, entre em contato conosco.</message>
-        <message code="40005" translate="true">[Erro 40005] Houve um erro com os dados informados durante o pagamento. Por favor, entre em contato conosco.</message>
-        <message code="40006" translate="true">[Erro 40006] Houve um erro com os dados informados durante o pagamento. Por favor, entre em contato conosco.</message>
+        <message code="40004" translate="true">[Erro 40004] Limite de uso da API excedido. Por favor, entre em contato conosco.</message>
+        <message code="40005" translate="true">[Erro 40005] Chave de idempotência já em uso. Por favor, entre em contato conosco.</message>
+        <message code="40006" translate="true">[Erro 40006] Captura já realizada ou expirada. Por favor, entre em contato conosco.</message>
         <message code="40007" translate="true">[Erro 40007] Reembolso já realizado, ou valor solicitado acima do permitido. Por favor, entre em contato conosco.</message>
 
         <!-- ###################################################################################### -->
@@ -70,7 +70,8 @@
         <message code="41016" translate="true">[Erro 41016] Houve um problema com a requisição do pagamento. Por favor, entre em contato conosco.</message>
 
         <!-- ################################################################################ -->
-        <!-- Internal error codes -->
+        <!-- Other error codes -->
+        <message code="UNAUTHORIZED" translate="true">Não autorizado. Lojista: verifique se a sua Connect Key está correta e é válida.</message>
         <message code="INVALID_RESPONSE" translate="true">Estamos com um problema neste método de pagamento. Por favor, entre em contato conosco.</message>
     </message_list>
 </mapping>

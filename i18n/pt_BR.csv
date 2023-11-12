@@ -80,3 +80,8 @@
 "Checkout: Request in the payment form","Solicitar no formulário de pagamento"
 "Document","Documento (CPF/CNPJ)"
 "Something went wrong with your request. Please try again later.","Algo deu errado com sua requisição. Por favor, tente novamente mais tarde."
+"Telephone","Telefone"
+"Unknown error","Erro desconhecido"
+"Payment slip due date","Data de vencimento do boleto"
+"Mandatory parameter. Some mandatory data was not provided.","Parâmetro obrigatório. Algum dado obrigatório não foi informado."
+"Invalid parameter. Some data was reported in an invalid format or the data set did not meet all business requirements.","Parâmetro inválido. Algum dado foi informado em um formato inválido ou o conjunto de dados não atendeu a todos os requisitos de negócio."

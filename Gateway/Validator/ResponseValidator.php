@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace RicardoMartins\PagBank\Gateway\Validator;
 
+use Magento\Payment\Gateway\Command\CommandException;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Validator\AbstractValidator;
 use Magento\Payment\Gateway\Validator\ResultInterfaceFactory;
@@ -13,9 +14,21 @@ use RicardoMartins\PagBank\Plugin\Webapi\Controller\Rest;
 
 class ResponseValidator extends AbstractValidator
 {
+    /**
+     * @var array Response status that should be declined
+     */
     private array $responseErrorStatus = [
         ResponseInterface::STATUS_CANCELED,
         ResponseInterface::STATUS_DECLINED
+    ];
+
+    /**
+     * @var array Response error codes and messages
+     */
+    public array $errors = [
+        '40001' =>	'Mandatory parameter. Some mandatory data was not provided.',
+        '40002' =>	'Invalid parameter. Some data was reported in an invalid format or the data set did not meet all business requirements.',
+        '40003' =>	'Invalid parameter. Some data was reported in an invalid format or the data set did not meet all business requirements.',
     ];
 
     public function __construct(
@@ -28,10 +41,12 @@ class ResponseValidator extends AbstractValidator
 
     /**
      * @inheritDoc
+     * @throws CommandException
      */
     public function validate(array $validationSubject)
     {
         $isValid = true;
+        $customMessage = null;
         $errorMessages = [];
         $errorCodes = [];
 
@@ -51,6 +66,10 @@ class ResponseValidator extends AbstractValidator
             foreach ($response[ResponseInterface::ERROR_MESSAGES] as $error) {
                 $errorCodes[] = $error[ResponseInterface::ERROR_MESSAGE_CODE];
                 $errorMessages[] = "{$error[ResponseInterface::ERROR_MESSAGE_DESCRIPTION]} ({$error[ResponseInterface::ERROR_MESSAGE_PARAMETER_NAME]})";
+                $customMessage = $this->getDetailedErrorMessage(
+                    $error[ResponseInterface::ERROR_MESSAGE_CODE],
+                    $error[ResponseInterface::ERROR_MESSAGE_PARAMETER_NAME]
+                );
             }
         }
 
@@ -81,6 +100,45 @@ class ResponseValidator extends AbstractValidator
             $this->logger->debug($data,null,true);
         }
 
+        if ($customMessage) {
+            throw new CommandException($customMessage);
+        }
+
         return $this->createResult($isValid, $errorMessages, $errorCodes);
+    }
+
+    /**
+     * Returns a detailed error message for the given error code
+     *
+     * @param string $code
+     * @param string $parameterName
+     *
+     * @return \Magento\Framework\Phrase|null
+     */
+    private function getDetailedErrorMessage(string $code, string $parameterName)
+    {
+        if (key_exists($code, $this->errors)) {
+            $friendlyParameterName = $this->getFriendlyParameterName($parameterName);
+            $message = __($this->errors[$code]);
+            return __('[%1] %2 (%3)', $code, $message, $friendlyParameterName);
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns a friendly name for the parameter that is missing or invalid
+     * @param string $parameterName
+     *
+     * @return string
+     */
+    private function getFriendlyParameterName(string $parameterName): string
+    {
+        return match ($parameterName) {
+            'customer.tax_id' => __('CPF/CNPJ') . ' - ' . $parameterName,
+            'customer.phones[0].number' => __('Telephone') . ' - ' . $parameterName,
+            'charges[0].payment_method.boleto.due_date' => __('Payment slip due date') . ' - ' . $parameterName,
+            default => $parameterName,
+        };
     }
 }
