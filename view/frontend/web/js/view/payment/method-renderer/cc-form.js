@@ -137,6 +137,14 @@ define([
             },
 
             /**
+             * @return {Boolean}
+             */
+            selectPaymentMethod: function () {
+                this.creditCardInstallments(null);
+                return this._super();
+            },
+
+            /**
              * Get data
              * @returns {Object}
              */
