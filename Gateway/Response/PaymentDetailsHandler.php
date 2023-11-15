@@ -31,6 +31,7 @@ class PaymentDetailsHandler implements HandlerInterface
         }
 
         $charges = $response['charges'][0];
+        $paymetResponse = $charges['payment_response'];
         $paymetMethod = $charges['payment_method'];
         $paymentType = $paymetMethod['type'];
         $links = $charges['links'];
@@ -51,9 +52,14 @@ class PaymentDetailsHandler implements HandlerInterface
 
         if ($paymentType === 'CREDIT_CARD') {
             $creditCard = $paymetMethod['card'];
-            $data['installments'] = $paymetMethod['installments'];
+            $data['brand'] = $creditCard['brand'];
             $data['cc_last_4'] = $creditCard['last_digits'];
             $data['cc_owner'] = $creditCard['holder']['name'];
+            $data['installments'] = $paymetMethod['installments'];
+
+            $paymentRawData = $paymetResponse['raw_data'];
+            $data['authorization_code'] = $paymentRawData['authorization_code'];
+            $data['nsu'] = $paymentRawData['nsu'];
         }
 
         if ($paymentType === 'BOLETO') {
