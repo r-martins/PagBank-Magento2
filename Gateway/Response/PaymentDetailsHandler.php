@@ -16,11 +16,19 @@ class PaymentDetailsHandler implements HandlerInterface
      */
     public function handle(array $handlingSubject, array $response)
     {
+        if (!isset($handlingSubject['payment'])) {
+            throw new \InvalidArgumentException('Invalid response from gateway');
+        }
+
         /** @var PaymentDataObjectInterface $paymentDataObject */
         $paymentDataObject = $handlingSubject['payment'];
 
         /** @var Payment $payment */
         $payment = $paymentDataObject->getPayment();
+
+        if (!isset($response['charges'])) {
+            throw new \InvalidArgumentException('Invalid response from gateway');
+        }
 
         $charges = $response['charges'][0];
         $paymetMethod = $charges['payment_method'];

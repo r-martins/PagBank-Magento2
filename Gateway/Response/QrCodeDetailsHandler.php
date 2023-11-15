@@ -16,11 +16,19 @@ class QrCodeDetailsHandler implements HandlerInterface
      */
     public function handle(array $handlingSubject, array $response)
     {
+        if (!isset($handlingSubject['payment'])) {
+            throw new \InvalidArgumentException('Invalid response from gateway');
+        }
+
         /** @var PaymentDataObjectInterface $paymentDataObject */
         $paymentDataObject = $handlingSubject['payment'];
 
         /** @var Payment $payment */
         $payment = $paymentDataObject->getPayment();
+
+        if (!isset($response['qr_codes'])) {
+            throw new \InvalidArgumentException('Invalid response from gateway');
+        }
 
         $qrCodes = $response['qr_codes'][0];
         $qrCodesLinks = $qrCodes['links'];
