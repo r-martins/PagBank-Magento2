@@ -216,6 +216,7 @@ define([
                     return null;
                 }
 
+                creditCardNumber = creditCardNumber.replace(/ /g, "");
                 creditCardBin = creditCardNumber.slice(0,6);
 
                 getInstallments(quoteId, creditCardBin).then(function (response) {
