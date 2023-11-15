@@ -42,6 +42,7 @@ class Customer implements BuilderInterface
         /** @var Order $orderModel */
         $orderModel = $payment->getOrder();
         $telephone = $orderModel->getBillingAddress()->getTelephone();
+        $telephone = preg_replace('/[^0-9]/','', $telephone);
 
         $documentFrom = $this->config->getDocumentFrom();
 
