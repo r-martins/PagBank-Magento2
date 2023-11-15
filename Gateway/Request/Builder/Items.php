@@ -45,12 +45,21 @@ class Items implements BuilderInterface
                 continue;
             }
 
+            $price = $orderItem->getPrice();
+            if ($price == 0) {
+                continue;
+            }
+
             $item = $this->itemFactory->create();
             $item->setReferenceId($orderItem->getSku());
             $item->setName($orderItem->getName());
             $item->setQuantity((int) $orderItem->getQtyOrdered());
             $item->setUnitAmount($orderItem->getPrice());
             $items[] = $item->getData();
+        }
+
+        if (empty($items)) {
+            return $result;
         }
 
         $result[self::ITEMS] = $items;
