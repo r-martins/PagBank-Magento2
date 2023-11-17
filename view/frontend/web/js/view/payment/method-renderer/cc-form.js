@@ -228,7 +228,7 @@ define([
             setInterest(installment) {
                 let self = this,
                     quoteId = quote.getQuoteId(),
-                    creditCardBin = self.creditCardNumber().slice(0, 6);
+                    creditCardBin = self.creditCardNumber().replace(/ /g, "").slice(0, 6);
 
                 if (!installment) {
                     return;
