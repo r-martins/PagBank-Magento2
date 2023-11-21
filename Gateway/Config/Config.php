@@ -115,9 +115,9 @@ class Config extends BaseConfig implements ConfigInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPublicKey(): string
+    public function getPublicKey(): ?string
     {
         return $this->getValue(self::CONFIG_PUBLIC_KEY);
     }
