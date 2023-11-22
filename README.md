@@ -1,3 +1,6 @@
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.1-8892BF.svg?style=flat-square)](https://php.net/)
+[![GitHub release](https://img.shields.io/github/v/release/r-martins/PagBank-Magento2)](https://github.com/r-martins/PagBank-Magento2)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/r-martins/PagBank-Magento2/master)
 # Módulo PagBank(PagSeguro) para Magento2
 ![Módulo PagBank para Magento 2](https://imgur.com/LqdBGik.jpg)
 ## Nova Geração - Novas APIs, Novos Recursos, Mais Estabilidade
