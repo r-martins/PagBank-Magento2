@@ -7,15 +7,100 @@
                     filter: contrast(0%);
                 }
             }
-            .field {
-                .input-text, .select-installments {
-                    width: 400px;
-                    max-width: 100%;
-                }
-            }
             .payment-information {
                 p {
                     margin: 0.3rem;
+                }
+            }
+            .payment-method-content {
+                .fields {
+                    &.group-2 {
+                        display: grid;
+                        grid-template-columns: 5fr 3fr;
+                        grid-column-gap: 20px;
+                    }
+                }
+                .field {
+                    position: relative;
+                    margin-bottom: 20px;
+                    &.required {
+                        .label {
+                            &:after {
+                                content: "*";
+                                color: #ff0000;
+                                margin-left: 0.2rem;
+                            }
+                        }
+                    }
+                    .label {
+                        pointer-events: none;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                    }
+                    ._with-tooltip {
+                        .field-tooltip {
+                            right: 6px;
+                            height: 100%;
+                            display: flex;
+                            align-items: center;
+                        }
+                        .credit-card-types {
+                            width: 40px;
+                            height: 26px;
+                            .item {
+                                display: none;
+                                margin: 0;
+                                &._active {
+                                    display: inline-block;
+                                }
+                            }
+                        }
+                    }
+                }
+                .input-text, .select {
+                    width: 100%;
+                    height: unset;
+                    padding: 1.5rem 1.2rem;
+                    border-radius: 4px;
+                    background-color: #ffffff;
+                    &:focus {
+                        box-shadow: none;
+                    }
+                }
+                .field-with-placeholder {
+                    .input-text {
+                        transition: 0.1s ease;
+                        z-index: 11;
+                        &::placeholder {
+                            color: transparent;
+                        }
+                        &:not(:placeholder-shown) {
+                            + .label {
+                                transform: translate(0, -1rem) scale(0.88);
+                                background-color: #ffffff;
+                                padding: 0 1rem;
+                            }
+                        }
+                    }
+                    .label {
+                        position: absolute;
+                        padding: 1.5rem 1.2rem;
+                        transition: 0.2s ease;
+                        top: 0;
+                        left: 0;
+                    }
+                }
+                .installments {
+                    .label {
+                        position: absolute;
+                        transition: 0.2s ease;
+                        top: 0;
+                        left: 11px;
+                        transform: translate(0, -1rem) scale(0.88);
+                        background-color: #ffffff;
+                        padding: 0 1rem;
+                    }
                 }
             }
         }

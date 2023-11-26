@@ -1,15 +1,13 @@
 <!-- ko if: requestTaxIdAtCheckout() -->
-<div class="field">
-    <label class="label" data-bind="attr: {for: getCode() + '-tax-id'}">
-        <span data-bind="i18n: 'Document'"></span>
-    </label>
-    <div class="control">
+<div class="field document required">
+    <div class="control field-with-placeholder">
         <input type="text"
                name="tax_id"
                class="input-text"
                data-bind="attr: {
                         id: getCode() + '_tax_id',
                         title: $t('Document'),
+                        placeholder: $t('Document'),
                         'data-container': getCode() + '-tax-id',
                         'data-validate': JSON.stringify({
                             'required-number':true
@@ -17,6 +15,9 @@
                   enable: isActive($parents),
                   value: taxId,
                   valueUpdate: 'keyup' " />
+        <label class="label" data-bind="attr: {for: getCode() + '-tax-id'}">
+            <span data-bind="i18n: 'Document'"></span>
+        </label>
     </div>
 </div>
 <!-- /ko -->

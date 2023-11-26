@@ -11,6 +11,7 @@ define([
         'RicardoMartins_PagBank/js/action/set-interest',
         'RicardoMartins_PagBank/js/action/encrypt-card',
         'RicardoMartins_PagBank/js/view/payment/form/customer-fields',
+        'RicardoMartins_PagBank/js/lib/jquery/jquery.mask',
         'Magento_Checkout/js/model/full-screen-loader',
         'mage/translate'
     ], function (
@@ -26,6 +27,7 @@ define([
         setInterest,
         encryptCard,
         customerFields,
+        _mask,
         fullScreenLoader,
         $t
     ) {
@@ -36,6 +38,7 @@ define([
                 code: 'ricardomartins_pagbank_cc',
                 template: 'RicardoMartins_PagBank/payment/cc-form',
                 creditCardNumberEncrypted: '',
+                creditCardExpiration: null,
                 creditCardInstallments: null,
                 creditCardInstallmentsOptions: null,
                 creditCardOwner: '',
@@ -52,6 +55,7 @@ define([
                 this._super()
                     .observe([
                         'creditCardNumberEncrypted',
+                        'creditCardExpiration',
                         'creditCardInstallments',
                         'creditCardInstallmentsOptions',
                         'creditCardOwner',
@@ -66,10 +70,16 @@ define([
              */
             initialize: function () {
                 const self = this;
+                let documentField,
+                    creditCardNumberField,
+                    expirationField,
+                    cvvField,
+                    typeMaskDocument,
+                    typeMaskCreditCard;
 
                 this._super();
 
-                //Set credit card number to credit card data object
+                //Process credit card number functions
                 this.creditCardNumber.subscribe(function (value) {
                     let result;
 
@@ -96,6 +106,23 @@ define([
                     }
                 });
 
+                this.selectedCardType.subscribe(function (value) {
+                    creditCardData.selectedCardType = value;
+
+                    creditCardNumberField = $('#' + self.getCode() + '_cc_number');
+                    creditCardNumberField.unmask();
+
+                    typeMaskCreditCard = '0000 0000 0000 0000';
+                    if (value === 'DN') {
+                        typeMaskCreditCard = '0000 000000 0000';
+                    }
+                    if (value === 'AE') {
+                        typeMaskCreditCard = '0000 000000 00000';
+                    }
+
+                    creditCardNumberField.mask(typeMaskCreditCard);
+                });
+
                 quote.totals.subscribe(function (value) {
                     if (self.creditCardNumber()) {
                         self.getInstallments(self.creditCardNumber());
@@ -113,10 +140,32 @@ define([
                     creditCardData.creditCardOwner = value;
                 });
 
-                //Set document to data object
+                //Set expiration date to credit card data object and field mask
+                this.creditCardExpiration.subscribe(function (value) {
+                    expirationField = $('#' + self.getCode() + '_cc_expiration');
+                    expirationField.mask('00/00');
+
+                    self.setExpirationDate(value);
+                    creditCardData.creditCardExpMonth = self.creditCardExpMonth();
+                    creditCardData.creditCardExpYear = self.creditCardExpYear();
+                });
+
+                //Set document to data object and field mask
                 this.taxId.subscribe(function (value) {
                     value = value.replace(/\D/g, '');
+
+                    documentField = $('#' + self.getCode() + '_tax_id');
+                    typeMaskDocument = value.length <= 11 ? '000.000.000-00' : '00.000.000/0000-00';
+                    documentField.mask(typeMaskDocument, {clearIfNotMatch: true});
+
                     pagbankCustomerData.taxId = value;
+                });
+
+                //Set cvv to credit card mask
+                this.creditCardVerificationNumber.subscribe(function (value) {
+                    cvvField = $('#' + self.getCode() + '_cc_cid');
+                    cvvField.mask('0000');
+                    creditCardData.creditCardVerificationNumber = value;
                 });
             },
 
@@ -257,6 +306,18 @@ define([
                     self.creditCardNumberEncrypted(cardEncrypted);
                     return true;
                 }
+            },
+
+            /**
+             * Set expiration date
+             * @param value
+             */
+            setExpirationDate(value) {
+                let self = this,
+                    date = value.split('/');
+
+                self.creditCardExpMonth(date[0]);
+                self.creditCardExpYear('20' + date[1]);
             },
 
             /**

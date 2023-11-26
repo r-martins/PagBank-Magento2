@@ -7,6 +7,7 @@
             <module name="Magento_Payment"/>
             <module name="Magento_Checkout"/>
             <module name="Magento_Customer"/>
+            <module name="Magento_Catalog"/>
         </sequence>
     </module>
 </config>
