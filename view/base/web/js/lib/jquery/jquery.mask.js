@@ -35,8 +35,6 @@
 /* jshint maxcomplexity:17 */
 /* global define */
 
-// UMD (Universal Module Definition) patterns for JavaScript modules that work everywhere.
-// https://github.com/umdjs/umd/blob/master/templates/jqueryPlugin.js
 define([
     'jquery'
 ], function ($) {
