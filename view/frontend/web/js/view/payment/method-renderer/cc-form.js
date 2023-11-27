@@ -100,6 +100,7 @@ define([
                     }
 
                     if (result.isValid) {
+                        value = value.replace(/ /g, "");
                         creditCardData.creditCardNumber = value;
                         self.creditCardType(result.card.type);
                         self.getInstallments(value);
@@ -296,7 +297,7 @@ define([
 
                 cardEncrypted = encryptCard(
                     self.creditCardOwner(),
-                    self.creditCardNumber(),
+                    self.creditCardNumber().replace(/ /g, ""),
                     self.creditCardExpMonth(),
                     self.creditCardExpYear(),
                     self.creditCardVerificationNumber()
