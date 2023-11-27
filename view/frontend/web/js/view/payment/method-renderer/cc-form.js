@@ -155,7 +155,7 @@ define([
                     value = value.replace(/\D/g, '');
 
                     documentField = $('#' + self.getCode() + '_tax_id');
-                    typeMaskDocument = value.length <= 11 ? '000.000.000-00' : '00.000.000/0000-00';
+                    typeMaskDocument = value.length <= 11 ? '000.000.000-009' : '00.000.000/0000-00';
                     documentField.mask(typeMaskDocument, {clearIfNotMatch: true});
 
                     pagbankCustomerData.taxId = value;
