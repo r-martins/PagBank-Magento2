@@ -3,7 +3,7 @@
     <default>
         <payment>
             <ricardomartins_pagbank>
-                <active>1</active>
+                <active>0</active>
                 <model>RicardoMartinsPagBankCcFacade</model>
                 <title>PagBank</title>
                 <document_from>payment_form</document_from>
@@ -17,7 +17,7 @@
                 <can_use_checkout>1</can_use_checkout>
             </ricardomartins_pagbank>
             <ricardomartins_pagbank_cc>
-                <active>1</active>
+                <active>0</active>
                 <model>RicardoMartinsPagBankCcFacade</model>
                 <title>PagBank Credit Card</title>
                 <sort_order>1</sort_order>
@@ -42,7 +42,7 @@
                 <privateInfoKeys>is_sandbox,payment_id,charge_id,charge_link,status,authorization_code,nsu</privateInfoKeys>
             </ricardomartins_pagbank_cc>
             <ricardomartins_pagbank_boleto>
-                <active>1</active>
+                <active>0</active>
                 <model>RicardoMartinsPagBankBoletoFacade</model>
                 <title>PagBank Boleto</title>
                 <sort_order>2</sort_order>
@@ -71,7 +71,7 @@
                 <instruction_line_two>Obrigado pela preferência.</instruction_line_two>
             </ricardomartins_pagbank_boleto>
             <ricardomartins_pagbank_pix>
-                <active>1</active>
+                <active>0</active>
                 <model>RicardoMartinsPagBankQrCodeFacade</model>
                 <title>PagBank Pix</title>
                 <sort_order>2</sort_order>
