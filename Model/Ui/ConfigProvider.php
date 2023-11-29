@@ -59,6 +59,10 @@ class ConfigProvider implements ConfigProviderInterface
         }
 
         $types = $this->configCc->getCcAvailableTypes();
+        if (empty($types)) {
+            return $this->icons;
+        }
+
         foreach ($types as $code => $label) {
             if (!array_key_exists($code, $this->icons)) {
                 $asset = $this->configCc->createAsset('RicardoMartins_PagBank::images/cc/' . strtolower($code) . '.svg');

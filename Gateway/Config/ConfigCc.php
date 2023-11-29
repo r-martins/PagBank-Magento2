@@ -129,8 +129,12 @@ class ConfigCc extends BaseConfig implements ConfigInterface
      */
     public function getCcAvailableTypes()
     {
-        $types = $this->serializer->unserialize($this->getValue('cc_types_mapper'));
-        return $types ?? [];
+        $ccTypes = $this->getValue('cc_types_mapper');
+        if (!$ccTypes) {
+            return [];
+        }
+
+        return $this->serializer->unserialize($ccTypes);
     }
 
     /**
