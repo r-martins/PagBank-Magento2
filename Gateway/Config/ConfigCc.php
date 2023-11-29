@@ -4,6 +4,11 @@ declare(strict_types=1);
 namespace RicardoMartins\PagBank\Gateway\Config;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Serialize\SerializerInterface;
+use Magento\Framework\View\Asset\Repository;
+use Magento\Framework\View\Asset\Source;
 use Magento\Payment\Gateway\Config\Config as BaseConfig;
 use Magento\Payment\Gateway\ConfigInterface;
 
@@ -15,12 +20,24 @@ class ConfigCc extends BaseConfig implements ConfigInterface
     public const METHOD_CODE = 'ricardomartins_pagbank_cc';
 
     /**
+     * Credit card custom icons key
+     */
+    public const CARD_BRAND_ICONS = 'icons';
+
+    /**
      * @param ScopeConfigInterface $scopeConfig
+     * @param Repository $assetRepo
+     * @param Source $assetSource
+     * @param RequestInterface $request
      * @param string $methodCode
      * @param string $pathPattern
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
+        private readonly Repository $assetRepo,
+        private readonly Source $assetSource,
+        private readonly RequestInterface $request,
+        private readonly SerializerInterface $serializer,
         string $methodCode = self::METHOD_CODE,
         string $pathPattern = BaseConfig::DEFAULT_PATH_PATTERN
     ) {
@@ -103,6 +120,45 @@ class ConfigCc extends BaseConfig implements ConfigInterface
             ),
             default => null,
         };
+    }
+
+    /**
+     * Retrieve available credit card types
+     *
+     * @return array
+     */
+    public function getCcAvailableTypes()
+    {
+        $types = $this->serializer->unserialize($this->getValue('cc_types_mapper'));
+        return $types ?? [];
+    }
+
+    /**
+     * Create a file asset that's subject of fallback system
+     *
+     * @param string $fileId
+     * @param array $params
+     * @return \Magento\Framework\View\Asset\File
+     */
+    public function createAsset($fileId, array $params = [])
+    {
+        $params = array_merge(['_secure' => $this->request->isSecure()], $params);
+        try {
+            return $this->assetRepo->createAsset($fileId, $params);
+        } catch (LocalizedException $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Method to find source.
+     *
+     * @param $asset
+     * @return bool|string
+     */
+    public function findSource($asset)
+    {
+        return $this->assetSource->findSource($asset);
     }
 
     /**

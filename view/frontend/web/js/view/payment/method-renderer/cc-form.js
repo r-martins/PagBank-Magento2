@@ -195,6 +195,17 @@ define([
             },
 
             /**
+             * Get payment icons
+             * @param {String} type
+             * @returns {Boolean}
+             */
+            getIcons(type) {
+                return window.checkoutConfig.payment[this.getCode()].icons.hasOwnProperty(type) ?
+                    window.checkoutConfig.payment[this.getCode()].icons[type]
+                    : false;
+            },
+
+            /**
              * Get data
              * @returns {Object}
              */

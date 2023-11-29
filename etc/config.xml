@@ -36,6 +36,8 @@
                 <can_accept_payment>1</can_accept_payment>
                 <can_fetch_transaction_info>1</can_fetch_transaction_info>
                 <can_fetch_transaction_information>1</can_fetch_transaction_information>
+                <cc_types_mapper><![CDATA[{"AE":"AMERICAN EXPRESS","AU":"AURA","DN":"DINERS","ELO":"ELO","HC":"HIPERCARD","MC":"MASTERCARD","VI":"VISA"}]]></cc_types_mapper>
+                <cctypes>AE,AU,DN,ELO,HC,MC,VI</cctypes>
                 <paymentInfoKeys>is_sandbox,payment_id,charge_id,brand,cc_owner,cc_last_4,installments,charge_link,authorization_code,nsu</paymentInfoKeys>
                 <privateInfoKeys>is_sandbox,payment_id,charge_id,charge_link,status,authorization_code,nsu</privateInfoKeys>
             </ricardomartins_pagbank_cc>
@@ -63,6 +65,8 @@
                 <can_fetch_transaction_information>1</can_fetch_transaction_information>
                 <paymentInfoKeys>is_sandbox,payment_id,expiration_date,payment_link_boleto_pdf,payment_link_boleto_image,payment_text_boleto</paymentInfoKeys>
                 <privateInfoKeys>is_sandbox,payment_id</privateInfoKeys>
+                <allowspecific>1</allowspecific>
+                <specificcountry>BR</specificcountry>
                 <instruction_line_one>Seu pedido só será processado após o pagamento.</instruction_line_one>
                 <instruction_line_two>Obrigado pela preferência.</instruction_line_two>
             </ricardomartins_pagbank_boleto>
