@@ -37,6 +37,7 @@
                         overflow: hidden;
                         white-space: nowrap;
                         text-overflow: ellipsis;
+                        box-sizing: border-box;
                     }
                     ._with-tooltip {
                         .field-tooltip {
@@ -46,13 +47,23 @@
                             align-items: center;
                         }
                         .credit-card-types {
-                            width: 40px;
-                            height: 26px;
+                            width: 39px;
+                            height: 25px;
+                            margin-right: 2px;
                             .item {
                                 display: none;
                                 margin: 0;
                                 &._active {
                                     display: inline-block;
+                                }
+                            }
+                        }
+                    }
+                    &.cvv {
+                        > ._with-tooltip {
+                            .field-with-placeholder {
+                                .label {
+                                    width: 80%;
                                 }
                             }
                         }
@@ -85,6 +96,7 @@
                     }
                     .label {
                         position: absolute;
+                        max-width: 100%;
                         padding: 1.5rem 1.2rem;
                         transition: 0.2s ease;
                         top: 0;
