@@ -111,7 +111,6 @@ define([
                     creditCardData.selectedCardType = value;
 
                     creditCardNumberField = $('#' + self.getCode() + '_cc_number');
-                    creditCardNumberField.unmask();
 
                     typeMaskCreditCard = '0000 0000 0000 0000';
                     if (value === 'DN') {
@@ -165,7 +164,7 @@ define([
                 //Set cvv to credit card mask
                 this.creditCardVerificationNumber.subscribe(function (value) {
                     cvvField = $('#' + self.getCode() + '_cc_cid');
-                    cvvField.mask('0000');
+                    cvvField.mask('0009');
                     creditCardData.creditCardVerificationNumber = value;
                 });
             },
