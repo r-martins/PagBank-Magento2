@@ -33,6 +33,12 @@
                         }
                     }
                     .label {
+                        position: absolute;
+                        top: -0.9rem;
+                        left: 1rem;
+                        font-size: 1.2rem;
+                        background-color: white;
+                        padding: 0 1rem;
                         pointer-events: none;
                         overflow: hidden;
                         white-space: nowrap;
@@ -41,29 +47,20 @@
                     }
                     ._with-tooltip {
                         .field-tooltip {
-                            right: 6px;
+                            right: 10px;
                             height: 100%;
+                            max-height: 5rem;
                             display: flex;
                             align-items: center;
                         }
                         .credit-card-types {
-                            width: 39px;
-                            height: 25px;
-                            margin-right: 2px;
+                            width: 40px;
+                            height: 26px;
                             .item {
                                 display: none;
                                 margin: 0;
                                 &._active {
                                     display: inline-block;
-                                }
-                            }
-                        }
-                    }
-                    &.cvv {
-                        > ._with-tooltip {
-                            .field-with-placeholder {
-                                .label {
-                                    width: 80%;
                                 }
                             }
                         }
@@ -77,41 +74,6 @@
                     background-color: #ffffff;
                     &:focus {
                         box-shadow: none;
-                    }
-                }
-                .field-with-placeholder {
-                    .input-text {
-                        transition: 0.1s ease;
-                        z-index: 11;
-                        &::placeholder {
-                            color: transparent;
-                        }
-                        &:not(:placeholder-shown) {
-                            + .label {
-                                transform: translate(0, -1rem) scale(0.88);
-                                background-color: #ffffff;
-                                padding: 0 1rem;
-                            }
-                        }
-                    }
-                    .label {
-                        position: absolute;
-                        max-width: 100%;
-                        padding: 1.5rem 1.2rem;
-                        transition: 0.2s ease;
-                        top: 0;
-                        left: 0;
-                    }
-                }
-                .installments {
-                    .label {
-                        position: absolute;
-                        transition: 0.2s ease;
-                        top: 0;
-                        left: 11px;
-                        transform: translate(0, -1rem) scale(0.88);
-                        background-color: #ffffff;
-                        padding: 0 1rem;
                     }
                 }
             }

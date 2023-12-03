@@ -129,7 +129,7 @@ class ConfigCc extends BaseConfig implements ConfigInterface
      */
     public function getCcAvailableTypes()
     {
-        $ccTypes = $this->getValue('cc_types_mapper');
+        $ccTypes = $this->getValue('cctypes_pagbank_mapper');
         if (!$ccTypes) {
             return [];
         }
