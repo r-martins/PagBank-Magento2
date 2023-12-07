@@ -79,6 +79,9 @@ define([
 
                 this._super();
 
+                //default installments options
+                self.getInstallments('555566');
+
                 //Process credit card number functions
                 this.creditCardNumber.subscribe(function (value) {
                     let result;
