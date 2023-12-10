@@ -17,9 +17,7 @@
     </div>
 
     <div class="payment-method-content">
-        <!-- ko foreach: getRegion('messages') -->
-        <!-- ko template: getTemplate() --><!-- /ko -->
-        <!-- /ko -->
+        <each args="getRegion('messages')" render=""></each>
 
         <form class="form" action="#" method="post" data-bind="attr: {id: getCode() + '_payment-form'}">
             <!-- ko template: 'RicardoMartins_PagBank/payment/cc-fields' --><!-- /ko -->
