@@ -151,4 +151,18 @@
             </select>
         </div>
     </div>
+
+    <!-- ko if: (isVaultEnabled())-->
+    <div class="field choice vault">
+        <input type="checkbox"
+               name="vault[is_enabled]"
+               class="checkbox"
+               data-bind="attr: {'id': getCode() + '_enable_vault'}, checked: vaultEnabler.isActivePaymentTokenEnabler">
+        </input>
+        <label class="label" data-bind="attr: {'for': getCode() + '_enable_vault'}">
+            <span><!-- ko i18n: 'Save for later use.'--><!-- /ko --></span>
+        </label>
+    </div>
+    <!-- /ko -->
+
 </fieldset>

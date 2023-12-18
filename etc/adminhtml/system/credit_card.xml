@@ -10,6 +10,11 @@
             <label>Title</label>
             <config_path>payment/ricardomartins_pagbank_cc/title</config_path>
         </field>
+        <field id="vault_active" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Enable Vault (Stored Credit Card)</label>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <config_path>payment/ricardomartins_pagbank_cc_vault/active</config_path>
+        </field>
         <field id="sort_order" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
             <label>Sort Order</label>
             <config_path>payment/ricardomartins_pagbank_cc/sort_order</config_path>

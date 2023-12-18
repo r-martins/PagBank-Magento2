@@ -1,0 +1,31 @@
+<fieldset data-bind="attr: {
+                        class: 'fieldset payment items vault-ccard-' + getCode(),
+                        id: 'payment_form_' + getId()
+                    }">
+
+    <!-- ko template: 'RicardoMartins_PagBank/payment/customer-fields' --><!-- /ko -->
+
+    <div class="field installments required">
+        <div class="control">
+            <label data-bind="attr: {for: getId() + '_installments'}" class="label">
+                <span><!-- ko i18n: 'Installments'--><!-- /ko --></span>
+            </label>
+            <select  name="payment[cc_installments]"
+                     class="select select-installments"
+                     data-bind="attr: {
+                                    autocomplete: 'off',
+                                    id: getId() + '_installments',
+                                    'data-container': getId() + '-installments',
+                                    'data-validate': JSON.stringify({required:true})
+                                },
+                                enable: isActive($parents),
+                                options: getOptionsVaultInstallments(),
+                                optionsValue: 'value',
+                                optionsText: 'label',
+                                optionsCaption: $t('Select the installments'),
+                                value: creditCardVaultInstallments" >
+            </select>
+        </div>
+    </div>
+
+</fieldset>

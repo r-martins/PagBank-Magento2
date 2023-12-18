@@ -9,52 +9,69 @@ use RicardoMartins\PagBank\Api\Connect\PaymentMethod\CardInterface;
 class Card extends DataObject implements CardInterface
 {
     /**
-     * @return string
+     * @return string|null
      */
-    public function getEncrypted(): string
+    public function getEncrypted(): ?string
     {
         return $this->getData(CardInterface::ENCRYPTED);
     }
 
     /**
-     * @param string $encrypted
+     * @param string|null $encrypted
      * @return CardInterface
      */
-    public function setEncrypted(string $encrypted): CardInterface
+    public function setEncrypted(?string $encrypted): CardInterface
     {
         return $this->setData(CardInterface::ENCRYPTED, $encrypted);
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getSecurityCode(): string
+    public function getCardId(): ?string
+    {
+        return $this->getData(CardInterface::CARD_ID);
+    }
+
+    /**
+     * @param string|null $cardId
+     * @return CardInterface
+     */
+    public function setCardId(?string $cardId): CardInterface
+    {
+        return $this->setData(CardInterface::CARD_ID, $cardId);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSecurityCode(): ?string
     {
         return $this->getData(CardInterface::SECURITY_CODE);
     }
 
     /**
-     * @param int $securityCode
+     * @param int|null $securityCode
      * @return CardInterface
      */
-    public function setSecurityCode(int $securityCode): CardInterface
+    public function setSecurityCode(?int $securityCode): CardInterface
     {
         return $this->setData(CardInterface::SECURITY_CODE, $securityCode);
     }
 
     /**
-     * @return array
+     * @return array|null
      */
-    public function getHolder(): array
+    public function getHolder(): ?array
     {
         return $this->getData(CardInterface::HOLDER);
     }
 
     /**
-     * @param array $holder
+     * @param array|null $holder
      * @return CardInterface
      */
-    public function setHolder(array $holder): CardInterface
+    public function setHolder(?array $holder): CardInterface
     {
         return $this->setData(CardInterface::HOLDER, $holder);
     }

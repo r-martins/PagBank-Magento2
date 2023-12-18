@@ -25,4 +25,13 @@
             </argument>
         </arguments>
     </type>
+
+    <!-- Vault Component Provider -->
+    <type name="Magento\Vault\Model\Ui\TokensConfigProvider">
+        <arguments>
+            <argument name="tokenUiComponentProviders" xsi:type="array">
+                <item name="ricardomartins_pagbank_cc" xsi:type="object">RicardoMartins\PagBank\Model\Ui\TokenUiComponentProvider</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

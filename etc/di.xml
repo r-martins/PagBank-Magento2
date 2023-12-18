@@ -39,6 +39,14 @@
             <argument name="commandPool" xsi:type="object">RicardoMartinsPagBankCcCommandPool</argument>
         </arguments>
     </virtualType>
+    <virtualType name="RicardoMartinsPagBankCcVaultFacade" type="Magento\Vault\Model\Method\Vault">
+        <arguments>
+            <argument name="config" xsi:type="object">RicardoMartins\PagBank\Gateway\Config\ConfigCcVault</argument>
+            <argument name="valueHandlerPool" xsi:type="object">RicardoMartinsPagBankVaultValueHandlerPool</argument>
+            <argument name="vaultProvider" xsi:type="object">RicardoMartinsPagBankCcFacade</argument>
+            <argument name="code" xsi:type="const">RicardoMartins\PagBank\Gateway\Config\ConfigCcVault::METHOD_CODE</argument>
+        </arguments>
+    </virtualType>
     <virtualType name="RicardoMartinsPagBankBoletoFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
             <argument name="code" xsi:type="const">RicardoMartins\PagBank\Gateway\Config\ConfigBoleto::METHOD_CODE</argument>
@@ -69,6 +77,20 @@
     <virtualType name="RicardoMartinsPagBankConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
             <argument name="configInterface" xsi:type="object">RicardoMartins\PagBank\Gateway\Config\ConfigCc</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Value Handler Pool: Credit Card Vault-->
+    <virtualType name="RicardoMartinsPagBankVaultValueHandlerPool" type="VaultPaymentValueHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="default" xsi:type="string">RicardoMartinsPagBankVaultConfigValueHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartinsPagBankVaultConfigValueHandler" type="VaultPaymentDefaultValueHandler">
+        <arguments>
+            <argument name="configInterface" xsi:type="object">RicardoMartins\PagBank\Gateway\Config\ConfigCcVault</argument>
         </arguments>
     </virtualType>
 
@@ -108,6 +130,9 @@
                 <item name="authorize" xsi:type="string">RicardoMartinsPagBankCommand</item>
                 <item name="capture" xsi:type="string">RicardoMartinsPagBankCommand</item>
                 <item name="fetch_transaction_information" xsi:type="string">RicardoMartinsPagBankFetchTransactionCommand</item>
+                <item name="vault_authorize" xsi:type="string">RicardoMartinsPagBankVaultCommand</item>
+                <item name="vault_sale" xsi:type="string">RicardoMartinsPagBankVaultCommand</item>
+                <item name="vault_capture" xsi:type="string">RicardoMartinsPagBankVaultCommand</item>
             </argument>
         </arguments>
     </virtualType>
@@ -132,6 +157,16 @@
     <virtualType name="RicardoMartinsPagBankCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
         <arguments>
             <argument name="requestBuilder" xsi:type="object">RicardoMartinsPagBankCcTransactionBuilders</argument>
+            <argument name="transferFactory" xsi:type="object">RicardoMartins\PagBank\Gateway\Http\TransferFactory\PostOrderTransferFactory</argument>
+            <argument name="client" xsi:type="object">RicardoMartins\PagBank\Gateway\Http\Client\GeneralClient</argument>
+            <argument name="handler" xsi:type="object">RicardoMartinsPagBankCompleteHandler</argument>
+            <argument name="validator" xsi:type="object">RicardoMartins\PagBank\Gateway\Validator\ResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">RicardoMartins\PagBank\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartinsPagBankVaultCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">RicardoMartinsPagBankCcVaultTransactionBuilders</argument>
             <argument name="transferFactory" xsi:type="object">RicardoMartins\PagBank\Gateway\Http\TransferFactory\PostOrderTransferFactory</argument>
             <argument name="client" xsi:type="object">RicardoMartins\PagBank\Gateway\Http\Client\GeneralClient</argument>
             <argument name="handler" xsi:type="object">RicardoMartinsPagBankCompleteHandler</argument>
@@ -169,6 +204,21 @@
         </arguments>
     </virtualType>
 
+    <!-- Command Manager -->
+    <virtualType name="RicardoMartinsPagBankCcCommandManager" type="Magento\Payment\Gateway\Command\CommandManager">
+        <arguments>
+            <argument name="commandPool" xsi:type="object">RicardoMartinsPagBankCcCommandPool</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Payment\Gateway\Command\CommandManagerPool">
+        <arguments>
+            <argument name="executors" xsi:type="array">
+                <item name="ricardomartins_pagbank_cc" xsi:type="string">RicardoMartinsPagBankCcCommandManager</item>
+                <item name="ricardomartins_pagbank_cc_vault" xsi:type="string">RicardoMartinsPagBankCcCommandManager</item>
+            </argument>
+        </arguments>
+    </type>
+
     <!-- Request Transactions Builders -->
     <virtualType name="RicardoMartinsPagBankCcTransactionBuilders" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
@@ -178,6 +228,18 @@
                 <item name="customer" xsi:type="string">RicardoMartins\PagBank\Gateway\Request\Builder\Customer</item>
                 <item name="shipping" xsi:type="string">RicardoMartins\PagBank\Gateway\Request\Builder\Shipping</item>
                 <item name="charges" xsi:type="string">RicardoMartins\PagBank\Gateway\Request\Builder\Charges\CreditCard</item>
+                <item name="vault" xsi:type="string">RicardoMartins\PagBank\Gateway\Request\Builder\VaultData</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartinsPagBankCcVaultTransactionBuilders" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="order" xsi:type="string">RicardoMartins\PagBank\Gateway\Request\Builder\Order</item>
+                <item name="items" xsi:type="string">RicardoMartins\PagBank\Gateway\Request\Builder\Items</item>
+                <item name="customer" xsi:type="string">RicardoMartins\PagBank\Gateway\Request\Builder\Customer</item>
+                <item name="shipping" xsi:type="string">RicardoMartins\PagBank\Gateway\Request\Builder\Shipping</item>
+                <item name="charges" xsi:type="string">RicardoMartins\PagBank\Gateway\Request\Builder\Charges\CreditCard\Vault</item>
             </argument>
         </arguments>
     </virtualType>
@@ -218,6 +280,7 @@
             <argument name="handlers" xsi:type="array">
                 <item name="payment_details" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\PaymentDetailsHandler</item>
                 <item name="transaction_details" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\TransactionAdditionalInfoHandler</item>
+                <item name="vault_details" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\VaultDetailsHandler</item>
             </argument>
         </arguments>
     </virtualType>

@@ -7,6 +7,7 @@ use Magento\Checkout\Model\ConfigProviderInterface;
 use RicardoMartins\PagBank\Gateway\Config\Config;
 use RicardoMartins\PagBank\Gateway\Config\ConfigBoleto;
 use RicardoMartins\PagBank\Gateway\Config\ConfigCc;
+use RicardoMartins\PagBank\Gateway\Config\ConfigCcVault;
 use RicardoMartins\PagBank\Gateway\Config\ConfigQrCode;
 
 class ConfigProvider implements ConfigProviderInterface
@@ -36,6 +37,10 @@ class ConfigProvider implements ConfigProviderInterface
                 ],
                 ConfigCc::METHOD_CODE => [
                     ConfigCc::CARD_BRAND_ICONS => $this->getIcons(),
+                    ConfigCc::CC_VAULT_CODE => ConfigCcVault::METHOD_CODE,
+                ],
+                ConfigCcVault::METHOD_CODE => [
+                    ConfigCc::CARD_BRAND_ICONS => $this->getIcons()
                 ],
                 ConfigBoleto::METHOD_CODE => [
                     ConfigBoleto::CONFIG_EXPIRATION => $this->configBoleto->getExpirationTime()
@@ -68,11 +73,10 @@ class ConfigProvider implements ConfigProviderInterface
                 $asset = $this->configCc->createAsset('RicardoMartins_PagBank::images/cc/' . strtolower($code) . '.svg');
                 $placeholder = $this->configCc->findSource($asset);
                 if ($placeholder) {
-                    list($width, $height) = getimagesize($asset->getSourceFile());
                     $this->icons[$code] = [
                         'url' => $asset->getUrl(),
-                        'width' => $width,
-                        'height' => $height,
+                        'width' => 40,
+                        'height' => 25,
                         'title' => __($label),
                     ];
                 }

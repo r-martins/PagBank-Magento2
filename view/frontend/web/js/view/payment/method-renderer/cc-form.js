@@ -3,6 +3,7 @@ define([
         'underscore',
         'pagBankSdk',
         'Magento_Payment/js/view/payment/cc-form',
+        'Magento_Vault/js/view/payment/vault-enabler',
         'Magento_Checkout/js/model/quote',
         'Magento_Payment/js/model/credit-card-validation/credit-card-data',
         'RicardoMartins_PagBank/js/model/payment-validation/pagbank-customer-data',
@@ -13,12 +14,15 @@ define([
         'RicardoMartins_PagBank/js/view/payment/form/customer-fields',
         'RicardoMartins_PagBank/js/lib/jquery/jquery.mask',
         'Magento_Checkout/js/model/full-screen-loader',
-        'mage/translate'
+        'mage/translate',
+        'uiRegistry',
+        'Magento_Ui/js/model/messageList'
     ], function (
         $,
         _,
         pagBankSdk,
         Component,
+        VaultEnabler,
         quote,
         creditCardData,
         pagbankCustomerData,
@@ -38,6 +42,7 @@ define([
                 code: 'ricardomartins_pagbank_cc',
                 template: 'RicardoMartins_PagBank/payment/cc-form',
                 creditCardNumberEncrypted: '',
+                creditCardBin: '',
                 creditCardExpiration: null,
                 creditCardInstallments: null,
                 creditCardInstallmentsOptions: null,
@@ -55,6 +60,7 @@ define([
                 this._super()
                     .observe([
                         'creditCardNumberEncrypted',
+                        'creditCardBin',
                         'creditCardExpiration',
                         'creditCardInstallments',
                         'creditCardInstallmentsOptions',
@@ -79,8 +85,12 @@ define([
 
                 this._super();
 
+                self.vaultEnabler = new VaultEnabler();
+                self.vaultEnabler.setPaymentCode(self.getVaultCode());
+
                 //default installments options
-                self.getInstallments('555566');
+                self.setCardBin('555566');
+                self.getInstallments();
 
                 //Process credit card number functions
                 this.creditCardNumber.subscribe(function (value) {
@@ -106,7 +116,8 @@ define([
                         value = value.replace(/ /g, "");
                         creditCardData.creditCardNumber = value;
                         self.creditCardType(result.card.type);
-                        self.getInstallments(value);
+                        self.setCardBin(value);
+                        self.getInstallments();
                     }
                 });
 
@@ -127,8 +138,8 @@ define([
                 });
 
                 quote.totals.subscribe(function (value) {
-                    if (self.creditCardNumber()) {
-                        self.getInstallments(self.creditCardNumber());
+                    if (self.creditCardBin() && self.isActive() === true) {
+                        self.getInstallments();
                     }
                 });
 
@@ -212,7 +223,7 @@ define([
              * @returns {Object}
              */
             getData: function () {
-                return {
+                let data = {
                     'method': this.getCode(),
                     'additional_data': {
                         'cc_number_encrypted': this.creditCardNumberEncrypted(),
@@ -224,7 +235,12 @@ define([
                         'cc_installments': this.creditCardInstallments(),
                         'tax_id': pagbankCustomerData.taxId
                     }
-                }
+                };
+
+                data['additional_data'] = _.extend(data['additional_data'], this.additionalData);
+                this.vaultEnabler.visitAdditionalData(data);
+
+                return data;
             },
 
             /**
@@ -250,7 +266,7 @@ define([
             getOptionsInstallments() {
                 let self = this;
 
-                if (!self.creditCardInstallmentsOptions()) {
+                if (_.isEmpty(self.creditCardInstallmentsOptions()) || _.isUndefined(self.creditCardInstallmentsOptions())) {
                     return {
                         'value': null,
                         'label': $t('Enter the credit card number...')
@@ -265,22 +281,29 @@ define([
                 });
             },
 
+            setCardBin: function (creditCardNumber) {
+              let self = this,
+                  creditCardBin;
+
+              creditCardNumber = creditCardNumber.replace(/ /g, "");
+              creditCardBin = creditCardNumber.slice(0,6);
+
+              self.creditCardBin(creditCardBin);
+            },
+
             /**
              * Get list of available instalments values
              * @returns {Object}
              */
-            getInstallments: function (creditCardNumber) {
+            getInstallments: function () {
                 let self = this,
                     deferred = $.Deferred(),
                     quoteId = quote.getQuoteId(),
-                    creditCardBin = null;
+                    creditCardBin = self.creditCardBin();
 
-                if (!creditCardNumber) {
+                if (!self.creditCardBin()) {
                     return null;
                 }
-
-                creditCardNumber = creditCardNumber.replace(/ /g, "");
-                creditCardBin = creditCardNumber.slice(0,6);
 
                 getInstallments(quoteId, creditCardBin).then(function (response) {
                     self.creditCardInstallmentsOptions(response);
@@ -291,9 +314,9 @@ define([
             setInterest(installment) {
                 let self = this,
                     quoteId = quote.getQuoteId(),
-                    creditCardBin = self.creditCardNumber().replace(/ /g, "").slice(0, 6);
+                    creditCardBin = self.creditCardBin();
 
-                if (!installment) {
+                if (!installment || !creditCardBin) {
                     return;
                 }
 
@@ -353,6 +376,22 @@ define([
              */
             requestTaxIdAtCheckout: function () {
                 return customerFields().requestTaxIdAtCheckout();
+            },
+
+            /**
+             * Get vault code
+             * @returns {Boolean}
+             */
+            getVaultCode() {
+                return window.checkoutConfig.payment[this.getCode()].ccVaultCode;
+            },
+
+            /**
+             * Is vault enabled
+             * @returns {Boolean}
+             */
+            isVaultEnabled: function () {
+                return this.vaultEnabler.isVaultEnabled();
             }
         });
     }

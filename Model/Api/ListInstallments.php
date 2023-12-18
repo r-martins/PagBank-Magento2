@@ -73,9 +73,13 @@ class ListInstallments implements ListInstallmentsInterface
         try {
             $transferObject = $this->getInterestsTransferFactory->create($installmentsData->getData());
             $response = $this->generalClient->placeRequest($transferObject);
+            if (!isset($response['payment_methods']['credit_card'])) {
+                return [];
+            }
+
             $installments = reset($response['payment_methods']['credit_card']);
             if (!isset($installments['installment_plans'])) {
-                return [__('Error on get installments')];
+                return [];
             }
         } catch (\Exception $e) {
             return [__('Error on get installments')];
