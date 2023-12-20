@@ -8,9 +8,14 @@ use Magento\Quote\Model\Quote;
 use Magento\Quote\Model\Quote\Address\Total;
 use Magento\Quote\Model\Quote\Address\Total\AbstractTotal;
 use RicardoMartins\PagBank\Gateway\Config\ConfigCc;
+use RicardoMartins\PagBank\Gateway\Config\ConfigCcVault;
 
 class Interest extends AbstractTotal
 {
+    public function __construct(
+       private array $interestMethods = []
+    ) {}
+
     /**
      * Get Subtotal label.
      *
@@ -58,7 +63,8 @@ class Interest extends AbstractTotal
         $interest = $quote->getRicardomartinsPagbankInterestAmount();
         $baseInterest = $quote->getBaseRicardomartinsPagbankInterestAmount();
 
-        if ($quote->getPayment()->getMethod() != ConfigCc::METHOD_CODE) {
+        $currentMethod = $quote->getPayment()->getMethod();
+        if (!in_array($currentMethod,$this->getInterestMethods())) {
             $this->clearValues($quote, $total);
             return $this;
         }
@@ -89,5 +95,13 @@ class Interest extends AbstractTotal
         $total->setBaseTotalAmount('ricardomartins_pagbank_base_interest_amount', $interest);
         $quote->setData('ricardomartins_pagbank_interest_amount', $interest);
         $quote->setData('ricardomartins_pagbank_interest_base_amount', $interest);
+    }
+
+    /**
+     * @return array
+     */
+    private function getInterestMethods()
+    {
+        return $this->interestMethods;
     }
 }

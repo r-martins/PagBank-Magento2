@@ -399,4 +399,14 @@
             <argument name="messageMapping" xsi:type="object">RicardoMartins\PagBank\Gateway\ErrorMapper\VirtualMappingData</argument>
         </arguments>
     </virtualType>
+
+    <!-- Methods with interest -->
+    <type name="RicardoMartins\PagBank\Model\Quote\Total\Interest">
+        <arguments>
+            <argument name="interestMethods" xsi:type="array">
+                <item name="code_cc" xsi:type="const">RicardoMartins\PagBank\Gateway\Config\ConfigCc::METHOD_CODE</item>
+                <item name="code_cc_vault" xsi:type="const">RicardoMartins\PagBank\Gateway\Config\ConfigCcVault::METHOD_CODE</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
