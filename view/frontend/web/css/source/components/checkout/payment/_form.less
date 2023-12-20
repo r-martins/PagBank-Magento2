@@ -32,20 +32,6 @@
                             }
                         }
                     }
-                    .label {
-                        position: absolute !important;
-                        z-index: 9;
-                        top: -0.9rem;
-                        left: 1rem;
-                        font-size: 1.2rem;
-                        background-color: white;
-                        padding: 0 1rem;
-                        pointer-events: none;
-                        overflow: hidden;
-                        white-space: nowrap;
-                        text-overflow: ellipsis;
-                        box-sizing: border-box;
-                    }
                     ._with-tooltip {
                         .field-tooltip {
                             right: 10px;
@@ -62,6 +48,24 @@
                                     display: inline-block;
                                 }
                             }
+                        }
+                    }
+                }
+                .field {
+                    &:not(.vault) {
+                        .label {
+                            position: absolute !important;
+                            z-index: 9;
+                            top: -0.9rem;
+                            left: 1rem;
+                            font-size: 1.2rem;
+                            background-color: white;
+                            padding: 0 1rem;
+                            pointer-events: none;
+                            overflow: hidden;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                            box-sizing: border-box;
                         }
                     }
                 }
