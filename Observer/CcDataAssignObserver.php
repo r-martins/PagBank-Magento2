@@ -15,6 +15,9 @@ class CcDataAssignObserver extends AbstractDataAssignObserver
     public const CC_EXP_YEAR = 'cc_exp_year';
     public const CC_INSTALLMENTS = 'cc_installments';
     public const CC_NUMBER_ENCRYPTED = 'cc_number_encrypted';
+
+    public const CC_VAULT_IS_ACTIVE_CODE = 'is_active_payment_token_enabler';
+
     public const CUSTOMER_TAX_ID = 'tax_id';
 
     private array $paymentFields = [
@@ -28,7 +31,8 @@ class CcDataAssignObserver extends AbstractDataAssignObserver
     private array $paymentAdditionalFields = [
         self::CC_INSTALLMENTS,
         self::CC_NUMBER_ENCRYPTED,
-        self::CUSTOMER_TAX_ID
+        self::CUSTOMER_TAX_ID,
+        self::CC_VAULT_IS_ACTIVE_CODE
     ];
 
     /**

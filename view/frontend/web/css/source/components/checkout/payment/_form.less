@@ -2,7 +2,7 @@
     .checkout-payment-method {
         .ricardomartins-pagbank-form {
             .payment-method-title {
-                .payment-icon {
+                .payment-icon:not(.vault-icon) {
                     height: 30px;
                     filter: contrast(0%);
                 }
@@ -32,19 +32,6 @@
                             }
                         }
                     }
-                    .label {
-                        position: absolute !important;
-                        top: -0.9rem;
-                        left: 1rem;
-                        font-size: 1.2rem;
-                        background-color: white;
-                        padding: 0 1rem;
-                        pointer-events: none;
-                        overflow: hidden;
-                        white-space: nowrap;
-                        text-overflow: ellipsis;
-                        box-sizing: border-box;
-                    }
                     ._with-tooltip {
                         .field-tooltip {
                             right: 10px;
@@ -54,8 +41,6 @@
                             align-items: center;
                         }
                         .credit-card-types {
-                            width: 40px;
-                            height: 26px;
                             .item {
                                 display: none;
                                 margin: 0;
@@ -63,6 +48,24 @@
                                     display: inline-block;
                                 }
                             }
+                        }
+                    }
+                }
+                .field {
+                    &:not(.vault) {
+                        .label {
+                            position: absolute !important;
+                            z-index: 9;
+                            top: -0.9rem;
+                            left: 1rem;
+                            font-size: 1.2rem;
+                            background-color: white;
+                            padding: 0 1rem;
+                            pointer-events: none;
+                            overflow: hidden;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                            box-sizing: border-box;
                         }
                     }
                 }

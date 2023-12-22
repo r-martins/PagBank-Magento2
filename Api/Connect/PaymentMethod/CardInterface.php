@@ -65,4 +65,11 @@ interface CardInterface
      * @see \RicardoMartins\PagBank\Api\Connect\HolderInterface
      */
     public const HOLDER = 'holder';
+
+    /**
+     * Card ID.
+     * Receives a string with the PagBank Card ID.
+     * Characters limit: 41 characters.
+     */
+    public const CARD_ID = 'id';
 }

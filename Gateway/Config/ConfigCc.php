@@ -25,10 +25,16 @@ class ConfigCc extends BaseConfig implements ConfigInterface
     public const CARD_BRAND_ICONS = 'icons';
 
     /**
+     * Credit card vault method code key
+     */
+    public const CC_VAULT_CODE = 'ccVaultCode';
+
+    /**
      * @param ScopeConfigInterface $scopeConfig
      * @param Repository $assetRepo
      * @param Source $assetSource
      * @param RequestInterface $request
+     * @param SerializerInterface $serializer
      * @param string $methodCode
      * @param string $pathPattern
      */

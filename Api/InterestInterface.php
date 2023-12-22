@@ -8,7 +8,7 @@ interface InterestInterface
      * @param int $cartId
      * @param int $installment
      * @param int $creditCardBin
-     * @return mixed
+     * @return bool
      */
     public function execute(int $cartId, int $installment, int $creditCardBin);
 }
