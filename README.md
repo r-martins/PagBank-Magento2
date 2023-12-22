@@ -11,9 +11,10 @@ Agora usando as Novas APIs do PagBank.
 # Recursos
 
 - Aceite pagamentos com Cartão de Crédito, PIX ou Boleto de forma transparente (sem sair da loja)
+- Permite salvar o cartão para compras futuras (Magento Vault)
+- PIX e Boleto com validade configurável
 - Atualização automática do status do pedido
 - Pagamento em 1x ou parcelado
-- PIX e Boleto com validade configurável
 - Identificador do nome da loja na fatura
 - Descontos nas taxa oficiais do PagBank (ou suas taxas)
 - Suporte a Sandbox
@@ -26,6 +27,7 @@ Agora usando as Novas APIs do PagBank.
   <summary>Veja alguns Screenshots (clique aqui para expandir)</summary>
   <img src="https://imgur.com/pSd0OZr.jpg" alt="Configurações gerais do módulo" title="Configurações gerais do módulo"/>
   <img src="https://imgur.com/Pifbsag.jpg" alt="PIX - Tela de Sucesso" title="PIX - Tela de Sucesso"/>
+  <img src="https://i.imgur.com/0tJYbxG.png" alt="Salvar Cartão ou usar um anterior" title="Salvar Cartão ou usar um anterior"/>
   <img src="https://imgur.com/u6GgNms.jpg" alt="Configurações de cartão de crédito" title="Configurações de cartão de crédito"/>
   <img alt="PIX - Configurações" src="https://imgur.com/afVmRTj.jpg" title="PIX - Configurações"/>
   <img alt="Boleto - Configurações" src="https://imgur.com/Hn8TgMd.jpg" title="Boleto - Configurações"/>
