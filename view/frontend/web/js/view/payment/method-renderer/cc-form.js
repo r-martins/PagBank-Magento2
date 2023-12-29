@@ -1,6 +1,7 @@
 define([
         'jquery',
         'underscore',
+        'ko',
         'pagBankSdk',
         'Magento_Payment/js/view/payment/cc-form',
         'Magento_Vault/js/view/payment/vault-enabler',
@@ -20,6 +21,7 @@ define([
     ], function (
         $,
         _,
+        ko,
         pagBankSdk,
         Component,
         VaultEnabler,
@@ -41,6 +43,8 @@ define([
             defaults: {
                 code: 'ricardomartins_pagbank_cc',
                 template: 'RicardoMartins_PagBank/payment/cc-form',
+                showAlternativeMessages: ko.observable(false),
+                errorMessage: ko.observable(''),
                 creditCardNumberEncrypted: '',
                 creditCardBin: '',
                 creditCardExpiration: null,
@@ -188,6 +192,10 @@ define([
 
                 if (!this.validate()) {
                     return false;
+                }
+
+                if (event) {
+                    event.preventDefault();
                 }
 
                 fullScreenLoader.startLoader();

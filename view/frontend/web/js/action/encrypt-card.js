@@ -1,10 +1,12 @@
 define([
         'jquery',
         'mage/translate',
+        'Magento_Ui/js/modal/alert',
         'pagBankSdk'
     ], function (
         $,
-        $t
+        $t,
+        alert
     ) {
         'use strict';
 
@@ -36,7 +38,9 @@ define([
             try {
                 card = PagSeguro.encryptCard(cardData);
             } catch (e) {
-                alert($t('Error encrypting the card.\nCheck if the data entered is correct.'));
+                alert({
+                    content: $t('Error encrypting the card.\nCheck if the data entered is correct.')
+                });
                 return false;
             }
 
@@ -68,7 +72,9 @@ define([
                     }
                 }
                 console.log(error);
-                alert($t('Error encrypting card.\n') + $t(error));
+                alert({
+                    content: $t('Error encrypting card.\n') + $t(error)
+                });
                 return false;
             }
 

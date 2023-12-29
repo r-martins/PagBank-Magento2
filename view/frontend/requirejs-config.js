@@ -11,5 +11,12 @@ var config = {
                 'jquery'
             ]
         }
+    },
+    config: {
+        mixins: {
+            'Magento_Checkout/js/action/place-order': {
+                'RicardoMartins_PagBank/js/model/place-order-mixin': true
+            }
+        }
     }
 };
