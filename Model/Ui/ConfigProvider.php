@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace RicardoMartins\PagBank\Model\Ui;
 
 use Magento\Checkout\Model\ConfigProviderInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use RicardoMartins\PagBank\Gateway\Config\Config;
 use RicardoMartins\PagBank\Gateway\Config\ConfigBoleto;
 use RicardoMartins\PagBank\Gateway\Config\ConfigCc;
@@ -21,7 +22,8 @@ class ConfigProvider implements ConfigProviderInterface
         private readonly Config $config,
         private readonly ConfigCc $configCc,
         private readonly ConfigBoleto $configBoleto,
-        private readonly ConfigQrCode $configQrCode
+        private readonly ConfigQrCode $configQrCode,
+        private readonly StoreManagerInterface $storeManager
     ) {}
 
     /**
@@ -29,10 +31,16 @@ class ConfigProvider implements ConfigProviderInterface
      */
     public function getConfig()
     {
+        $storeId = null;
+
+        try {
+            $storeId = $this->storeManager->getStore()->getId();
+        } catch (\Exception $e) {}
+
         return [
             'payment' => [
                 Config::METHOD_CODE => [
-                    Config::CONFIG_PUBLIC_KEY => $this->config->getPublicKey(),
+                    Config::CONFIG_PUBLIC_KEY => $this->config->getPublicKey($storeId),
                     Config::CONFIG_DOCUMENT_FROM => $this->config->getDocumentFrom(),
                 ],
                 ConfigCc::METHOD_CODE => [

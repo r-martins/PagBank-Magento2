@@ -42,9 +42,12 @@ class ConnectKey extends Value
             return parent::beforeSave();
         }
 
+        $scope = $this->getScope();
+        $scopeId = (int) $this->getScopeId();
+
         try {
             $publicKey = $this->publicKey->createPublicKey($connectKey);
-            $this->publicKey->savePublicKey($publicKey);
+            $this->publicKey->savePublicKey($publicKey, $scope, $scopeId);
         } catch (\Exception $e) {
             throw new LocalizedException(__('Public Key Error: %1', $e->getMessage()));
         }

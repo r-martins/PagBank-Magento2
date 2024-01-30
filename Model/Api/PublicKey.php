@@ -58,11 +58,13 @@ class PublicKey implements PublicKeyInterface
 
     /**
      * @param string $publicKey
+     * @param string $scope
+     * @param int $scopeId
      * @return void
      */
-    public function savePublicKey(string $publicKey): void
+    public function savePublicKey(string $publicKey, string $scope, int $scopeId): void
     {
-        $this->configWriter->save(PublicKeyInterface::PUBLIC_KEY_CONFIG_PATH, $publicKey);
+        $this->configWriter->save(PublicKeyInterface::PUBLIC_KEY_CONFIG_PATH, $publicKey, $scope, $scopeId);
     }
 
     /**
