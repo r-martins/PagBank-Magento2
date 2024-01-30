@@ -41,7 +41,7 @@ class ConfigProvider implements ConfigProviderInterface
             'payment' => [
                 Config::METHOD_CODE => [
                     Config::CONFIG_PUBLIC_KEY => $this->config->getPublicKey($storeId),
-                    Config::CONFIG_DOCUMENT_FROM => $this->config->getDocumentFrom(),
+                    Config::CONFIG_DOCUMENT_FROM => $this->config->getDocumentFrom($storeId),
                 ],
                 ConfigCc::METHOD_CODE => [
                     ConfigCc::CARD_BRAND_ICONS => $this->getIcons(),

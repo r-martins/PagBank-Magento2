@@ -128,11 +128,12 @@ class Config extends BaseConfig implements ConfigInterface
     }
 
     /**
-     * @return string
+     * @param null $storeId
+     * @return string|null
      */
-    public function getDocumentFrom(): string
+    public function getDocumentFrom($storeId = null): ?string
     {
-        return $this->getValue(self::CONFIG_DOCUMENT_FROM);
+        return $this->getValue(self::CONFIG_DOCUMENT_FROM, $storeId);
     }
 
     /**
