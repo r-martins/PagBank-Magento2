@@ -185,6 +185,7 @@ class Address extends DataObject implements AddressInterface
      */
     public function setPostalCode(string $postalCode): Address
     {
+        $postalCode = preg_replace('/[^0-9]/', '', $postalCode);
         $postalCode = substr($postalCode, 0, 8);
         return $this->setData(AddressInterface::POSTAL_CODE, $postalCode);
     }

@@ -41,6 +41,7 @@ class Customer extends DataObject implements CustomerInterface
      */
     public function setTaxId(string $taxId): CustomerInterface
     {
+        $taxId = preg_replace('/\D/', '', $taxId);
         return $this->setData(CustomerInterface::TAX_ID, $taxId);
     }
 

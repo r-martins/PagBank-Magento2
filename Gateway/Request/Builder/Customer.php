@@ -41,11 +41,8 @@ class Customer implements BuilderInterface
 
         /** @var Order $orderModel */
         $orderModel = $payment->getOrder();
-        $telephone = $orderModel->getBillingAddress()->getTelephone();
-        $telephone = preg_replace('/[^0-9]/','', $telephone);
 
         $documentFrom = $this->config->getDocumentFrom();
-
         $document = match ($documentFrom) {
             'taxvat' => $orderModel->getCustomerTaxvat(),
             'vat_id' => $orderModel->getBillingAddress()->getVatId(),
@@ -55,6 +52,10 @@ class Customer implements BuilderInterface
         if (!$document) {
             $document = $payment->getAdditionalInformation('tax_id');
         }
+
+        $telephone = $orderModel->getBillingAddress()->getTelephone();
+        $telephone = preg_replace('/[^0-9]/','', $telephone);
+        $document = preg_replace('/[^0-9]/','', $document);
 
         $phones = $this->phoneFactory->create();
         $phones->setCountry(PhoneInterface::DEFAULT_COUNTRY_CODE);

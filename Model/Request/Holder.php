@@ -41,6 +41,7 @@ class Holder extends DataObject implements HolderInterface
      */
     public function setTaxId(string $taxId): HolderInterface
     {
+        $taxId = preg_replace('/\D/', '', $taxId);
         return $this->setData(HolderInterface::TAX_ID, $taxId);
     }
 
