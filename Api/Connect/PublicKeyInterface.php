@@ -44,7 +44,9 @@ interface PublicKeyInterface
 
     /**
      * @param string $publicKey
+     * @param string $scope
+     * @param int $scopeId
      * @return void
      */
-    public function savePublicKey(string $publicKey): void;
+    public function savePublicKey(string $publicKey, string $scope, int $scopeId): void;
 }

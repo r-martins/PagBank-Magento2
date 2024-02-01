@@ -71,7 +71,10 @@ class ListInstallments implements ListInstallmentsInterface
         $response = [];
 
         try {
-            $transferObject = $this->getInterestsTransferFactory->create($installmentsData->getData());
+            $transferObject = $this->getInterestsTransferFactory->create([
+                'body' => $installmentsData->getData(),
+                'store_id' => $storeId
+            ]);
             $response = $this->generalClient->placeRequest($transferObject);
             if (!isset($response['payment_methods']['credit_card'])) {
                 return [];

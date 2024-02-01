@@ -67,7 +67,7 @@ class Boleto implements BuilderInterface
         $address->setPostalCode($billingAddress->getPostcode());
         $address->setCountry();
 
-        $documentFrom = $this->generalConfig->getDocumentFrom();
+        $documentFrom = $this->generalConfig->getDocumentFrom($orderModel->getStoreId());
         $document = match ($documentFrom) {
             'taxvat' => $orderModel->getCustomerTaxvat(),
             'vat_id' => $orderModel->getBillingAddress()->getVatId(),

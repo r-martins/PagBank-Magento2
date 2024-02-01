@@ -1,19 +1,19 @@
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
-    <group id="general_settings" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+    <group id="general_settings" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
         <label>Settings</label>
         <comment><![CDATA[Para utilizar o PagBank Connect, você precisa autorizar nossa aplicação e obter suas credenciais connect.<br />
             <a href="https://pagseguro.ricardomartins.net.br/connect/autorizar.html?utm_source=magentoadmin" target="_blank" class="button action-link secondary">Obter Connect Key</a>
             <a href="https://pagseguro.ricardomartins.net.br/connect/sandbox.html?utm_source=magentoadmin" target="_blank" class="button action-link secondary">Obter Connect Key para Testes</a>
             <a href="https://pagsegurotransparente.zendesk.com/hc/pt-br/?utm_source=magentoadmin" target="_blank" class="button action-link secondary">Obter ajuda</a>
             ]]></comment>
-        <field id="connect_key" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+        <field id="connect_key" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Connect Key</label>
             <validate>required-entry no-whitespace</validate>
             <config_path>payment/ricardomartins_pagbank/connect_key</config_path>
             <comment model="RicardoMartins\PagBank\Block\Adminhtml\System\ConnectKeyComment" />
             <backend_model>RicardoMartins\PagBank\Model\Config\Backend\ConnectKey</backend_model>
         </field>
-        <field id="document_from" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+        <field id="document_from" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
             <label>Get Document From</label>
             <source_model>RicardoMartins\PagBank\Model\Config\Source\DocumentFromOptions</source_model>
             <config_path>payment/ricardomartins_pagbank/document_from</config_path>

@@ -62,11 +62,12 @@ class Config extends BaseConfig implements ConfigInterface
     }
 
     /**
+     * @param null $storeId
      * @return string
      */
-    public function getOrdersEndpoint(): string
+    public function getOrdersEndpoint($storeId = null): string
     {
-        if ($this->isSandbox()) {
+        if ($this->isSandbox($storeId)) {
             return ConnectInterface::WS_ENDPOINT_ORDERS . '?' . ConnectInterface::SANDBOX_PARAM;
         }
 
@@ -74,11 +75,12 @@ class Config extends BaseConfig implements ConfigInterface
     }
 
     /**
+     * @param null $storeId
      * @return string
      */
-    public function getInterestEndpoint(): string
+    public function getInterestEndpoint($storeId = null): string
     {
-        if ($this->isSandbox()) {
+        if ($this->isSandbox($storeId)) {
             return ConnectInterface::WS_ENDPOINT_INTEREST . '?' . ConnectInterface::SANDBOX_PARAM;
         }
 
@@ -86,12 +88,13 @@ class Config extends BaseConfig implements ConfigInterface
     }
 
     /**
+     * @param null $storeId
      * @return string
      */
-    public function getPaymentInfoEndpoint(): string
+    public function getPaymentInfoEndpoint($storeId = null): string
     {
         $endpoint = ConnectInterface::WS_ENDPOINT_PAYMENT_INFO . '/%s/';
-        if ($this->isSandbox()) {
+        if ($this->isSandbox($storeId)) {
             return $endpoint . '?' . ConnectInterface::SANDBOX_PARAM;
         }
 
@@ -107,27 +110,30 @@ class Config extends BaseConfig implements ConfigInterface
     }
 
     /**
+     * @param null $storeId
      * @return string
      */
-    public function getConnectKey(): string
+    public function getConnectKey($storeId = null): string
     {
-        return $this->getValue(self::CONFIG_CONNECT_KEY);
+        return $this->getValue(self::CONFIG_CONNECT_KEY, $storeId);
     }
 
     /**
+     * @param null $storeId
      * @return string|null
      */
-    public function getPublicKey(): ?string
+    public function getPublicKey($storeId = null): ?string
     {
-        return $this->getValue(self::CONFIG_PUBLIC_KEY);
+        return $this->getValue(self::CONFIG_PUBLIC_KEY, $storeId);
     }
 
     /**
-     * @return string
+     * @param null $storeId
+     * @return string|null
      */
-    public function getDocumentFrom(): string
+    public function getDocumentFrom($storeId = null): ?string
     {
-        return $this->getValue(self::CONFIG_DOCUMENT_FROM);
+        return $this->getValue(self::CONFIG_DOCUMENT_FROM, $storeId);
     }
 
     /**
@@ -139,11 +145,12 @@ class Config extends BaseConfig implements ConfigInterface
     }
 
     /**
+     * @param null $storeId
      * @return bool
      */
-    public function isSandbox(): bool
+    public function isSandbox($storeId = null): bool
     {
-        $connectKey = $this->getConnectKey();
+        $connectKey = $this->getConnectKey($storeId);
         if (str_contains($connectKey, ConnectInterface::SANDBOX_PREFIX)) {
             return true;
         }
@@ -153,10 +160,10 @@ class Config extends BaseConfig implements ConfigInterface
     /**
      * @return string[]
      */
-    public function getHeaders(): array
+    public function getHeaders($storeId = null): array
     {
         return [
-            'Authorization' => 'Bearer ' . $this->getConnectKey(),
+            'Authorization' => 'Bearer ' . $this->getConnectKey($storeId),
             'accept' => 'application/json',
             'Content-Type' => 'application/json',
             'Api-Version' => '4.0',

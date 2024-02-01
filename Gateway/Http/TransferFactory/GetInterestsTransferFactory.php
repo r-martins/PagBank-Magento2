@@ -27,11 +27,13 @@ class GetInterestsTransferFactory implements TransferFactoryInterface
      */
     public function create(array $request)
     {
+        $storeId = $request['store_id'] ?? null;
+
         return $this->transferBuilder
             ->setMethod(Request::METHOD_GET)
-            ->setHeaders($this->config->getHeaders())
-            ->setUri($this->config->getInterestEndpoint())
-            ->setBody($request)
+            ->setHeaders($this->config->getHeaders($storeId))
+            ->setUri($this->config->getInterestEndpoint($storeId))
+            ->setBody($request['body'])
             ->build();
     }
 }

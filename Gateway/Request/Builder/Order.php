@@ -24,6 +24,11 @@ class Order implements BuilderInterface
     public const NOTIFICATION_URLS = 'notification_urls';
 
     /**
+     * The Magento store id.
+     */
+    public const STORE_ID = 'store_id';
+
+    /**
      * @param StoreManagerInterface $storeManager
      * @param Config $config
      */
@@ -43,7 +48,8 @@ class Order implements BuilderInterface
 
         return [
             self::REFERENCE_ID => $order->getOrderIncrementId(),
-            self::NOTIFICATION_URLS => $this->getNotificationUrls($order)
+            self::NOTIFICATION_URLS => $this->getNotificationUrls($order),
+            self::STORE_ID => $order->getStoreId()
         ];
     }
 

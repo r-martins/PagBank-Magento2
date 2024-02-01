@@ -41,8 +41,11 @@ class Customer implements BuilderInterface
 
         /** @var Order $orderModel */
         $orderModel = $payment->getOrder();
+        $telephone = $orderModel->getBillingAddress()->getTelephone();
+        $telephone = preg_replace('/[^0-9]/','', $telephone);
 
-        $documentFrom = $this->config->getDocumentFrom();
+        $documentFrom = $this->config->getDocumentFrom($orderModel->getStoreId());
+
         $document = match ($documentFrom) {
             'taxvat' => $orderModel->getCustomerTaxvat(),
             'vat_id' => $orderModel->getBillingAddress()->getVatId(),
