@@ -8,6 +8,7 @@ use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Quote\Api\CartTotalRepositoryInterface;
 use RicardoMartins\PagBank\Api\Connect\InstallmentsInterface;
 use RicardoMartins\PagBank\Api\ListInstallmentsInterface;
+use RicardoMartins\PagBank\Gateway\Config\Config;
 use RicardoMartins\PagBank\Gateway\Config\ConfigCc;
 use RicardoMartins\PagBank\Gateway\Http\Client\GeneralClient;
 use RicardoMartins\PagBank\Gateway\Http\TransferFactory\GetInterestsTransferFactory;
@@ -16,18 +17,19 @@ use RicardoMartins\PagBank\Model\Request\InstallmentsFactory;
 class ListInstallments implements ListInstallmentsInterface
 {
     /**
-     * @param CartRepositoryInterface $cartRepository
+     * @param CartRepositoryInterface      $cartRepository
      * @param CartTotalRepositoryInterface $cartTotalRepository
-     * @param ConfigCc $config
-     * @param InstallmentsFactory $installmentsFactory
-     * @param GetInterestsTransferFactory $getInterestsTransferFactory
-     * @param GeneralClient $generalClient
-     * @param Session $checkoutSession
+     * @param ConfigCc                     $configCc
+     * @param InstallmentsFactory          $installmentsFactory
+     * @param GetInterestsTransferFactory  $getInterestsTransferFactory
+     * @param GeneralClient                $generalClient
+     * @param Session                      $checkoutSession
      */
     public function __construct(
         private readonly CartRepositoryInterface $cartRepository,
         private readonly CartTotalRepositoryInterface $cartTotalRepository,
-        private readonly ConfigCc $config,
+        private readonly Config $config,
+        private readonly ConfigCc $configCc,
         private readonly InstallmentsFactory $installmentsFactory,
         private readonly GetInterestsTransferFactory $getInterestsTransferFactory,
         private readonly GeneralClient $generalClient,
@@ -58,12 +60,16 @@ class ListInstallments implements ListInstallmentsInterface
         $installmentsData->setValue((float) $grandTotalAmount);
         $installmentsData->setCreditCardBin($creditCardBin);
 
-        if ($this->config->isEnabledInstallmentsLimit($storeId)) {
-            $maxIntallments = $this->config->getInstallmentsLimit($storeId);
+        if ($this->config->isSandbox($storeId)) {
+            $installmentsData->setCreditCardBin(555566); // Test bin (as most bins are not recognized in Sandbox)
+        }
+
+        if ($this->configCc->isEnabledInstallmentsLimit($storeId)) {
+            $maxIntallments = $this->configCc->getInstallmentsLimit($storeId);
             $installmentsData->setMaxInstallments($maxIntallments);
         }
 
-        $maxIntallmentsNoInterest = $this->config->getMaxInstallmentsNoInterest($grandTotalAmount, $storeId);
+        $maxIntallmentsNoInterest = $this->configCc->getMaxInstallmentsNoInterest($grandTotalAmount, $storeId);
         if (!is_null($maxIntallmentsNoInterest)) {
             $installmentsData->setMaxInstallmentsNoInterest($maxIntallmentsNoInterest);
         }
