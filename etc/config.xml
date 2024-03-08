@@ -16,6 +16,8 @@
                 <order_status>pending</order_status>
                 <can_use_internal>0</can_use_internal>
                 <can_use_checkout>1</can_use_checkout>
+                <allowspecific>1</allowspecific>
+                <specificcountry>BR</specificcountry>
             </ricardomartins_pagbank>
             <ricardomartins_pagbank_cc>
                 <active>0</active>
@@ -44,6 +46,8 @@
                 <cctypes>AE,AU,DI,DN,ELO,HC,MC,MI,VI,unknown</cctypes>
                 <paymentInfoKeys>is_sandbox,payment_id,charge_id,brand,cc_owner,cc_last_4,installments,charge_link,authorization_code,nsu</paymentInfoKeys>
                 <privateInfoKeys>is_sandbox,payment_id,charge_id,charge_link,status,authorization_code,nsu</privateInfoKeys>
+                <allowspecific>1</allowspecific>
+                <specificcountry>BR</specificcountry>
             </ricardomartins_pagbank_cc>
             <ricardomartins_pagbank_cc_vault>
                 <active>1</active>
@@ -103,6 +107,8 @@
                 <qr_code_expiration>+1 day</qr_code_expiration>
                 <paymentInfoKeys>is_sandbox,payment_id,expiration_date,payment_link_qrcode,payment_text_pix</paymentInfoKeys>
                 <privateInfoKeys>is_sandbox,payment_id</privateInfoKeys>
+                <allowspecific>1</allowspecific>
+                <specificcountry>BR</specificcountry>
             </ricardomartins_pagbank_pix>
         </payment>
     </default>

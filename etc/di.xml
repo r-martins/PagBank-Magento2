@@ -36,15 +36,16 @@
             <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form\Cc</argument>
             <argument name="infoBlockType" xsi:type="string">RicardoMartinsPagBankCcConfigurableInfo</argument>
             <argument name="valueHandlerPool" xsi:type="object">RicardoMartinsPagBankValueHandlerPool</argument>
+            <argument name="validatorPool" xsi:type="object">RicardoMartinsPagBankCcValidatorPool</argument>
             <argument name="commandPool" xsi:type="object">RicardoMartinsPagBankCcCommandPool</argument>
         </arguments>
     </virtualType>
     <virtualType name="RicardoMartinsPagBankCcVaultFacade" type="Magento\Vault\Model\Method\Vault">
         <arguments>
+            <argument name="code" xsi:type="const">RicardoMartins\PagBank\Gateway\Config\ConfigCcVault::METHOD_CODE</argument>
             <argument name="config" xsi:type="object">RicardoMartins\PagBank\Gateway\Config\ConfigCcVault</argument>
             <argument name="valueHandlerPool" xsi:type="object">RicardoMartinsPagBankVaultValueHandlerPool</argument>
             <argument name="vaultProvider" xsi:type="object">RicardoMartinsPagBankCcFacade</argument>
-            <argument name="code" xsi:type="const">RicardoMartins\PagBank\Gateway\Config\ConfigCcVault::METHOD_CODE</argument>
         </arguments>
     </virtualType>
     <virtualType name="RicardoMartinsPagBankBoletoFacade" type="Magento\Payment\Model\Method\Adapter">
@@ -54,6 +55,7 @@
             <argument name="infoBlockType" xsi:type="string">RicardoMartinsPagBankBoletoConfigurableInfo</argument>
             <argument name="valueHandlerPool" xsi:type="object">RicardoMartinsPagBankBoletoValueHandlerPool</argument>
             <argument name="commandPool" xsi:type="object">RicardoMartinsPagBankBoletoCommandPool</argument>
+            <argument name="validatorPool" xsi:type="object">RicardoMartinsPagBankBoletoValidatorPool</argument>
         </arguments>
     </virtualType>
     <virtualType name="RicardoMartinsPagBankQrCodeFacade" type="Magento\Payment\Model\Method\Adapter">
@@ -63,6 +65,7 @@
             <argument name="infoBlockType" xsi:type="string">RicardoMartinsPagBankQrCodeConfigurableInfo</argument>
             <argument name="valueHandlerPool" xsi:type="object">RicardoMartinsPagBankQrCodeValueHandlerPool</argument>
             <argument name="commandPool" xsi:type="object">RicardoMartinsPagBankQrCodeCommandPool</argument>
+            <argument name="validatorPool" xsi:type="object">RicardoMartinsPagBankQrCodeValidatorPool</argument>
         </arguments>
     </virtualType>
 
@@ -119,6 +122,48 @@
     <virtualType name="RicardoMartinsPagBankQrCodeConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
             <argument name="configInterface" xsi:type="object">RicardoMartins\PagBank\Gateway\Config\ConfigQrCode</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Validator Pool: Cc -->
+    <virtualType name="RicardoMartinsPagBankCcValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">RicardoMartinsPagBankCcCountryValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartinsPagBankCcCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">RicardoMartins\PagBank\Gateway\Config\ConfigCc</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Validator Pool: Boleto -->
+    <virtualType name="RicardoMartinsPagBankBoletoValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">RicardoMartinsPagBankBoletoCountryValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartinsPagBankBoletoCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">RicardoMartins\PagBank\Gateway\Config\ConfigBoleto</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Validator Pool: QrCode -->
+    <virtualType name="RicardoMartinsPagBankQrCodeValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="string">RicardoMartinsPagBankQrCodeCountryValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartinsPagBankQrCodeCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
+        <arguments>
+            <argument name="config" xsi:type="object">RicardoMartins\PagBank\Gateway\Config\ConfigQrCode</argument>
         </arguments>
     </virtualType>
 
