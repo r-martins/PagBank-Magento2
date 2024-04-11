@@ -64,14 +64,14 @@
                 <group>ricardomartins_pagbank_group</group>
                 <sort_order>2</sort_order>
                 <expiration_time>7</expiration_time>
-                <payment_action>order</payment_action>
-                <order_status>pending</order_status>
+                <payment_action>authorize</payment_action>
+                <order_status>pending_payment</order_status>
                 <is_gateway>1</is_gateway>
                 <can_use_checkout>1</can_use_checkout>
                 <can_use_internal>1</can_use_internal>
                 <can_initialize>1</can_initialize>
+                <can_authorize>1</can_authorize>
                 <can_capture>0</can_capture>
-                <can_authorize>0</can_authorize>
                 <can_refund>1</can_refund>
                 <can_void>0</can_void>
                 <can_cancel>0</can_cancel>
@@ -94,14 +94,14 @@
                 <group>ricardomartins_pagbank_group</group>
                 <sort_order>2</sort_order>
                 <expiration_time>1440</expiration_time>
-                <payment_action>order</payment_action>
-                <order_status>pending</order_status>
+                <payment_action>authorize</payment_action>
+                <order_status>pending_payment</order_status>
                 <is_gateway>1</is_gateway>
                 <can_use_internal>1</can_use_internal>
                 <can_use_checkout>1</can_use_checkout>
                 <can_initialize>1</can_initialize>
+                <can_authorize>1</can_authorize>
                 <can_capture>0</can_capture>
-                <can_authorize>0</can_authorize>
                 <can_fetch_transaction_info>1</can_fetch_transaction_info>
                 <can_fetch_transaction_information>1</can_fetch_transaction_information>
                 <qr_code_expiration>+1 day</qr_code_expiration>

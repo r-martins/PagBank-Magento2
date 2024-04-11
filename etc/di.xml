@@ -334,6 +334,7 @@
             <argument name="handlers" xsi:type="array">
                 <item name="payment_details" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\PaymentDetailsHandler</item>
                 <item name="transaction_details" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\TransactionAdditionalInfoHandler</item>
+                <item name="order_status" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\OrderStatusHandler</item>
             </argument>
         </arguments>
     </virtualType>
@@ -342,6 +343,7 @@
             <argument name="handlers" xsi:type="array">
                 <item name="payment_details" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\QrCodeDetailsHandler</item>
                 <item name="transaction_details" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\TransactionAdditionalInfoHandler</item>
+                <item name="order_status" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\OrderStatusHandler</item>
             </argument>
         </arguments>
     </virtualType>
