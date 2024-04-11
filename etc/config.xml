@@ -93,7 +93,7 @@
                 <title>PagBank Pix</title>
                 <group>ricardomartins_pagbank_group</group>
                 <sort_order>2</sort_order>
-                <expiration_time>1440</expiration_time>
+                <expiration_time>480</expiration_time>
                 <payment_action>authorize</payment_action>
                 <order_status>pending_payment</order_status>
                 <is_gateway>1</is_gateway>

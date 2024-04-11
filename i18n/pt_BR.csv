@@ -101,3 +101,4 @@
 "NSU","NSU"
 "Enable Vault (Stored Credit Card)","Habilitar Vault (Cartão de Crédito Armazenado)"
 "Save card for later use.","Salvar cartão para uso posterior."
+"Pix expiration time must be less than or equal to the pending payment lifetime. The saved value is %1 minutes and can be changed in: Sales -> Sales -> Orders Cron Settings -> Pending Payment Order Lifetime.","O tempo de validade do Pix deve ser menor ou igual ao tempo de vida do pagamento pendente. O valor salvo é de %1 minutos e pode ser alterado em: Vendas -> Vendas -> Configurações de Cron de Pedidos -> Tempo de Vida do Pedido de Pagamento Pendente."
