@@ -22,6 +22,7 @@
 
     <preference for="RicardoMartins\PagBank\Api\Gateway\Data\AddressAdapterInterface" type="RicardoMartins\PagBank\Gateway\Data\Order\AddressAdapter"/>
     <preference for="Magento\Payment\Gateway\Data\Order\OrderAdapter" type="RicardoMartins\PagBank\Gateway\Data\Order\OrderAdapter"/>
+    <preference for="Magento\Sales\Model\CronJob\CleanExpiredOrders" type="RicardoMartins\PagBank\Model\CronJob\CleanExpiredOrders"/>
 
     <!-- Plugins -->
     <!-- Magento 2.4.6 fix shipping redirect -->
