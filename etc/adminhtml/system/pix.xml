@@ -14,10 +14,15 @@
             <label>Sort Order</label>
             <config_path>payment/ricardomartins_pagbank_pix/sort_order</config_path>
         </field>
-        <field id="expiration_time" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+        <field id="expiration_time" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
             <label>PIX Expiration Time (minutes)</label>
+            <comment><![CDATA[Tempo em minutos para expirar o pagamento PIX. <br>
+O tempo de validade do Pix deve ser menor ou igual ao tempo de vida do pagamento pendente. <br>
+Este valor pode ser alterado em: Vendas -> Vendas -> Configurações de Cron de Pedidos -> Tempo de Vida do Pedido de Pagamento Pendente.]]>
+            </comment>
             <validate>validate-digits no-whitespace</validate>
             <config_path>payment/ricardomartins_pagbank_pix/expiration_time</config_path>
+            <backend_model>RicardoMartins\PagBank\Model\Config\Backend\PixExpiration</backend_model>
         </field>
     </group>
 </include>
