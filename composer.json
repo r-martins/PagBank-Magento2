@@ -1,6 +1,6 @@
 {
     "name": "ricardomartins/pagbank-magento2",
-    "description": "Magento 2 Transparent Payment Module / PagBank Transparente para Magento 2",
+    "description": "PagBank/Pagseguro para Magento 2 Nova Geração com desconto nas taxas oficiais.",
     "type": "magento2-module",
     "license": "GPL-3.0-or-later",
     "version": "4.2.6",
