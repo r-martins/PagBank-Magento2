@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace RicardoMartins\PagBank\Model\Request;
 
 use Magento\Framework\DataObject;
+use RicardoMartins\PagBank\Api\Connect\PaymentMethod\AuthenticationMethodInterface;
 use RicardoMartins\PagBank\Api\Connect\PaymentMethod\BoletoInterface;
 use RicardoMartins\PagBank\Api\Connect\PaymentMethod\CardInterface;
 use RicardoMartins\PagBank\Api\Connect\PaymentMethodInterface;
@@ -111,5 +112,22 @@ class PaymentMethod extends DataObject implements PaymentMethodInterface
     public function setBoleto(array $boleto): PaymentMethodInterface
     {
         return $this->setData(PaymentMethodInterface::TYPE_BOLETO_OBJECT, $boleto);
+    }
+
+    /**
+     * @return AuthenticationMethodInterface[]
+     */
+    public function getAuthenticationMethod(): array
+    {
+        return $this->getData(PaymentMethodInterface::AUTHENTICATION_METHOD);
+    }
+
+    /**
+     * @param AuthenticationMethodInterface[] $authenticationMethod
+     * @return PaymentMethodInterface
+     */
+    public function setAuthenticationMethod(array $authenticationMethod): PaymentMethodInterface
+    {
+        return $this->setData(PaymentMethodInterface::AUTHENTICATION_METHOD, $authenticationMethod);
     }
 }

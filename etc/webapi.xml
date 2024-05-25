@@ -28,4 +28,18 @@
             <resource ref="anonymous" />
         </resources>
     </route>
+
+    <!-- Get 3D Secure Session -->
+    <route url="/V1/carts/pagbank/threed-secure-session" method="GET">
+        <service class="RicardoMartins\PagBank\Api\Connect\ThreeDSecureSessionInterface" method="createThreeDSecureSession"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+    </route>
+    <route url="/V1/guest-carts/pagbank/threed-secure-session" method="GET">
+        <service class="RicardoMartins\PagBank\Api\Connect\ThreeDSecureSessionInterface" method="createThreeDSecureSession"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
 </routes>

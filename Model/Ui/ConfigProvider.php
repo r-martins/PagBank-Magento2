@@ -5,6 +5,7 @@ namespace RicardoMartins\PagBank\Model\Ui;
 
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use RicardoMartins\PagBank\Api\Connect\ThreeDSecureSessionInterface;
 use RicardoMartins\PagBank\Gateway\Config\Config;
 use RicardoMartins\PagBank\Gateway\Config\ConfigBoleto;
 use RicardoMartins\PagBank\Gateway\Config\ConfigCc;
@@ -34,7 +35,7 @@ class ConfigProvider implements ConfigProviderInterface
         $storeId = null;
 
         try {
-            $storeId = $this->storeManager->getStore()->getId();
+            $storeId = (int)$this->storeManager->getStore()->getId();
         } catch (\Exception $e) {}
 
         return [
@@ -46,6 +47,9 @@ class ConfigProvider implements ConfigProviderInterface
                 ConfigCc::METHOD_CODE => [
                     ConfigCc::CARD_BRAND_ICONS => $this->getIcons(),
                     ConfigCc::CC_VAULT_CODE => ConfigCcVault::METHOD_CODE,
+                    ConfigCc::CC_THREED_SECURE => $this->configCc->isThreeDSecureActive($storeId),
+                    ConfigCc::CC_THREED_SECURE_ALLOW_CONTINUE => $this->configCc->isThreeDSecureAllowContinue($storeId),
+                    ThreeDSecureSessionInterface::CONNECT_ENVIRONMENT => $this->config->isSandbox($storeId) ? 'SANDBOX' : 'PROD'
                 ],
                 ConfigCcVault::METHOD_CODE => [
                     ConfigCc::CARD_BRAND_ICONS => $this->getIcons()

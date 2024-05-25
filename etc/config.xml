@@ -42,10 +42,12 @@
                 <can_fetch_transaction_information>1</can_fetch_transaction_information>
                 <can_authorize_vault>1</can_authorize_vault>
                 <can_capture_vault>1</can_capture_vault>
+                <cc_3ds>0</cc_3ds>
+                <cc_3ds_allow_continue>0</cc_3ds_allow_continue>
                 <cctypes_pagbank_mapper><![CDATA[{"AE":"AMEX","AU":"AURA","DI":"DISCOVER","DN":"DINERS","ELO":"ELO","HC":"HIPERCARD","MC":"MASTERCARD","VI":"VISA"}]]></cctypes_pagbank_mapper>
                 <cctypes>AE,AU,DI,DN,ELO,HC,MC,MI,VI,unknown</cctypes>
-                <paymentInfoKeys>is_sandbox,payment_id,charge_id,brand,cc_owner,cc_last_4,installments,charge_link,authorization_code,nsu</paymentInfoKeys>
-                <privateInfoKeys>is_sandbox,payment_id,charge_id,charge_link,status,authorization_code,nsu</privateInfoKeys>
+                <paymentInfoKeys>is_sandbox,payment_id,charge_id,brand,cc_owner,cc_last_4,installments,charge_link,authorization_code,nsu,threed_secure_id</paymentInfoKeys>
+                <privateInfoKeys>is_sandbox,payment_id,charge_id,charge_link,status,authorization_code,nsu,threed_secure_id</privateInfoKeys>
                 <allowspecific>1</allowspecific>
                 <specificcountry>BR</specificcountry>
             </ricardomartins_pagbank_cc>

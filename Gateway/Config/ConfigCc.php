@@ -30,6 +30,16 @@ class ConfigCc extends BaseConfig implements ConfigInterface
     public const CC_VAULT_CODE = 'ccVaultCode';
 
     /**
+     * Credit card 3D Secure key
+     */
+    public const CC_THREED_SECURE = 'ccThreeDSecure';
+
+    /**
+     * Credit card 3D Secure allow to continue key
+     */
+    public const CC_THREED_SECURE_ALLOW_CONTINUE = 'ccThreeDSecureAllowContinue';
+
+    /**
      * @param ScopeConfigInterface $scopeConfig
      * @param Repository $assetRepo
      * @param Source $assetSource
@@ -57,6 +67,24 @@ class ConfigCc extends BaseConfig implements ConfigInterface
     public function getSoftDescriptor($storeId = null): string
     {
         return (string) $this->getValue('soft_descriptor', $storeId);
+    }
+
+    /**
+     * @param null $storeId
+     * @return bool
+     */
+    public function isThreeDSecureActive($storeId = null): bool
+    {
+        return (bool) $this->getValue('cc_3ds', $storeId);
+    }
+
+    /**
+     * @param null $storeId
+     * @return bool
+     */
+    public function isThreeDSecureAllowContinue($storeId = null): bool
+    {
+        return (bool) $this->getValue('cc_3ds_allow_continue', $storeId);
     }
 
     /**

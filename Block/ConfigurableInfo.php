@@ -13,6 +13,7 @@ class ConfigurableInfo extends \Magento\Payment\Block\ConfigurableInfo
     private const FIELD_LABELS = [
         'payment_id' => 'Payment ID',
         'charge_id' => 'Charge ID',
+        'threed_secure_id' => '3DS ID',
         'charge_link' => 'Charge link',
         'status' => 'Status',
         'installments' => 'Installments',

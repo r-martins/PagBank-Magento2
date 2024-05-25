@@ -12,6 +12,8 @@ define([
         'RicardoMartins_PagBank/js/action/get-installments',
         'RicardoMartins_PagBank/js/action/set-interest',
         'RicardoMartins_PagBank/js/action/encrypt-card',
+        'RicardoMartins_PagBank/js/action/threed-secure-action',
+        'RicardoMartins_PagBank/js/action/threed-secure-session',
         'RicardoMartins_PagBank/js/view/payment/form/customer-fields',
         'RicardoMartins_PagBank/js/lib/jquery/jquery.mask',
         'Magento_Checkout/js/model/full-screen-loader',
@@ -32,6 +34,8 @@ define([
         getInstallments,
         setInterest,
         encryptCard,
+        threeDSecureAction,
+        threedSecureSession,
         customerFields,
         _mask,
         fullScreenLoader,
@@ -45,13 +49,17 @@ define([
                 template: 'RicardoMartins_PagBank/payment/cc-form',
                 showAlternativeMessages: ko.observable(false),
                 errorMessage: ko.observable(''),
+                creditCardThreeDSecureId: '',
+                creditCardThreeDSecureSession: '',
                 creditCardNumberEncrypted: '',
                 creditCardBin: '',
                 creditCardExpiration: null,
                 creditCardInstallments: null,
                 creditCardInstallmentsOptions: null,
                 creditCardOwner: '',
-                taxId: null
+                taxId: null,
+                allowContinueWithout3DS: false,
+                connectEnvironment: null,
             },
 
             validate: function () {
@@ -63,6 +71,8 @@ define([
             initObservable: function () {
                 this._super()
                     .observe([
+                        'creditCardThreeDSecureId',
+                        'creditCardThreeDSecureSession',
                         'creditCardNumberEncrypted',
                         'creditCardBin',
                         'creditCardExpiration',
@@ -95,6 +105,10 @@ define([
                 //default installments options
                 self.setCardBin('555566');
                 self.getInstallments();
+
+                //3D Secure Config
+                self.allowContinueWithout3DS = window.checkoutConfig.payment[self.getCode()].ccThreeDSecureAllowContinue;
+                self.connectEnvironment = window.checkoutConfig.payment[self.getCode()].environment;
 
                 //Process credit card number functions
                 this.creditCardNumber.subscribe(function (value) {
@@ -187,8 +201,10 @@ define([
                 });
             },
 
-            placeOrder: function (data, event) {
-                let result;
+            beforePlaceOrder(data, event) {
+                let self = this,
+                    resultSecure,
+                    resultToken;
 
                 if (!this.validate()) {
                     return false;
@@ -199,11 +215,16 @@ define([
                 }
 
                 fullScreenLoader.startLoader();
-                result = this.tokenizeCard();
-                fullScreenLoader.stopLoader();
 
-                if(result) {
-                    this._super(data, event);
+                resultToken = this.tokenizeCard();
+
+                if (resultToken) {
+                    this.secureAction()
+                        .then(function (response) {
+                            if (response) {
+                                self.placeOrder('parent');
+                            }
+                        });
                 }
             },
 
@@ -241,7 +262,8 @@ define([
                         'cc_exp_month': this.creditCardExpMonth(),
                         'cc_exp_year': this.creditCardExpYear(),
                         'cc_installments': this.creditCardInstallments(),
-                        'tax_id': pagbankCustomerData.taxId
+                        'tax_id': pagbankCustomerData.taxId,
+                        'threed_secure_id': this.creditCardThreeDSecureId(),
                     }
                 };
 
@@ -290,13 +312,13 @@ define([
             },
 
             setCardBin: function (creditCardNumber) {
-              let self = this,
-                  creditCardBin;
+                let self = this,
+                    creditCardBin;
 
-              creditCardNumber = creditCardNumber.replace(/ /g, "");
-              creditCardBin = creditCardNumber.slice(0,6);
+                creditCardNumber = creditCardNumber.replace(/ /g, "");
+                creditCardBin = creditCardNumber.slice(0,6);
 
-              self.creditCardBin(creditCardBin);
+                self.creditCardBin(creditCardBin);
             },
 
             /**
@@ -329,6 +351,33 @@ define([
                 }
 
                 setInterest(quoteId, installment, creditCardBin);
+            },
+
+            /**
+             * 3D Secure action
+             */
+            secureAction: async function() {
+                let self = this,
+                    deferred = $.Deferred();
+
+                if (!window.checkoutConfig.payment[this.getCode()].ccThreeDSecure) {
+                    deferred.resolve(true);
+                }
+
+                threedSecureSession(quote.getStoreCode())
+                    .then(function (three3dSecureSessionId) {
+                        threeDSecureAction(
+                            self,
+                            three3dSecureSessionId
+                        ).then(function (response) {
+                            fullScreenLoader.stopLoader();
+                            deferred.resolve(response);
+                        }).catch(function (error) {
+                            fullScreenLoader.stopLoader();
+                        });
+                    });
+
+                return deferred.promise();
             },
 
             /**

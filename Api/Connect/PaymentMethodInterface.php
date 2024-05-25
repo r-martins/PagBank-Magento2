@@ -63,4 +63,10 @@ interface PaymentMethodInterface
      */
     public const TYPE_BOLETO_OBJECT = 'boleto';
 
+    /**
+     * Authentication method data. Optional.
+     * Used for 3D Secure authentication.
+     * @see \RicardoMartins\PagBank\Api\Connect\PaymentMethod\AuthenticationMethodInterface
+     */
+    public const AUTHENTICATION_METHOD = 'authentication_method';
 }
