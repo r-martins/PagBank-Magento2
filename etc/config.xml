@@ -22,7 +22,7 @@
             <ricardomartins_pagbank_cc>
                 <active>0</active>
                 <model>RicardoMartinsPagBankCcFacade</model>
-                <title>PagBank Credit Card</title>
+                <title>PagBank Cartão de Crédito</title>
                 <group>ricardomartins_pagbank_group</group>
                 <sort_order>1</sort_order>
                 <payment_action>authorize_capture</payment_action>
