@@ -20,6 +20,12 @@ interface ConnectInterface
     public const WS_ENDPOINT = 'pspro/v7/connect/ws/';
 
     /**
+     * WS SDK Endpoint
+     * @var string
+     */
+    const WS_SDK_ENDPOINT = 'pspro/v7/connect/ws-sdk/';
+
+    /**
      * Public Key WS Endpoint.
      * This endpoint is used to get the public key to encrypt the card data.
      * Request Method: POST
@@ -65,6 +71,17 @@ interface ConnectInterface
      * @var string
      */
     public const NOTIFICATION_ENDPOINT = 'pagbank/notification';
+
+    /**
+     * Checkout SDK Session Endpoint
+     * This endpoint allows you to generate a session that is used to authenticate operations.
+     * The generated session indicates who is the merchant who owns the interactions made.
+     * You need the session when using processes that involve PagBank's internal 3DS authentication with SDK.
+     * Request Method: POST
+     * @see https://dev.pagbank.uol.com.br/docs/criar-pagar-pedido-com-3ds-validacao-pagbank#adicione-e-configure-o-sdk-pagbank
+     * @var string
+     */
+    const CHECKOUT_SDK_SESSION_ENDPOINT = self::WS_URI . self::WS_SDK_ENDPOINT . 'checkout-sdk/sessions';
 
     /**
      * Sandbox Param.

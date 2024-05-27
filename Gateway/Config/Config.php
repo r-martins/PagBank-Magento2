@@ -102,6 +102,20 @@ class Config extends BaseConfig implements ConfigInterface
     }
 
     /**
+     * @param null $storeId
+     * @return string
+     */
+    public function get3DSecureSessionEndpoint($storeId = null): string
+    {
+        $endpoint = ConnectInterface::CHECKOUT_SDK_SESSION_ENDPOINT;
+        if ($this->isSandbox($storeId)) {
+            return $endpoint . '?' . ConnectInterface::SANDBOX_PARAM;
+        }
+
+        return $endpoint;
+    }
+
+    /**
      * @return string
      */
     public function getNotificationEndpoint(): string

@@ -1,28 +1,30 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <!-- Interfaces -->
-    <preference for="RicardoMartins\PagBank\Api\Connect\ItemInterface" type="RicardoMartins\PagBank\Model\Request\Item" />
-    <preference for="RicardoMartins\PagBank\Api\Connect\CustomerInterface" type="RicardoMartins\PagBank\Model\Request\Customer" />
-    <preference for="RicardoMartins\PagBank\Api\Connect\PhoneInterface" type="RicardoMartins\PagBank\Model\Request\Customer\Phone" />
     <preference for="RicardoMartins\PagBank\Api\Connect\AddressInterface" type="RicardoMartins\PagBank\Model\Request\Customer\Address" />
-    <preference for="RicardoMartins\PagBank\Api\Connect\ChargeInterface" type="RicardoMartins\PagBank\Model\Request\Charge" />
     <preference for="RicardoMartins\PagBank\Api\Connect\AmountInterface" type="RicardoMartins\PagBank\Model\Request\Amount" />
-    <preference for="RicardoMartins\PagBank\Api\Connect\PaymentMethodInterface" type="RicardoMartins\PagBank\Model\Request\PaymentMethod" />
-    <preference for="RicardoMartins\PagBank\Api\Connect\PaymentMethod\CardInterface" type="RicardoMartins\PagBank\Model\Request\PaymentMethod\Card" />
+    <preference for="RicardoMartins\PagBank\Api\Connect\ChargeInterface" type="RicardoMartins\PagBank\Model\Request\Charge" />
+    <preference for="RicardoMartins\PagBank\Api\Connect\CustomerInterface" type="RicardoMartins\PagBank\Model\Request\Customer" />
     <preference for="RicardoMartins\PagBank\Api\Connect\HolderInterface" type="RicardoMartins\PagBank\Model\Request\Holder" />
+    <preference for="RicardoMartins\PagBank\Api\Connect\InstallmentsInterface" type="RicardoMartins\PagBank\Model\Request\Installments" />
+    <preference for="RicardoMartins\PagBank\Api\Connect\ItemInterface" type="RicardoMartins\PagBank\Model\Request\Item" />
+    <preference for="RicardoMartins\PagBank\Api\Connect\PaymentMethodInterface" type="RicardoMartins\PagBank\Model\Request\PaymentMethod" />
+    <preference for="RicardoMartins\PagBank\Api\Connect\PaymentMethod\AuthenticationMethodInterface" type="RicardoMartins\PagBank\Model\Request\PaymentMethod\AuthenticationMethod" />
     <preference for="RicardoMartins\PagBank\Api\Connect\PaymentMethod\BoletoInterface" type="RicardoMartins\PagBank\Model\Request\PaymentMethod\Boleto" />
+    <preference for="RicardoMartins\PagBank\Api\Connect\PaymentMethod\CardInterface" type="RicardoMartins\PagBank\Model\Request\PaymentMethod\Card" />
     <preference for="RicardoMartins\PagBank\Api\Connect\PaymentMethod\InstructionLinesInterface" type="RicardoMartins\PagBank\Model\Request\PaymentMethod\Boleto\InstructionLines" />
     <preference for="RicardoMartins\PagBank\Api\Connect\PaymentMethod\QrCodeInterface" type="RicardoMartins\PagBank\Model\Request\PaymentMethod\QrCode" />
-    <preference for="RicardoMartins\PagBank\Api\Connect\InstallmentsInterface" type="RicardoMartins\PagBank\Model\Request\Installments" />
-    <preference for="RicardoMartins\PagBank\Api\ListInstallmentsInterface" type="RicardoMartins\PagBank\Model\Api\ListInstallments" />
+    <preference for="RicardoMartins\PagBank\Api\Connect\PhoneInterface" type="RicardoMartins\PagBank\Model\Request\Customer\Phone" />
+    <preference for="RicardoMartins\PagBank\Api\Connect\PublicKeyInterface" type="RicardoMartins\PagBank\Model\Api\PublicKey" />
+    <preference for="RicardoMartins\PagBank\Api\Connect\ThreeDSecureSessionInterface" type="RicardoMartins\PagBank\Model\Api\ThreeDSecureSession" />
+    <preference for="RicardoMartins\PagBank\Api\GuestInterestInterface" type="RicardoMartins\PagBank\Model\Api\GuestInterest" />
     <preference for="RicardoMartins\PagBank\Api\GuestListInstallmentsInterface" type="RicardoMartins\PagBank\Model\Api\GuestListInstallments" />
     <preference for="RicardoMartins\PagBank\Api\InterestInterface" type="RicardoMartins\PagBank\Model\Api\Interest" />
-    <preference for="RicardoMartins\PagBank\Api\GuestInterestInterface" type="RicardoMartins\PagBank\Model\Api\GuestInterest" />
-    <preference for="RicardoMartins\PagBank\Api\Connect\PublicKeyInterface" type="RicardoMartins\PagBank\Model\Api\PublicKey" />
+    <preference for="RicardoMartins\PagBank\Api\ListInstallmentsInterface" type="RicardoMartins\PagBank\Model\Api\ListInstallments" />
 
-    <preference for="RicardoMartins\PagBank\Api\Gateway\Data\AddressAdapterInterface" type="RicardoMartins\PagBank\Gateway\Data\Order\AddressAdapter"/>
     <preference for="Magento\Payment\Gateway\Data\Order\OrderAdapter" type="RicardoMartins\PagBank\Gateway\Data\Order\OrderAdapter"/>
     <preference for="Magento\Sales\Model\CronJob\CleanExpiredOrders" type="RicardoMartins\PagBank\Model\CronJob\CleanExpiredOrders"/>
+    <preference for="RicardoMartins\PagBank\Api\Gateway\Data\AddressAdapterInterface" type="RicardoMartins\PagBank\Gateway\Data\Order\AddressAdapter"/>
 
     <!-- Plugins -->
     <!-- Magento 2.4.6 fix shipping redirect -->

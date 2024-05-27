@@ -24,6 +24,25 @@
             <tooltip>Name that will be displayed on the Customer's invoice. Choose a name that reminds the customer that they purchased from your store and avoids chargebacks.</tooltip>
             <config_path>payment/ricardomartins_pagbank_cc/soft_descriptor</config_path>
         </field>
+        <field id="cc_3ds" translate="label comment" type="select" sortOrder="45" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+            <label>Enable 3DS Authentication</label>
+            <comment><![CDATA[Habilita a autenticação 3D Secure para compras com cartão de crédito. <br/> A autenticação 3D Secure é um protocolo de segurança que adiciona uma camada extra de proteção para compras online, <br/> e evita que chargebacks de compras não reconhecidas sejam cobrados do lojista. <br/>Para mais informações, consulte a <a href="https://pagsegurotransparente.zendesk.com/hc/pt-br/articles/22375922278157-Autentica%C3%A7%C3%A3o-3DS-Sua-prote%C3%A7%C3%A3o-contra-Chargeback" target="_blank">documentação</a>.]]></comment>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <config_path>payment/ricardomartins_pagbank_cc/cc_3ds</config_path>
+            <depends>
+                <field id="active">1</field>
+            </depends>
+        </field>
+        <field id="cc_3ds_allow_continue" translate="label comment" type="select" sortOrder="46" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+            <label>Allow order completion when 3DS is not supported</label>
+            <comment><![CDATA[Alguns cartões não possuem suporte a autenticação 3D. <br/>Ao marcar esta opção, o cliente poderá concluir a compra mesmo que o cartão não suporte tal recurso ou se a obtenção da sessão 3D Secure junto ao PagBank falhar.]]></comment>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <config_path>payment/ricardomartins_pagbank_cc/cc_3ds_allow_continue</config_path>
+            <depends>
+                <field id="active">1</field>
+                <field id="cc_3ds">1</field>
+            </depends>
+        </field>
         <field id="installments_options" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
             <label>Installment Options</label>
             <config_path>payment/ricardomartins_pagbank_cc/installments_options</config_path>

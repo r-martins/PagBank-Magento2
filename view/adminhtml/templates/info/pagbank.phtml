@@ -10,6 +10,9 @@ $title = $escaper->escapeHtml($block->getMethod()->getTitle());
     <table class="data-table admin__table-secondary ricardomartins-pagbank">
         <caption class="table-caption"><?= /* @noEscape */ $title ?></caption>
         <?php foreach ($specificInfo as $label => $value) : ?>
+            <?php if (!$value): ?>
+                <?php continue; ?>
+            <?php endif; ?>
             <tr>
                 <?php if (is_array($value)): ?>
                     <?php foreach ($value as $type => $valueInner) : ?>

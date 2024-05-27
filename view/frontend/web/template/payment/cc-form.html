@@ -50,7 +50,7 @@
                         data-bind="
                          attr: {title: $t('Place Order')},
                          enable: (getCode() == isChecked()),
-                         click: placeOrder
+                         click: beforePlaceOrder
                         "
                         disabled>
                     <span data-bind="i18n: 'Place Order'"></span>

@@ -102,3 +102,10 @@
 "Enable Vault (Stored Credit Card)","Habilitar Vault (Cartão de Crédito Armazenado)"
 "Save card for later use.","Salvar cartão para uso posterior."
 "Pix expiration time must be less than or equal to the pending payment lifetime. The saved value is %1 minutes and can be changed in: Sales -> Sales -> Orders Cron Settings -> Pending Payment Order Lifetime.","O tempo de validade do Pix deve ser menor ou igual ao tempo de vida do pagamento pendente. O valor salvo é de %1 minutos e pode ser alterado em: Vendas -> Vendas -> Configurações de Cron de Pedidos -> Tempo de Vida do Pedido de Pagamento Pendente."
+"Enable 3DS Authentication","Habilitar Autenticação 3DS"
+"Allow order completion when 3DS is not supported","Permitir finalização do pedido quando 3DS não é suportado"
+"There was an error generating the 3DS session. Please try again.","Houve um erro ao gerar a sessão 3DS. Por favor, tente novamente."
+"Payment denied by PagBank. Choose another payment method or card.","Pagamento negado pelo PagBank. Escolha outro método de pagamento ou cartão."
+"3D authentication failed. Try again.","Autenticação 3D falhou. Tente novamente."
+"Your card does not support 3D authentication. Choose another payment method or card.","Seu cartão não suporta autenticação 3D. Escolha outro método de pagamento ou cartão."
+
