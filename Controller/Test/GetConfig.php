@@ -22,6 +22,8 @@ class GetConfig implements HttpGetActionInterface
     public const XML_PATH_PAYMENT_PAGBANK_CC_ACTIVE = 'payment/' . ConfigCc::METHOD_CODE . '/active';
 
     public const XML_PATH_PAYMENT_PAGBANK_CC_INSTALLMENTS_OPTIONS = 'payment/' . ConfigCc::METHOD_CODE . '/installments_options';
+    public const XML_PATH_PAYMENT_PAGBANK_CC_CC_3DS_ACTIVE = 'payment/' . ConfigCc::METHOD_CODE . '/cc_3ds';
+    public const XML_PATH_PAYMENT_PAGBANK_CC_CC_3DS_ALLOW_CONTINUE = 'payment/' . ConfigCc::METHOD_CODE . '/cc_3ds_allow_continue';
 
     public const XML_PATH_PAYMENT_PAGBANK_BOLETO_ACTIVE = 'payment/' . ConfigBoleto::METHOD_CODE . '/active';
 
@@ -141,7 +143,15 @@ class GetConfig implements HttpGetActionInterface
                 'cc_installments_options' => $this->scopeConfig->getValue(
                     self::XML_PATH_PAYMENT_PAGBANK_CC_INSTALLMENTS_OPTIONS,
                     ScopeInterface::SCOPE_STORE
-                )
+                ),
+                'cc_3ds' => $this->scopeConfig->getValue(
+                    self::XML_PATH_PAYMENT_PAGBANK_CC_CC_3DS_ACTIVE,
+                    ScopeInterface::SCOPE_STORE
+                ),
+                'cc_3ds_allow_continue' => $this->scopeConfig->getValue(
+                    self::XML_PATH_PAYMENT_PAGBANK_CC_CC_3DS_ALLOW_CONTINUE,
+                    ScopeInterface::SCOPE_STORE
+                ),
             ],
             'boleto' => [
                 'enabled' => $this->scopeConfig->getValue(
