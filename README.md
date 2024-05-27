@@ -11,10 +11,11 @@ Agora usando as Novas APIs do PagBank.
 # Recursos
 
 - Aceite pagamentos com Cartão de Crédito, PIX ou Boleto de forma transparente (sem sair da loja)
-- Permite salvar o cartão para compras futuras (Magento Vault)
-- PIX e Boleto com validade configurável
+- [3D Secure](https://pagsegurotransparente.zendesk.com/hc/pt-br/articles/22375922278157-Autentica%C3%A7%C3%A3o-3DS-Sua-prote%C3%A7%C3%A3o-contra-Chargeback) em Pagamentos com Cartão - Zero Chargeback fraudulento, MUITO mais conversão, sem necessidade de antifraude.
+- Permite [salvar o cartão](https://pagsegurotransparente.zendesk.com/hc/pt-br/articles/22592192276109-Salvar-Cart%C3%A3o-para-uso-posterior) para compras futuras (Magento Vault)
+- PIX e Boleto com [validade configurável](https://pagsegurotransparente.zendesk.com/hc/pt-br/articles/27060110031373-PIX-e-Boleto-com-validade-configur%C3%A1vel)
 - Atualização automática do status do pedido
-- Pagamento em 1x ou parcelado
+- Pagamento em 1x ou [parcelado](https://pagsegurotransparente.zendesk.com/hc/pt-br/articles/22592267621645-Op%C3%A7%C3%B5es-de-Parcelamento-no-Magento-2)
 - Identificador do nome da loja na fatura
 - Descontos nas taxa oficiais do PagBank (ou suas taxas)
 - Suporte a Sandbox
@@ -24,13 +25,13 @@ Agora usando as Novas APIs do PagBank.
 - Desenvolvido nos padrões Magento 2 por desenvolvedores certificados pela Adobe 🏆
 
 <details>
-  <summary>Veja alguns Screenshots (clique aqui para expandir)</summary>
-  <img src="https://imgur.com/pSd0OZr.jpg" alt="Configurações gerais do módulo" title="Configurações gerais do módulo"/>
-  <img src="https://imgur.com/Pifbsag.jpg" alt="PIX - Tela de Sucesso" title="PIX - Tela de Sucesso"/>
-  <img src="https://i.imgur.com/0tJYbxG.png" alt="Salvar Cartão ou usar um anterior" title="Salvar Cartão ou usar um anterior"/>
-  <img src="https://imgur.com/u6GgNms.jpg" alt="Configurações de cartão de crédito" title="Configurações de cartão de crédito"/>
-  <img alt="PIX - Configurações" src="https://imgur.com/afVmRTj.jpg" title="PIX - Configurações"/>
-  <img alt="Boleto - Configurações" src="https://imgur.com/Hn8TgMd.jpg" title="Boleto - Configurações"/>
+  <summary>VEJA ALGUNS SCREENSHOTS (clique aqui para expandir)</summary>
+  <img src="https://github.com/r-martins/PagBank-Magento2/assets/191149/e1f9ab4e-0eed-40d5-b804-71de4bf57f10" alt="Cartão de Crédito no Checkout" title="Cartão de Crédito no Checkout"/>
+  <img src="https://github.com/r-martins/PagBank-Magento2/assets/191149/399c0cfd-9547-49f6-8fa9-520b4c786adc" alt="PIX - Tela de Sucesso" title="PIX - Tela de Sucesso"/>
+  <img src="https://github.com/r-martins/PagBank-Magento2/assets/191149/8c464d9f-13b9-47e1-ae83-777933c0ab67" alt="Configurações de cartão de crédito" title="Configurações de cartão de crédito"/>
+  <img alt="PIX - Configurações" src="https://github.com/r-martins/PagBank-Magento2/assets/191149/22460357-5657-4c4d-bb39-521803a7ecb8" title="PIX - Configurações"/>
+  <img alt="Tela do pedido no admin" src="https://github.com/r-martins/PagBank-Magento2/assets/191149/67b70ad3-e41a-40f3-a7b5-95356708a303" title="Tela do pedido no admin"/>
+  <img src="https://github.com/r-martins/PagBank-Magento2/assets/191149/9f02ed3d-8bab-4095-8f87-e7492426e277" alt="Autenticação 3D Secure" title="Autenticação 3D Secure"/>
 </details>
 
 # Pré-requisitos
