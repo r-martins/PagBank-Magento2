@@ -64,7 +64,6 @@ class PaymentDetailsHandler implements HandlerInterface
 
         if ($paymentType === 'BOLETO') {
             $boleto = $paymetMethod['boleto'];
-            $data['payment_id'] = $boleto['id'];
             $data['payment_text_boleto'] = $boleto['formatted_barcode'];
             $data['expiration_date'] = $boleto['due_date'];
 

@@ -40,9 +40,10 @@ class QrCodeDetailsHandler implements HandlerInterface
             }
         }
 
-        $data['payment_id'] = $qrCodes['id'];
+        $data['payment_id'] = $response['id'];
         $data['payment_text_pix'] = $qrCodes['text'];
         $data['expiration_date'] = $qrCodes['expiration_date'];
+        $data['is_sandbox'] = key_exists('is_sandbox', $response) ? $response['is_sandbox'] : false;
 
         try {
             $additionalInfo = $payment->getAdditionalInformation();

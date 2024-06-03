@@ -371,6 +371,7 @@
     <virtualType name="RicardoMartinsPagBankQrCodeConfigurableInfo" type="RicardoMartins\PagBank\Block\ConfigurableInfo">
         <arguments>
             <argument name="data" xsi:type="array">
+                <item name="is_secure_mode" xsi:type="string">0</item>
                 <item name="methodCode" xsi:type="const">RicardoMartins\PagBank\Gateway\Config\ConfigQrCode::METHOD_CODE</item>
             </argument>
         </arguments>
@@ -378,6 +379,7 @@
     <virtualType name="RicardoMartinsPagBankBoletoConfigurableInfo" type="RicardoMartins\PagBank\Block\ConfigurableInfo">
         <arguments>
             <argument name="data" xsi:type="array">
+                <item name="is_secure_mode" xsi:type="string">0</item>
                 <item name="methodCode" xsi:type="const">RicardoMartins\PagBank\Gateway\Config\ConfigBoleto::METHOD_CODE</item>
             </argument>
         </arguments>

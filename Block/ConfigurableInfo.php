@@ -14,7 +14,7 @@ class ConfigurableInfo extends \Magento\Payment\Block\ConfigurableInfo
         'payment_id' => 'Payment ID',
         'charge_id' => 'Charge ID',
         'threed_secure_id' => '3DS ID',
-        'charge_link' => 'Charge link',
+        'charge_link' => 'View on PagBank',
         'status' => 'Status',
         'installments' => 'Installments',
         'brand' => 'Card brand',

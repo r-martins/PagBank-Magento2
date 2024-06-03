@@ -17,6 +17,7 @@
         </arguments>
     </type>
 
+    <!-- Configurable Info: Set is_secure_mode -->
     <type name="RicardoMartinsPagBankCcConfigurableInfo">
         <arguments>
             <argument name="data" xsi:type="array">
@@ -25,6 +26,22 @@
             </argument>
         </arguments>
     </type>
+    <virtualType name="RicardoMartinsPagBankQrCodeConfigurableInfo">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="is_secure_mode" xsi:type="string">1</item>
+                <item name="methodCode" xsi:type="const">RicardoMartins\PagBank\Gateway\Config\ConfigQrCode::METHOD_CODE</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="RicardoMartinsPagBankBoletoConfigurableInfo">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="is_secure_mode" xsi:type="string">1</item>
+                <item name="methodCode" xsi:type="const">RicardoMartins\PagBank\Gateway\Config\ConfigBoleto::METHOD_CODE</item>
+            </argument>
+        </arguments>
+    </virtualType>
 
     <!-- Vault Component Provider -->
     <type name="Magento\Vault\Model\Ui\TokensConfigProvider">
