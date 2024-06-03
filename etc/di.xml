@@ -4,6 +4,7 @@
     <preference for="RicardoMartins\PagBank\Api\Connect\AddressInterface" type="RicardoMartins\PagBank\Model\Request\Customer\Address" />
     <preference for="RicardoMartins\PagBank\Api\Connect\AmountInterface" type="RicardoMartins\PagBank\Model\Request\Amount" />
     <preference for="RicardoMartins\PagBank\Api\Connect\ChargeInterface" type="RicardoMartins\PagBank\Model\Request\Charge" />
+    <preference for="RicardoMartins\PagBank\Api\Connect\ConsultOrderInterface" type="RicardoMartins\PagBank\Model\Api\ConsultOrder" />
     <preference for="RicardoMartins\PagBank\Api\Connect\CustomerInterface" type="RicardoMartins\PagBank\Model\Request\Customer" />
     <preference for="RicardoMartins\PagBank\Api\Connect\HolderInterface" type="RicardoMartins\PagBank\Model\Request\Holder" />
     <preference for="RicardoMartins\PagBank\Api\Connect\InstallmentsInterface" type="RicardoMartins\PagBank\Model\Request\Installments" />
@@ -329,6 +330,7 @@
                 <item name="payment_details" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\PaymentDetailsHandler</item>
                 <item name="transaction_details" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\TransactionAdditionalInfoHandler</item>
                 <item name="vault_details" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\VaultDetailsHandler</item>
+                <item name="order_updater_cron" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\OrderUpdaterCronHandler</item>
             </argument>
         </arguments>
     </virtualType>
@@ -338,6 +340,7 @@
                 <item name="payment_details" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\PaymentDetailsHandler</item>
                 <item name="transaction_details" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\TransactionAdditionalInfoHandler</item>
                 <item name="order_status" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\OrderStatusHandler</item>
+                <item name="order_updater_cron" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\OrderUpdaterCronHandler</item>
             </argument>
         </arguments>
     </virtualType>
@@ -347,6 +350,7 @@
                 <item name="payment_details" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\QrCodeDetailsHandler</item>
                 <item name="transaction_details" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\TransactionAdditionalInfoHandler</item>
                 <item name="order_status" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\OrderStatusHandler</item>
+                <item name="order_updater_cron" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\OrderUpdaterCronHandler</item>
             </argument>
         </arguments>
     </virtualType>
@@ -355,6 +359,7 @@
         <arguments>
             <argument name="handlers" xsi:type="array">
                 <item name="fetch" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\FetchPaymentHandler</item>
+                <item name="order_updater_cron" xsi:type="string">RicardoMartins\PagBank\Gateway\Response\OrderUpdaterCronHandler</item>
             </argument>
         </arguments>
     </virtualType>

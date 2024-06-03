@@ -134,6 +134,7 @@ class GetConfig implements HttpGetActionInterface
     {
         return [
             'document_from' => $this->config->getDocumentFrom(),
+            'force_order_update_cron' => $this->config->forceOrderUpdateCron(),
             'debug' => $this->config->isDebugActived(),
             'cc' => [
                 'enabled' => $this->scopeConfig->getValue(

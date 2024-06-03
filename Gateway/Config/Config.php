@@ -151,6 +151,15 @@ class Config extends BaseConfig implements ConfigInterface
     }
 
     /**
+     * @param $storeId
+     * @return bool
+     */
+    public function forceOrderUpdateCron($storeId = null): bool
+    {
+        return (bool) $this->getValue('force_order_update_cron', $storeId);
+    }
+
+    /**
      * @return bool
      */
     public function isDebugActived(): bool

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="default">
+        <job name="ricardomartins_pagbank_sales_order_updater"
+             instance="RicardoMartins\PagBank\Cron\SalesOrderUpdater"
+             method="execute">
+            <config_path>0 */3 * * *</config_path>
+        </job>
+    </group>
+</config>

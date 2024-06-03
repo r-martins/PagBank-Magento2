@@ -8,7 +8,9 @@
     "sales_order": {
         "column": {
             "ricardomartins_pagbank_interest_amount": true,
-            "ricardomartins_pagbank_base_interest_amount": true
+            "ricardomartins_pagbank_base_interest_amount": true,
+            "pagbank_next_auto_update_date": true,
+            "pagbank_charges": true
         }
     }
 }
