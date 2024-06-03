@@ -7,6 +7,7 @@ use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Response\HandlerInterface;
 use Magento\Sales\Model\Order\Payment;
 use Psr\Log\LoggerInterface;
+use RicardoMartins\PagBank\Api\Connect\ConnectInterface;
 use RicardoMartins\PagBank\Api\Connect\ResponseInterface;
 
 class OrderUpdaterCronHandler implements HandlerInterface
@@ -35,10 +36,10 @@ class OrderUpdaterCronHandler implements HandlerInterface
             $orderDate = $order->getUpdatedAt() ?? $order->getCreatedAt();
             $updateDate = new \DateTime($orderDate ?? 'now');
             $updateDate->modify('+6 hours');
-            $order->setData('pagbank_next_auto_update_date', $updateDate->format('Y-m-d H:i:s'));
+            $order->setData(ConnectInterface::PAGBANK_NEXT_AUTO_UPDATE_DATE, $updateDate->format('Y-m-d H:i:s'));
 
             if (!empty($charges)) {
-                $order->setData('pagbank_charges', md5(json_encode($charges)));
+                $order->setData(ConnectInterface::PAGBANK_CHARGES, md5(json_encode($charges)));
             }
         } catch (\Exception $e) {
             $this->logger->error('RicardoMartins_PagBank Error: ' . $e->getMessage());

@@ -9,6 +9,7 @@ use Magento\Sales\Api\Data\TransactionInterface;
 use Magento\Sales\Api\TransactionRepositoryInterface;
 use Magento\Sales\Model\ResourceModel\Order\Collection;
 use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
+use RicardoMartins\PagBank\Api\Connect\ConnectInterface;
 use RicardoMartins\PagBank\Api\Connect\ConsultOrderInterface;
 use RicardoMartins\PagBank\Gateway\Config\Config;
 use RicardoMartins\PagBank\Gateway\Config\ConfigBoleto;
@@ -56,7 +57,7 @@ class SalesOrderUpdater
                 !in_array($state, self::ORDER_STATES_ALLOWED) &&
                 !in_array($order->getStatus(), self::ORDER_STATUS_FOR_COMMENT)
             ) {
-                $order->setPagbankNextAutoUpdateDate(null);
+                $order->setData(ConnectInterface::PAGBANK_NEXT_AUTO_UPDATE_DATE, null);
                 $order->save();
                 continue;
             }
@@ -64,17 +65,17 @@ class SalesOrderUpdater
             $pagBankOrderId = $this->getTransactionId($order->getPayment());
             $pagBankResponse = $this->consultOrder->execute($pagBankOrderId);
             $charges = isset($pagBankResponse['charges']) ? $pagBankResponse['charges'] : null;
-            $chargesUpdated = $order->getPagbankCharges() !== md5(json_encode($charges));
+            $chargesUpdated = $order->getRicardomartinsPagbankCharges() !== md5(json_encode($charges));
 
             if (in_array($order->getStatus(), self::ORDER_STATUS_FOR_COMMENT)) {
                 if ($chargesUpdated) {
-                    $order->setPagbankCharges('pagbank_charges', md5(json_encode($charges)));
+                    $order->setData(ConnectInterface::PAGBANK_CHARGES, md5(json_encode($charges)));
                     $order->addCommentToStatusHistory(
                         __('There was an update on PagBank, but the order was not changed as it has been cancelled.'),
                         false
                     );
                 }
-                $order->setPagbankNextAutoUpdateDate(null);
+                $order->setData(ConnectInterface::PAGBANK_NEXT_AUTO_UPDATE_DATE, null);
                 $order->save();
                 continue;
             }
@@ -83,8 +84,8 @@ class SalesOrderUpdater
 
             if ($chargesUpdated) {
                 $this->fetchPaymentHandler->handle(['payment' => $order], $pagBankResponse);
-                $order->setPagbankNextAutoUpdateDate(null);
-                $order->setPagbankCharges(null);
+                $order->setData(ConnectInterface::PAGBANK_NEXT_AUTO_UPDATE_DATE, null);
+                $order->setData(ConnectInterface::PAGBANK_CHARGES, null);
                 $order->save();
                 $payment->save();
                 continue;
@@ -103,7 +104,7 @@ class SalesOrderUpdater
                     $pixExpiration->modify('+1 day');
                     $expired = !$pixExpiration->diff($now)->invert;
                     if ($expired) {
-                        $order->setPagbankNextAutoUpdateDate(null);
+                        $order->setData(ConnectInterface::PAGBANK_NEXT_AUTO_UPDATE_DATE, null);
                         $order->save();
                         break;
                     }
@@ -114,7 +115,7 @@ class SalesOrderUpdater
                     } elseif ($difference->days > 7) {
                         $nextUpdate->modify('+24 hours');
                     }
-                    $order->setPagbankNextAutoUpdateDate($nextUpdate->format('Y-m-d H:i:s'));
+                    $order->setData(ConnectInterface::PAGBANK_NEXT_AUTO_UPDATE_DATE, $nextUpdate->format('Y-m-d H:i:s'));
                     $order->save();
                     break;
 
@@ -124,14 +125,14 @@ class SalesOrderUpdater
                     $boletoExpiration->modify('+3 days');
                     $expired = !$boletoExpiration->diff($now)->invert;
                     if ($expired) {
-                        $order->setPagbankNextAutoUpdateDate(null);
+                        $order->setData(ConnectInterface::PAGBANK_NEXT_AUTO_UPDATE_DATE, null);
                         $order->save();
                         break;
                     }
 
                     $nextUpdate = $now;
                     $nextUpdate->modify('+6 hours');
-                    $order->setPagbankNextAutoUpdateDate($nextUpdate->format('Y-m-d H:i:s'));
+                    $order->setData(ConnectInterface::PAGBANK_NEXT_AUTO_UPDATE_DATE, $nextUpdate->format('Y-m-d H:i:s'));
                     $order->save();
                     break;
 
@@ -141,10 +142,10 @@ class SalesOrderUpdater
                         if ($difference->days < 3) {
                             $nextUpdate = $now;
                             $nextUpdate->modify('+6 hours');
-                            $order->setPagbankNextAutoUpdateDate($nextUpdate->format('Y-m-d H:i:s'));
+                            $order->setData(ConnectInterface::PAGBANK_NEXT_AUTO_UPDATE_DATE, $nextUpdate->format('Y-m-d H:i:s'));
                             $order->save();
                         } elseif ($difference->days > 3) {
-                            $order->setPagbankNextAutoUpdateDate(null);
+                            $order->setData(ConnectInterface::PAGBANK_NEXT_AUTO_UPDATE_DATE, null);
                             $order->save();
                         }
                     }
@@ -161,7 +162,7 @@ class SalesOrderUpdater
         $now = new \DateTime('now');
         $collection = $this->orderCollectionFactory->create()
             ->addAttributeToSelect('*')
-            ->addFieldToFilter('pagbank_next_auto_update_date', ['lteq' => $now->format('Y-m-d H:i:s')]);
+            ->addFieldToFilter(ConnectInterface::PAGBANK_NEXT_AUTO_UPDATE_DATE, ['lteq' => $now->format('Y-m-d H:i:s')]);
 
         $collection->getSelect()
             ->join(

@@ -102,4 +102,22 @@ interface ConnectInterface
      * Do not use if you are using the Sandbox.
      */
     public const PAGBANK_TRANSACTION_DETAILS_URL = 'https://minhaconta.pagseguro.uol.com.br/transacao/detalhes';
+
+    /**
+     * Next Auto Update Date.
+     * Used to store the next date to update the order by cron.
+     * This date is used by the cron to update the order status when the order is not updated by the notification.
+     * @see \RicardoMartins\PagBank\Gateway\Response\OrderUpdaterCronHandler
+     * @var string
+     */
+    public const PAGBANK_NEXT_AUTO_UPDATE_DATE = 'ricardomartins_pagbank_next_auto_update_date';
+
+    /**
+     * Charges.
+     * Used to store the md5 hash of the charges of the order.
+     * This field is used to compare the charges of the order to update the order status.
+     * @see \RicardoMartins\PagBank\Cron\SalesOrderUpdater
+     * @var string
+     */
+    public const PAGBANK_CHARGES = 'ricardomartins_pagbank_charges';
 }
