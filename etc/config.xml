@@ -83,8 +83,8 @@
                 <can_accept_payment>0</can_accept_payment>
                 <can_fetch_transaction_info>1</can_fetch_transaction_info>
                 <can_fetch_transaction_information>1</can_fetch_transaction_information>
-                <paymentInfoKeys>is_sandbox,payment_id,expiration_date,payment_link_boleto_pdf,payment_link_boleto_image,payment_text_boleto</paymentInfoKeys>
-                <privateInfoKeys>is_sandbox,payment_id</privateInfoKeys>
+                <paymentInfoKeys>is_sandbox,payment_id,charge_link,expiration_date,payment_link_boleto_pdf,payment_link_boleto_image,payment_text_boleto</paymentInfoKeys>
+                <privateInfoKeys>is_sandbox,payment_id,charge_link</privateInfoKeys>
                 <allowspecific>1</allowspecific>
                 <specificcountry>BR</specificcountry>
                 <instruction_line_one>Seu pedido só será processado após o pagamento.</instruction_line_one>
