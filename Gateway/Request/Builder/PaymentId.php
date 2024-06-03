@@ -30,6 +30,13 @@ class PaymentId implements BuilderInterface
             $payment->getId()
         );
 
+        if (!$transaction) {
+            $transaction = $this->transactionRepository->getByTransactionType(
+                TransactionInterface::TYPE_CAPTURE,
+                $payment->getId()
+            );
+        }
+
         return [
             ResponseInterface::PAGBANK_ORDER_ID => $transaction->getTxnId(),
         ];

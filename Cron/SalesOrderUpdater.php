@@ -40,6 +40,8 @@ class SalesOrderUpdater
 
     /**
      * @return void
+     * @throws InputException
+     * @throws \Exception
      */
     public function execute()
     {
@@ -157,7 +159,7 @@ class SalesOrderUpdater
     /**
      * @return Collection
      */
-    private function getPagBankOrders()
+    private function getPagBankOrders(): Collection
     {
         $now = new \DateTime('now');
         $collection = $this->orderCollectionFactory->create()
@@ -185,6 +187,13 @@ class SalesOrderUpdater
             TransactionInterface::TYPE_ORDER,
             $payment->getId()
         );
+
+        if (!$transaction) {
+            $transaction = $this->transactionRepository->getByTransactionType(
+                TransactionInterface::TYPE_CAPTURE,
+                $payment->getId()
+            );
+        }
 
         return $transaction->getTxnId();
     }
