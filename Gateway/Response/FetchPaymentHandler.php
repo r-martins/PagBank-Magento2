@@ -16,7 +16,8 @@ class FetchPaymentHandler implements HandlerInterface
     /** @var array */
     public const PENDING_PAYMENT_STATES = [
         'new',
-        'payment_review'
+        'payment_review',
+        'pending_payment'
     ];
 
     /**
@@ -118,7 +119,8 @@ class FetchPaymentHandler implements HandlerInterface
             $payment->setPreparedMessage(__('Order Canceled.'));
             $payment->setTransactionId($transactionId.'-deny');
             $payment->setParentTransactionId($transactionParentId);
-            $payment->deny(true);
+            $payment->setNotificationResult(true);
+            $payment->deny(false);
             return true;
         } catch (\Exception $e) {
             $order = $payment->getOrder();

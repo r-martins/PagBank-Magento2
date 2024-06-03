@@ -22,6 +22,10 @@ class ResponseValidator extends AbstractValidator
         ResponseInterface::STATUS_DECLINED
     ];
 
+    private array $responsePendingStatus = [
+        ResponseInterface::STATUS_IN_ANALYSIS
+    ];
+
     /**
      * @var array Response error codes and messages
      */
@@ -81,16 +85,20 @@ class ResponseValidator extends AbstractValidator
             $errorMessages[] = $charge[ResponseInterface::PAYMENT_RESPONSE][ResponseInterface::PAYMENT_RESPONSE_MESSAGE];
         }
 
+        /** @var PaymentDataObjectInterface $paymentDataObject */
+        $paymentDataObject = $validationSubject['payment'];
+
+        /** @var Payment $payment */
+        $payment = $paymentDataObject->getPayment();
+        $order = $payment->getOrder();
+
+        if (in_array($status, $this->responsePendingStatus)) {
+            $payment->setIsTransactionPending(true);
+        }
+
         if (!$isValid) {
             /** Do not redirect to shipping step */
             $this->webapiRestPlugin->setClearHeader(true);
-
-            /** @var PaymentDataObjectInterface $paymentDataObject */
-            $paymentDataObject = $validationSubject['payment'];
-
-            /** @var Payment $payment */
-            $payment = $paymentDataObject->getPayment();
-            $order = $payment->getOrder();
 
             $orderIncrementId = $order->getIncrementId();
             $errorMessagesWithCodes = array_combine($errorCodes, $errorMessages);
