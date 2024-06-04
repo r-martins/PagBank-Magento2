@@ -23,6 +23,7 @@ Agora usando as Novas APIs do PagBank.
 - Suporte a todos os tipos de produtos
 - Suporte a multi-loja
 - Desenvolvido nos padrões Magento 2 por desenvolvedores certificados pela Adobe 🏆
+- [Atualização pró-ativa de pedidos](https://pagsegurotransparente.zendesk.com/hc/pt-br/articles/27270191360653-For%C3%A7ar-atualiza%C3%A7%C3%A3o-de-pedidos)
 
 <details>
   <summary>VEJA ALGUNS SCREENSHOTS (clique aqui para expandir)</summary>
