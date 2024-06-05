@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace RicardoMartins\PagBank\Gateway\Response;
 
+use Magento\Framework\Encryption\Encryptor;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Response\HandlerInterface;
 use Magento\Sales\Model\Order\Payment;
@@ -13,9 +14,11 @@ use RicardoMartins\PagBank\Api\Connect\ResponseInterface;
 class OrderUpdaterCronHandler implements HandlerInterface
 {
     /**
+     * @param Encryptor $encryptor
      * @param LoggerInterface $logger
      */
     public function __construct(
+        protected readonly Encryptor $encryptor,
         protected readonly LoggerInterface $logger
     ) {}
 
@@ -39,7 +42,8 @@ class OrderUpdaterCronHandler implements HandlerInterface
             $order->setData(ConnectInterface::PAGBANK_NEXT_AUTO_UPDATE_DATE, $updateDate->format('Y-m-d H:i:s'));
 
             if (!empty($charges)) {
-                $order->setData(ConnectInterface::PAGBANK_CHARGES, md5(json_encode($charges)));
+                $chargesHash = $this->encryptor->hash(json_encode($charges), Encryptor::HASH_VERSION_MD5);
+                $order->setData(ConnectInterface::PAGBANK_CHARGES, $chargesHash);
             }
         } catch (\Exception $e) {
             $this->logger->error('RicardoMartins_PagBank Error: ' . $e->getMessage());

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace RicardoMartins\PagBank\Cron;
 
+use Magento\Framework\Encryption\Encryptor;
 use Magento\Framework\Exception\InputException;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\TransactionInterface;
@@ -35,7 +36,8 @@ class SalesOrderUpdater
         private readonly ConsultOrderInterface $consultOrder,
         private readonly Config $config,
         private readonly FetchPaymentHandler $fetchPaymentHandler,
-        private readonly TransactionRepositoryInterface $transactionRepository
+        private readonly TransactionRepositoryInterface $transactionRepository,
+        private readonly Encryptor $encryptor,
     ){}
 
     /**
@@ -67,11 +69,12 @@ class SalesOrderUpdater
             $pagBankOrderId = $this->getTransactionId($order->getPayment());
             $pagBankResponse = $this->consultOrder->execute($pagBankOrderId);
             $charges = isset($pagBankResponse['charges']) ? $pagBankResponse['charges'] : null;
-            $chargesUpdated = $order->getRicardomartinsPagbankCharges() !== md5(json_encode($charges));
+            $chargesHash = $this->encryptor->hash(json_encode($charges), Encryptor::HASH_VERSION_MD5);
+            $chargesUpdated = $order->getData(ConnectInterface::PAGBANK_CHARGES) !== $chargesHash;
 
             if (in_array($order->getStatus(), self::ORDER_STATUS_FOR_COMMENT)) {
                 if ($chargesUpdated) {
-                    $order->setData(ConnectInterface::PAGBANK_CHARGES, md5(json_encode($charges)));
+                    $order->setData(ConnectInterface::PAGBANK_CHARGES, $chargesHash);
                     $order->addCommentToStatusHistory(
                         __('There was an update on PagBank, but the order was not changed as it has been cancelled.'),
                         false
