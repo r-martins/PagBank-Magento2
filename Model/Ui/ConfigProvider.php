@@ -38,6 +38,13 @@ class ConfigProvider implements ConfigProviderInterface
             $storeId = (int)$this->storeManager->getStore()->getId();
         } catch (\Exception $e) {}
 
+        $connectKey = $this->config->getConnectKey($storeId);
+        $publicKey = $this->config->getPublicKey($storeId);
+
+        if (empty($connectKey) || empty($publicKey)) {
+            return [];
+        }
+
         return [
             'payment' => [
                 Config::METHOD_CODE => [
