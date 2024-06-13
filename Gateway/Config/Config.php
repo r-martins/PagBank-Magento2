@@ -125,9 +125,9 @@ class Config extends BaseConfig implements ConfigInterface
 
     /**
      * @param null $storeId
-     * @return string
+     * @return ?string
      */
-    public function getConnectKey($storeId = null): string
+    public function getConnectKey($storeId = null): ?string
     {
         return $this->getValue(self::CONFIG_CONNECT_KEY, $storeId);
     }
