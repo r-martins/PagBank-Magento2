@@ -13,6 +13,8 @@ use Magento\Payment\Model\Method\Logger;
 
 class GeneralClient implements ClientInterface
 {
+    public const DEFAULT_TIMEOUT = 30;
+
     public function __construct(
         private readonly ClientFactory $httpClientFactory,
         private readonly Logger $logger,
@@ -43,8 +45,13 @@ class GeneralClient implements ClientInterface
 
         $client = $this->httpClientFactory->create();
 
+        $options = $transferObject->getClientConfig();
+        if (is_array($options)) {
+            $options['timeout'] = self::DEFAULT_TIMEOUT;
+        }
+
         try {
-            $client->setOptions($transferObject->getClientConfig());
+            $client->setOptions($options);
             $client->setMethod($transferObject->getMethod());
             $client->setHeaders($transferObject->getHeaders());
             $client->setUri($transferObject->getUri());
