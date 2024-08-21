@@ -42,7 +42,7 @@ Agora usando as Novas APIs do PagBank.
 # Instalação
 
 - Abra o terminal, navegue até a pasta inicial do Magento e digite:
-  - `composer require ricardo-martins/pagbank-magento2`
+  - `composer require ricardomartins/pagbank-magento2`
   - `bin/magento setup:upgrade`
   - `bin/magento setup:di:compile`
   - `bin/magento setup:static-content:deploy`
