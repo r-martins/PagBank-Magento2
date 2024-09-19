@@ -2,32 +2,30 @@ define([
     'jquery',
     'mage/utils/wrapper',
     'uiRegistry',
-    'Magento_Ui/js/lib/view/utils/dom-observer'
-], function ($, wrapper, uiRegistry, domObserver) {
+    'Magento_Ui/js/lib/view/utils/dom-observer',
+    'Magento_Checkout/js/model/full-screen-loader'
+], function ($, wrapper, uiRegistry, domObserver, fullScreenLoader) {
     'use strict';
 
     return function (placeOrderAction) {
         return wrapper.wrap(placeOrderAction, function (originalAction, paymentData, messageContainer) {
-            let result,
-                errorMessage;
+            let result = originalAction(paymentData, messageContainer);
 
-            $.when(
-                result = originalAction(paymentData, messageContainer)
-            ).fail(
-                function () {
-                    let showAlternativeMessagesContainer = true;
-                    errorMessage = result.responseJSON.message;
-                    domObserver.get('.ricardomartins-pagbank-form.credit-card>.payment-method-content>.messages', function () {
-                        showAlternativeMessagesContainer = false;
-                    });
-                    if (errorMessage && showAlternativeMessagesContainer) {
-                        uiRegistry.get("checkout.steps.billing-step.payment.payments-list.ricardomartins_pagbank_cc")
-                            .set('errorMessage', result.responseJSON.message)
-                            .set('showAlternativeMessages', true);
-                    }
+            result.fail(function (xhr) {
+                let showAlternativeMessagesContainer = true;
+                let errorMessage = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Ocorreu um erro no processamento do pagamento.';
+                domObserver.get('.ricardomartins-pagbank-form.credit-card>.payment-method-content>.messages', function () {
+                    showAlternativeMessagesContainer = false;
+                });
+
+                if (errorMessage && showAlternativeMessagesContainer) {
+                    uiRegistry.get("checkout.steps.billing-step.payment.payments-list.ricardomartins_pagbank_cc")
+                        .set('errorMessage', errorMessage)
+                        .set('showAlternativeMessages', true);
                 }
-            );
 
+                fullScreenLoader.stopLoader();
+            });
             return result;
         });
     };
