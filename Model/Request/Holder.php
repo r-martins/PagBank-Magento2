@@ -59,6 +59,7 @@ class Holder extends DataObject implements HolderInterface
      */
     public function setEmail(string $email): HolderInterface
     {
+        $email = strtolower($email);
         $email = substr($email, 0, 255);
         return $this->setData(HolderInterface::EMAIL, $email);
     }

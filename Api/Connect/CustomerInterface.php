@@ -25,6 +25,7 @@ interface CustomerInterface
     /**
      * Customer email
      * Receive a string.
+     * Must be in lowercase.
      * Character limit: 10 to 255 characters.
      */
     public const EMAIL = 'email';

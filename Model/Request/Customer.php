@@ -59,6 +59,7 @@ class Customer extends DataObject implements CustomerInterface
      */
     public function setEmail(string $email): CustomerInterface
     {
+        $email = strtolower($email);
         $email = substr($email, 0, 255);
         return $this->setData(CustomerInterface::EMAIL, $email);
     }
