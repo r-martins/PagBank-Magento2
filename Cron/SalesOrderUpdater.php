@@ -65,14 +65,15 @@ class SalesOrderUpdater
                 $order->save();
                 continue;
             }
-
             $pagBankOrderId = $this->getTransactionId($order->getPayment());
             $pagBankResponse = $this->consultOrder->execute($pagBankOrderId);
             $charges = isset($pagBankResponse['charges']) ? $pagBankResponse['charges'] : null;
+
             $chargesHash = $this->encryptor->hash(json_encode($charges), Encryptor::HASH_VERSION_MD5);
             $chargesUpdated = $order->getData(ConnectInterface::PAGBANK_CHARGES) !== $chargesHash;
 
             if (in_array($order->getStatus(), self::ORDER_STATUS_FOR_COMMENT)) {
+
                 if ($chargesUpdated) {
                     $order->setData(ConnectInterface::PAGBANK_CHARGES, $chargesHash);
                     $order->addCommentToStatusHistory(
@@ -80,6 +81,7 @@ class SalesOrderUpdater
                         false
                     );
                 }
+
                 $order->setData(ConnectInterface::PAGBANK_NEXT_AUTO_UPDATE_DATE, null);
                 $order->save();
                 continue;
@@ -127,7 +129,7 @@ class SalesOrderUpdater
                 case ConfigBoleto::METHOD_CODE:
                     $boletoExpiration = $pagBankResponse['charges'][0]['payment_method']['boleto']['due_date'];
                     $boletoExpiration = new \DateTime($boletoExpiration);
-                    $boletoExpiration->modify('+3 days');
+                    $boletoExpiration->modify('+4 days');
                     $expired = !$boletoExpiration->diff($now)->invert;
                     if ($expired) {
                         $order->setData(ConnectInterface::PAGBANK_NEXT_AUTO_UPDATE_DATE, null);
@@ -165,9 +167,20 @@ class SalesOrderUpdater
     private function getPagBankOrders(): Collection
     {
         $now = new \DateTime('now');
+
         $collection = $this->orderCollectionFactory->create()
             ->addAttributeToSelect('*')
-            ->addFieldToFilter(ConnectInterface::PAGBANK_NEXT_AUTO_UPDATE_DATE, ['lteq' => $now->format('Y-m-d H:i:s')]);
+            ->addFieldToFilter(
+                ConnectInterface::PAGBANK_NEXT_AUTO_UPDATE_DATE,
+                [
+                    ['lteq' => $now->format('Y-m-d H:i:s')],
+                    ['null' => true]
+                ]
+            )
+            ->addFieldToFilter('status', ['nin' => ['processing', 'canceled', 'closed', 'complete']])
+            ->addFieldToFilter('state', ['nin' => ['processing', 'canceled', 'closed', 'complete']])
+            ->addFieldToFilter('state', ['notnull' => true])
+            ->addFieldToFilter('state', ['neq' => '']);
 
         $collection->getSelect()
             ->join(
