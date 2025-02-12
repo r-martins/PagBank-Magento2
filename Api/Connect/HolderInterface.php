@@ -23,6 +23,7 @@ interface HolderInterface
 
     /**
      * Customer email
+     * Must be in lowercase.
      * Receive a string with 10 - 255 characters.
      */
     public const EMAIL = 'email';
