@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace RicardoMartins\PagBank\Controller\Notifications;
+namespace RicardoMartins\PagBank\Controller\Notification;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\App\Action\Action;
@@ -96,7 +96,7 @@ class Index implements CsrfAwareActionInterface, HttpPostActionInterface
     {
         $order = null;
         $searchCriteria = $this->searchCriteriaBuilder->addFilter('txn_id', $transactionId)
-            ->addFilter(TransactionInterface::TXN_TYPE, TransactionInterface::TYPE_ORDER)
+            ->addFilter(TransactionInterface::TXN_TYPE, [TransactionInterface::TYPE_ORDER, TransactionInterface::TYPE_CAPTURE], 'in')
             ->create();
 
         try {
