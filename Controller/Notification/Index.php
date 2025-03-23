@@ -17,12 +17,20 @@ use Magento\Payment\Model\Method\Logger;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\TransactionInterface;
 use Magento\Sales\Api\TransactionRepositoryInterface;
+use Magento\Sales\Model\Order;
 use Magento\Sales\Model\OrderRepository;
 use Magento\Sales\Model\Spi\OrderResourceInterface;
 use RicardoMartins\PagBank\Gateway\Config\Config;
 
 class Index implements CsrfAwareActionInterface, HttpPostActionInterface
 {
+    /** @var array */
+    public const PENDING_PAYMENT_STATES = [
+        'new',
+        'payment_review',
+        'pending_payment'
+    ];
+
     public function __construct(
         private readonly ResultFactory $resultFactory,
         private readonly RequestInterface $request,
@@ -67,6 +75,15 @@ class Index implements CsrfAwareActionInterface, HttpPostActionInterface
 
         if (!$order) {
             $message = __("Order {$orderIncrementId} not found");
+            $this->logger->debug(['message' => $message]);
+            $result->setHttpResponseCode(500);
+            $result->setData(['message' => $message]);
+            return $result;
+        }
+
+        $canProcess = $this->canProcessNotification($order);
+        if (!$canProcess) {
+            $message = __("Order {$orderIncrementId} cannot be processed. The order is in state {$order->getState()}");
             $this->logger->debug(['message' => $message]);
             $result->setHttpResponseCode(500);
             $result->setData(['message' => $message]);
@@ -124,5 +141,18 @@ class Index implements CsrfAwareActionInterface, HttpPostActionInterface
     public function validateForCsrf(RequestInterface $request): ?bool
     {
         return true;
+    }
+
+    /**
+     * @param OrderInterface $order
+     * @return bool
+     */
+    private function canProcessNotification(OrderInterface $order)
+    {
+        if (in_array($order->getState(), self::PENDING_PAYMENT_STATES)) {
+            return true;
+        }
+
+        return false;
     }
 }

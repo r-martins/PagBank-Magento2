@@ -13,13 +13,6 @@ use RicardoMartins\PagBank\Model\Order\Status\History;
 
 class FetchPaymentHandler implements HandlerInterface
 {
-    /** @var array */
-    public const PENDING_PAYMENT_STATES = [
-        'new',
-        'payment_review',
-        'pending_payment'
-    ];
-
     /**
      * @param InvoiceSender $invoiceSender
      * @param History $statusHistory
@@ -110,17 +103,12 @@ class FetchPaymentHandler implements HandlerInterface
      */
     protected function denyOrder($payment, $transactionParentId, $transactionId)
     {
-        $order = $payment->getOrder();
-        if (!in_array($order->getState(), self::PENDING_PAYMENT_STATES)) {
-            return false;
-        }
-
         try {
             $payment->setPreparedMessage(__('Order Canceled.'));
             $payment->setTransactionId($transactionId.'-deny');
             $payment->setParentTransactionId($transactionParentId);
             $payment->setNotificationResult(true);
-            $payment->deny(false);
+            $payment->setIsTransactionDenied(true);
             return true;
         } catch (\Exception $e) {
             $order = $payment->getOrder();
@@ -157,9 +145,6 @@ class FetchPaymentHandler implements HandlerInterface
     {
         $order = $payment->getOrder();
         $baseTotalDue = $order->getBaseTotalDue();
-        if (!in_array($order->getState(), self::PENDING_PAYMENT_STATES)) {
-            return false;
-        }
 
         try {
             $payment->setTransactionId($transactionId . '-capture');
@@ -167,6 +152,7 @@ class FetchPaymentHandler implements HandlerInterface
             $payment->registerAuthorizationNotification($baseTotalDue);
             $payment->registerCaptureNotification($baseTotalDue);
             $payment->setShouldCloseParentTransaction(true);
+            $payment->setIsTransactionApproved(true);
             return true;
         } catch (\Exception $e) {
             $this->logger->critical('Error on register payment: [' . $order->getIncrementId() . '] ' . $e->getMessage());
