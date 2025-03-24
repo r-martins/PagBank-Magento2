@@ -110,3 +110,4 @@
 "Your card does not support 3D authentication. Choose another payment method or card.","Seu cartão não suporta autenticação 3D. Escolha outro método de pagamento ou cartão."
 "Force order update","Forçar atualização do pedido"
 "There was an update on PagBank, but the order was not changed as it has been cancelled.","Houve atualização no PagBank, mas o pedido não foi alterado pois encontra-se cancelado."
+"Enable Pix and Boleto Updater Cron","Habilitar Cron para atualizar os status de pedidos pagos com Pix ou Boleto"
