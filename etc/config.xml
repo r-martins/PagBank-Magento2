@@ -8,6 +8,7 @@
                 <title>PagBank</title>
                 <group>ricardomartins_pagbank_group</group>
                 <document_from>payment_form</document_from>
+                <pix_update_cron>1</pix_update_cron>
                 <force_order_update_cron>0</force_order_update_cron>
                 <debug>1</debug>
                 <sandbox_flag>1</sandbox_flag>

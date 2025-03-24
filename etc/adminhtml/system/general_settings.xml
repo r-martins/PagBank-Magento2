@@ -18,6 +18,11 @@
             <source_model>RicardoMartins\PagBank\Model\Config\Source\DocumentFromOptions</source_model>
             <config_path>payment/ricardomartins_pagbank/document_from</config_path>
         </field>
+        <field id="pix_update_cron" translate="label" type="select" sortOrder="25" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+            <label>Enable Pix Update Cron</label>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <config_path>payment/ricardomartins_pagbank/pix_update_cron</config_path>
+        </field>
         <field id="force_order_update_cron" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
             <label>Force order update</label>
             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
