@@ -154,6 +154,15 @@ class Config extends BaseConfig implements ConfigInterface
      * @param $storeId
      * @return bool
      */
+    public function updatePixOrdersCron($storeId = null): bool
+    {
+        return (bool) $this->getValue('pix_update_cron', $storeId);
+    }
+
+    /**
+     * @param $storeId
+     * @return bool
+     */
     public function forceOrderUpdateCron($storeId = null): bool
     {
         return (bool) $this->getValue('force_order_update_cron', $storeId);
