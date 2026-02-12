@@ -11,5 +11,11 @@
                 <value id="pagbank-img" type="host">*.pagseguro.com</value>
             </values>
         </policy>
+        <policy id="connect-src">
+            <values>
+                <value id="pagbank-connect-sandbox" type="host">sandbox.sdk.pagseguro.com</value>
+                <value id="pagbank-connect-prod" type="host">sdk.pagseguro.com</value>
+            </values>
+        </policy>
     </policies>
 </csp_whitelist>

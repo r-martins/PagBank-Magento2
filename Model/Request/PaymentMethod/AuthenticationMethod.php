@@ -13,7 +13,7 @@ class AuthenticationMethod extends DataObject implements AuthenticationMethodInt
      */
     public function getType(): string
     {
-        return $this->getData(AuthenticationMethodInterface::TYPE);
+        return (string)($this->getData(AuthenticationMethodInterface::TYPE) ?? '');
     }
 
     /**
@@ -30,7 +30,7 @@ class AuthenticationMethod extends DataObject implements AuthenticationMethodInt
      */
     public function getId(): string
     {
-        return $this->getData(AuthenticationMethodInterface::ID);
+        return (string)($this->getData(AuthenticationMethodInterface::ID) ?? '');
     }
 
     /**
