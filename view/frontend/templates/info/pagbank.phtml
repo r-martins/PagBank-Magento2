@@ -32,8 +32,8 @@ $title = $escaper->escapeHtml($block->getMethod()->getTitle());
                                                 <?= $escaper->escapeHtml($label) ?>
                                             </label>
                                             <div class="code-content">
-                                                <input type="text" id="payment-code" class="payment-code" value="<?= $valueInner; ?>" readonly="readonly"/>
-                                                <img src="<?= $block->getViewFileUrl('RicardoMartins_PagBank::images/copy-icon.svg') ?>" alt="<?= $escaper->escapeHtmlAttr(__('Copy')) ?>" title="<?= $escaper->escapeHtmlAttr(__('Copy')) ?>" class="copy-btn"/>
+                                                <input type="text" id="payment-code" class="payment-code" value="<?= $escaper->escapeHtmlAttr($valueInner) ?>" readonly="readonly"/>
+                                                <img src="<?= $escaper->escapeUrl($block->getViewFileUrl('RicardoMartins_PagBank::images/copy-icon.svg')) ?>" alt="<?= $escaper->escapeHtmlAttr(__('Copy')) ?>" title="<?= $escaper->escapeHtmlAttr(__('Copy')) ?>" class="copy-btn"/>
                                                 <p class="copied" style="display: none"><?= $escaper->escapeHtml(__('Copied ✔')) ?></p>
                                             </div>
                                         </div>

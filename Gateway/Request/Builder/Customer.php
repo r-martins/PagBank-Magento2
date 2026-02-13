@@ -82,7 +82,7 @@ class Customer implements BuilderInterface
      * @param string|null $taxvat
      * @return string
      */
-    private function getPhoneType(string $telephone, string $taxvat = null): string
+    private function getPhoneType(string $telephone, ?string $taxvat = null): string
     {
         if (!$taxvat) {
             return PhoneInterface::TYPE_MOBILE;

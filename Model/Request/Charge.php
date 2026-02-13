@@ -52,7 +52,7 @@ class Charge extends DataObject implements ChargeInterface
      * @param null $date
      * @return ChargeInterface
      */
-    public function setCreatedAt($date = null): ChargeInterface
+    public function setCreatedAt(mixed $date = null): ChargeInterface
     {
         $createdAt = $this->timezone->date($date)->format(self::DATETIME_FORMAT);
         return $this->setData(ChargeInterface::CREATED_AT, $createdAt);

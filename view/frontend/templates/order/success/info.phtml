@@ -1,7 +1,7 @@
 <?php
 /** @var $block \RicardoMartins\PagBank\Block\Checkout\Onepage\Info */
 ?>
-<div class="payment-instructions <?= $block->getPaymentMethodClass() ?? ' ' . $block->getPaymentMethodClass(); ?>">
-    <?= $block->getAdditionalInfoHtml() ?>
+<div class="payment-instructions <?= $block->escapeHtmlAttr($block->getPaymentMethodClass() ?? '') ?>">
+    <?= /* @noEscape */ $block->getAdditionalInfoHtml() ?>
 </div>
 

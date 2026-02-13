@@ -23,7 +23,7 @@ $title = $escaper->escapeHtml($block->getMethod()->getTitle());
                         <?php elseif($type === 'yesno'): ?>
                             <th scope="row"><?= $escaper->escapeHtml($label) ?></th>
                             <td>
-                                <?= $valueInner ? __('Yes') : __('No') ?>
+                                <?= $escaper->escapeHtml($valueInner ? __('Yes') : __('No')) ?>
                             </td>
                         <?php elseif($type === 'image'): ?>
                             <th scope="row"><?= $escaper->escapeHtml($label) ?></th>
@@ -34,8 +34,8 @@ $title = $escaper->escapeHtml($block->getMethod()->getTitle());
                             <th scope="row"><?= $escaper->escapeHtml($label) ?></th>
                             <td>
                                 <div class="code-container">
-                                    <input type="text" id="payment-code" class="payment-code" value="<?= $valueInner; ?>" readonly="readonly"/>
-                                    <img src="<?= $block->getViewFileUrl('RicardoMartins_PagBank::images/copy-icon.svg') ?>" alt="<?= $escaper->escapeHtmlAttr(__('Copy')) ?>" title="<?= $escaper->escapeHtmlAttr(__('Copy')) ?>" class="copy-btn"/>
+                                    <input type="text" id="payment-code" class="payment-code" value="<?= $escaper->escapeHtmlAttr($valueInner) ?>" readonly="readonly"/>
+                                    <img src="<?= $escaper->escapeUrl($block->getViewFileUrl('RicardoMartins_PagBank::images/copy-icon.svg')) ?>" alt="<?= $escaper->escapeHtmlAttr(__('Copy')) ?>" title="<?= $escaper->escapeHtmlAttr(__('Copy')) ?>" class="copy-btn"/>
                                 </div>
                                 <p class="copied" style="display: none"><?= $escaper->escapeHtml(__('Copied ✔')) ?></p>
                             </td>

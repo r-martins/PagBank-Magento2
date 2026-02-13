@@ -5,7 +5,7 @@
 <h2><?= $escaper->escapeHtml(__('Pay your PIX')) ?></h2>
 <p><?= $escaper->escapeHtml(__('Scan the code below with your bank\'s app.')) ?></p>
 <div class="pix-qr-container">
-    <img src="<?= $block->getPaymentLinkQrcode(); ?>" class="pix-qr" alt="PIX QrCode" title="<?= $escaper->escapeHtmlAttr(__('Scan the code below with your bank\'s app.')) ?>"/>
+    <img src="<?= $escaper->escapeUrl($block->getPaymentLinkQrcode()) ?>" class="pix-qr" alt="PIX QrCode" title="<?= $escaper->escapeHtmlAttr(__('Scan the code below with your bank\'s app.')) ?>"/>
 </div>
 <p><?= $escaper->escapeHtml(__('Or if you prefer, copy and paste the code below into your bank\'s application using PIX with Copy and Paste mode.')) ?></p>
 <div class="code-container">
@@ -13,8 +13,8 @@
         <?= $escaper->escapeHtml(__('PIX Code:')) ?>
     </label>
     <div class="code-content">
-        <input type="text" id="qrcode" class="payment-code" value="<?= $block->getPaymentTextPix(); ?>" readonly="readonly"/>
-        <img src="<?= $block->getViewFileUrl('RicardoMartins_PagBank::images/copy-icon.svg') ?>" alt="<?= $escaper->escapeHtmlAttr(__('Copy')) ?>" title="<?= $escaper->escapeHtmlAttr(__('Copy')) ?>" class="copy-btn"/>
+        <input type="text" id="qrcode" class="payment-code" value="<?= $escaper->escapeHtmlAttr($block->getPaymentTextPix()) ?>" readonly="readonly"/>
+        <img src="<?= $escaper->escapeUrl($block->getViewFileUrl('RicardoMartins_PagBank::images/copy-icon.svg')) ?>" alt="<?= $escaper->escapeHtmlAttr(__('Copy')) ?>" title="<?= $escaper->escapeHtmlAttr(__('Copy')) ?>" class="copy-btn"/>
         <p class="copied" style="display: none"><?= $escaper->escapeHtml(__('Copied ✔')) ?></p>
     </div>
 </div>

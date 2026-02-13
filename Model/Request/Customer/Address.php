@@ -164,7 +164,7 @@ class Address extends DataObject implements AddressInterface
      * @param string|null $country
      * @return Address
      */
-    public function setCountry(string $country = null): Address
+    public function setCountry(?string $country = null): Address
     {
         $country = $country ?? AddressInterface::COUNTRY_CODE_BRAZIL;
         $country = substr($country, 0, 3);
