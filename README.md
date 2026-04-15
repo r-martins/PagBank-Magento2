@@ -2,7 +2,7 @@
 [![GitHub release](https://img.shields.io/github/v/release/r-martins/PagBank-Magento2)](https://github.com/r-martins/PagBank-Magento2)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/r-martins/PagBank-Magento2/master)
 # Módulo PagBank(PagSeguro) para Magento2
-![Módulo PagBank para Magento 2](https://imgur.com/LqdBGik.jpg)
+
 ## Nova Geração - Novas APIs, Novos Recursos, Mais Estabilidade
 Aceite mais de 30 cartões de crédito, PIX e boleto em sua loja Magento 2, usando o meio de pagamento mais aceito pelos brasileiros.
 
@@ -11,11 +11,11 @@ Agora usando as Novas APIs do PagBank.
 # Recursos
 
 - Aceite pagamentos com Cartão de Crédito, PIX ou Boleto de forma transparente (sem sair da loja)
-- [3D Secure](https://pagsegurotransparente.zendesk.com/hc/pt-br/articles/22375922278157-Autentica%C3%A7%C3%A3o-3DS-Sua-prote%C3%A7%C3%A3o-contra-Chargeback) em Pagamentos com Cartão - Zero Chargeback fraudulento, MUITO mais conversão, sem necessidade de antifraude.
-- Permite [salvar o cartão](https://pagsegurotransparente.zendesk.com/hc/pt-br/articles/22592192276109-Salvar-Cart%C3%A3o-para-uso-posterior) para compras futuras (Magento Vault)
-- PIX e Boleto com [validade configurável](https://pagsegurotransparente.zendesk.com/hc/pt-br/articles/27060110031373-PIX-e-Boleto-com-validade-configur%C3%A1vel)
+- [3D Secure](https://ajuda.pbintegracoes.com/hc/pt-br/articles/22375922278157-Autentica%C3%A7%C3%A3o-3DS-Sua-prote%C3%A7%C3%A3o-contra-Chargeback) em Pagamentos com Cartão - Zero Chargeback fraudulento, MUITO mais conversão, sem necessidade de antifraude.
+- Permite [salvar o cartão](https://ajuda.pbintegracoes.com/hc/pt-br/articles/22592192276109-Salvar-Cart%C3%A3o-para-uso-posterior) para compras futuras (Magento Vault)
+- PIX e Boleto com [validade configurável](https://ajuda.pbintegracoes.com/hc/pt-br/articles/27060110031373-PIX-e-Boleto-com-validade-configur%C3%A1vel)
 - Atualização automática do status do pedido
-- Pagamento em 1x ou [parcelado](https://pagsegurotransparente.zendesk.com/hc/pt-br/articles/22592267621645-Op%C3%A7%C3%B5es-de-Parcelamento-no-Magento-2)
+- Pagamento em 1x ou [parcelado](https://ajuda.pbintegracoes.com/hc/pt-br/articles/22592267621645-Op%C3%A7%C3%B5es-de-Parcelamento-no-Magento-2)
 - Identificador do nome da loja na fatura
 - Descontos nas taxa oficiais do PagBank (ou suas taxas)
 - Suporte a Sandbox
@@ -23,7 +23,7 @@ Agora usando as Novas APIs do PagBank.
 - Suporte a todos os tipos de produtos
 - Suporte a multi-loja
 - Desenvolvido nos padrões Magento 2 por desenvolvedores certificados pela Adobe 🏆
-- [Atualização pró-ativa de pedidos](https://pagsegurotransparente.zendesk.com/hc/pt-br/articles/27270191360653-For%C3%A7ar-atualiza%C3%A7%C3%A3o-de-pedidos)
+- [Atualização pró-ativa de pedidos](https://ajuda.pbintegracoes.com/hc/pt-br/articles/27270191360653-For%C3%A7ar-atualiza%C3%A7%C3%A3o-de-pedidos)
 
 <details>
   <summary>VEJA ALGUNS SCREENSHOTS (clique aqui para expandir)</summary>
@@ -79,7 +79,7 @@ Se mesmo assim você possuir uma taxa ou condição melhor, e se compromete a fa
 
 ## Tenho outra pergunta não listada aqui
 
-Consulte nossa [Central de ajuda](https://pagsegurotransparente.zendesk.com/hc/pt-br/) e [entre em contato](https://pagsegurotransparente.zendesk.com/hc/pt-br/requests/new) conosco se não encontrar sua dúvida respondida por lá.
+Consulte nossa [Central de ajuda](https://ajuda.pbintegracoes.com/hc/pt-br/) e [entre em contato](https://ajuda.pbintegracoes.com/hc/pt-br/requests/new) conosco se não encontrar sua dúvida respondida por lá.
 
 A maioria das dúvidas estão respondidas lá. As outras são respondidas em até 2 dias após entrar em contato.
 
@@ -101,9 +101,9 @@ Enquanto isso, você pode testar com dados reais e realizar o estorno. As tarifa
 
 ## Este é um plugin oficial?
 
-Não. Este é um plugin desenvolvido por Ricardo Martins (e equipe/colaboradores), assim como outros para Magento e WooCommerce desenvolvidos no passado.
+Este plugin foi desenvolvido por [PagBank Integrações](https://pbintegracoes.com/?utm_source=github-m2&utm_content=readme&utm_medium=link), parceiro oficial PagBank desde 2014.
 
-Apesar da parceria entre o desenvolvedor e o PagBank que concede descontos e benefícios, este NÃO é um produto oficial.
+Ou seja, apesar da parceria oficial, suporte e constante manutenção e atualizações, este plugin não foi desenvolvido pelo PagBank.
 
 PagSeguro e PagBank são marcas do UOL.
 
@@ -112,7 +112,7 @@ PagSeguro e PagBank são marcas do UOL.
 
 O plugin é licenciado sob GPL v3. Você pode modificar e distribuir, contanto que suas melhorias e correções sejam contribuidas de volta com o projeto.
 
-Você deve fazer isso através de Pull Requests ao [repositório oficial no github](https://github.com/r-martins/PagBank-WooCommerce).
+Você deve fazer isso através de Pull Requests ao [repositório oficial no github](https://github.com/r-martins/PagBank-Magento2).
 
 # Garantia
 
@@ -124,10 +124,11 @@ Esta é uma iniciativa pessoal, sem vínculo com PagBank. PagBank é uma marca d
 
 Este não é um produto oficial do PagBank.
 
-Ao usar este plugin você concorda com os [Termos de Uso e Política de Privacidade](https://pagseguro.ricardomartins.net.br/terms.html).
+Ao usar este plugin você concorda com os [Termos de Uso e Política de Privacidade](https://pbintegracoes.com/terms/?utm_source=github-m2&utm_content=readme&utm_medium=link).
 
 # Links úteis
 
-- [Site Oficial das Integrações PagBank por Ricardo Martins](https://pagseguro.ricardomartins.net.br/)
-- [Central de Ajuda](https://pagsegurotransparente.zendesk.com/hc/pt-br/)
-- [Termos de Uso e Política de Privacidade](https://pagseguro.ricardomartins.net.br/terms.html)
+- [Site Oficial das Integrações PagBank por Ricardo Martins](https://pbintegracoes.com/?utm_source=github-m2&utm_content=readme&utm_medium=link)
+- [Central de Ajuda](https://ajuda.pbintegracoes.com.com/hc/pt-br/)
+- [Termos de Uso e Política de Privacidade](https://pbintegracoes.com/terms/?utm_source=github-m2&utm_content=readme&utm_medium=link)
+- [Obter Connect Key](https://pbintegracoes.com/connect/autorizar/?utm_source=github-m2&utm_content=readme&utm_medium=link)
