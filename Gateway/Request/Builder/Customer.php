@@ -41,8 +41,6 @@ class Customer implements BuilderInterface
 
         /** @var Order $orderModel */
         $orderModel = $payment->getOrder();
-        $telephone = $orderModel->getBillingAddress()->getTelephone();
-        $telephone = preg_replace('/[^0-9]/','', $telephone);
 
         $documentFrom = $this->config->getDocumentFrom($orderModel->getStoreId());
 
@@ -56,15 +54,18 @@ class Customer implements BuilderInterface
             $document = $payment->getAdditionalInformation('tax_id');
         }
 
-        $telephone = $orderModel->getBillingAddress()->getTelephone();
-        $telephone = preg_replace('/[^0-9]/','', $telephone);
-        $document = preg_replace('/[^0-9]/','', $document);
+        $rawTelephone = $orderModel->getBillingAddress()->getTelephone();
+        $digitsOnly = (string) preg_replace('/\D/', '', (string) $rawTelephone);
+        $document = preg_replace('/\D/', '', (string) $document);
+
+        $localDigits = $this->extractBrazilLocalDigits($digitsOnly);
+        $areaAndNumber = $this->splitBrazilAreaAndNumber($localDigits);
 
         $phones = $this->phoneFactory->create();
         $phones->setCountry(PhoneInterface::DEFAULT_COUNTRY_CODE);
-        $phones->setArea((int) substr($telephone, 0, 2));
-        $phones->setNumber((int) substr($telephone, 2));
-        $phones->setType($this->getPhoneType($telephone, $document));
+        $phones->setArea($areaAndNumber['area']);
+        $phones->setNumber($areaAndNumber['number']);
+        $phones->setType($this->getPhoneType($localDigits, $document));
 
         $customer = $this->customerFactory->create();
         $customer->setName($orderModel->getCustomerFirstname() . ' ' . $orderModel->getCustomerLastname());
@@ -78,23 +79,86 @@ class Customer implements BuilderInterface
     }
 
     /**
-     * @param string $telephone
+     * Strips long-distance 0 and DDI 55 when present so the remainder is national format (DDD + number).
+     *
+     * Brazilian mobiles are DDD (2) + 9 digits; landlines DDD (2) + 8 digits.
+     * Leading 55 is only removed when what remains is exactly 10 or 11 digits, so DDD 55 (e.g. RS) is preserved.
+     */
+    private function extractBrazilLocalDigits(string $digitsOnly): string
+    {
+        if ($digitsOnly === '') {
+            return '';
+        }
+
+        // 0 + DDD + number (national long distance)
+        if (str_starts_with($digitsOnly, '0') && strlen($digitsOnly) >= 11) {
+            $digitsOnly = substr($digitsOnly, 1);
+        }
+
+        while (
+            strlen($digitsOnly) > 11
+            && str_starts_with($digitsOnly, '55')
+        ) {
+            $rest = substr($digitsOnly, 2);
+            if (strlen($rest) !== 10 && strlen($rest) !== 11) {
+                break;
+            }
+            $digitsOnly = $rest;
+        }
+
+        return $digitsOnly;
+    }
+
+    /**
+     * @return array{area: int, number: int}
+     */
+    private function splitBrazilAreaAndNumber(string $localDigits): array
+    {
+        $len = strlen($localDigits);
+        if ($len === 11) {
+            return [
+                'area' => (int) substr($localDigits, 0, 2),
+                'number' => (int) substr($localDigits, 2, 9),
+            ];
+        }
+        if ($len === 10) {
+            return [
+                'area' => (int) substr($localDigits, 0, 2),
+                'number' => (int) substr($localDigits, 2, 8),
+            ];
+        }
+
+        // Unusual length: keep previous behavior (first two digits = area) to avoid empty payload
+        if ($len >= 3) {
+            return [
+                'area' => (int) substr($localDigits, 0, 2),
+                'number' => (int) substr($localDigits, 2),
+            ];
+        }
+
+        return [
+            'area' => $len > 0 ? (int) $localDigits : 0,
+            'number' => 0,
+        ];
+    }
+
+    /**
+     * @param string $localDigits National digits only (DDD + subscriber), 10 or 11 chars when well-formed
      * @param string|null $taxvat
      * @return string
      */
-    private function getPhoneType(string $telephone, ?string $taxvat = null): string
+    private function getPhoneType(string $localDigits, ?string $taxvat = null): string
     {
         if (!$taxvat) {
             return PhoneInterface::TYPE_MOBILE;
         }
 
-        $countTaxvatCharacters = strlen($taxvat);
-        if ($countTaxvatCharacters === 14) {
+        if (strlen($taxvat) === 14) {
             return PhoneInterface::TYPE_BUSINESS;
         }
 
-        $countPhoneCharacters = strlen($telephone);
-        if ($countPhoneCharacters === 8) {
+        $subscriber = strlen($localDigits) >= 2 ? substr($localDigits, 2) : $localDigits;
+        if (strlen($subscriber) === 8) {
             return PhoneInterface::TYPE_HOME;
         }
 
