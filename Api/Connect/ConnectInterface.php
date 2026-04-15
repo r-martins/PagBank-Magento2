@@ -11,7 +11,7 @@ interface ConnectInterface
      * WS URI
      * @var string
      */
-    public const WS_URI = 'https://ws.ricardomartins.net.br/';
+    public const WS_URI = 'https://ws.pbintegracoes.com/';
 
     /**
      * WS Endpoint
