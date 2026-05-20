@@ -7,6 +7,7 @@ use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Sales\Model\Order;
 use RicardoMartins\PagBank\Api\Connect\AddressInterfaceFactory;
+use RicardoMartins\PagBank\Model\Request\Customer\StreetAddressMapper;
 
 class Shipping implements BuilderInterface
 {
@@ -24,7 +25,8 @@ class Shipping implements BuilderInterface
      * @param AddressInterfaceFactory $addressFactory
      */
     public function __construct(
-        private AddressInterfaceFactory $addressFactory
+        private AddressInterfaceFactory $addressFactory,
+        private StreetAddressMapper $streetAddressMapper
     ) {}
 
     /**
@@ -51,18 +53,12 @@ class Shipping implements BuilderInterface
         $shippingAddress = $order->getShippingAddress();
 
         $address = $this->addressFactory->create();
-        $address->setStreet($shippingAddress->getStreetLine(1));
-        $address->setNumber($shippingAddress->getStreetLine(2));
-        $address->setLocality($shippingAddress->getStreetLine(4));
+        $this->streetAddressMapper->applyStreetFields($address, $shippingAddress);
         $address->setCity($shippingAddress->getCity());
         $address->setRegion($shippingAddress->getRegionCode(), $shippingAddress->getCountryId());
         $address->setRegionCode($shippingAddress->getRegionCode());
         $address->setPostalCode($shippingAddress->getPostcode());
         $address->setCountry();
-
-        if ($shippingAddress->getStreetLine(3)) {
-            $address->setComplement($shippingAddress->getStreetLine(3));
-        }
 
         $result[self::SHIPPING][self::SHIPPING_ADDRESS] = $address->getData();
 

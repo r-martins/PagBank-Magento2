@@ -17,6 +17,7 @@ use RicardoMartins\PagBank\Gateway\Config\Config as GeneralConfig;
 use RicardoMartins\PagBank\Api\Connect\AmountInterfaceFactory;
 use RicardoMartins\PagBank\Api\Connect\PaymentMethodInterface;
 use RicardoMartins\PagBank\Api\Connect\PaymentMethodInterfaceFactory;
+use RicardoMartins\PagBank\Model\Request\Customer\StreetAddressMapper;
 
 class Boleto implements BuilderInterface
 {
@@ -35,7 +36,8 @@ class Boleto implements BuilderInterface
         private HolderInterfaceFactory $holderFactory,
         private AddressInterfaceFactory $addressFactory,
         private ConfigBoleto $config,
-        private GeneralConfig $generalConfig
+        private GeneralConfig $generalConfig,
+        private StreetAddressMapper $streetAddressMapper
     ) {}
 
     /**
@@ -57,10 +59,7 @@ class Boleto implements BuilderInterface
         $billingAddress = $order->getBillingAddress();
 
         $address = $this->addressFactory->create();
-        $address->setStreet($billingAddress->getStreetLine(1));
-        $address->setNumber($billingAddress->getStreetLine(2));
-        $address->setComplement($billingAddress->getStreetLine(3));
-        $address->setLocality($billingAddress->getStreetLine(4));
+        $this->streetAddressMapper->applyStreetFields($address, $billingAddress);
         $address->setCity($billingAddress->getCity());
         $address->setRegion($billingAddress->getRegionCode(), $billingAddress->getCountryId());
         $address->setRegionCode($billingAddress->getRegionCode());

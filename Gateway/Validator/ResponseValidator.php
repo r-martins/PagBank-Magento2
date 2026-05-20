@@ -68,12 +68,23 @@ class ResponseValidator extends AbstractValidator
         if (isset($response[ResponseInterface::ERROR_MESSAGES])) {
             $isValid = false;
             foreach ($response[ResponseInterface::ERROR_MESSAGES] as $error) {
-                $errorCodes[] = $error[ResponseInterface::ERROR_MESSAGE_CODE];
-                $errorMessages[] = "{$error[ResponseInterface::ERROR_MESSAGE_DESCRIPTION]} ({$error[ResponseInterface::ERROR_MESSAGE_PARAMETER_NAME]})";
-                $customMessage = $this->getDetailedErrorMessage(
-                    $error[ResponseInterface::ERROR_MESSAGE_CODE],
-                    $error[ResponseInterface::ERROR_MESSAGE_PARAMETER_NAME]
-                );
+                if (!is_array($error)) {
+                    continue;
+                }
+
+                $code = (string) ($error[ResponseInterface::ERROR_MESSAGE_CODE] ?? 'UNKNOWN');
+                $description = (string) ($error[ResponseInterface::ERROR_MESSAGE_DESCRIPTION] ?? '');
+                $parameterName = (string) ($error[ResponseInterface::ERROR_MESSAGE_PARAMETER_NAME] ?? '');
+
+                $errorCodes[] = $code;
+                $errorMessages[] = $parameterName !== ''
+                    ? "{$description} ({$parameterName})"
+                    : ($description !== '' ? $description : $code);
+
+                $detailedMessage = $this->getDetailedErrorMessage($code, $parameterName);
+                if ($detailedMessage !== null) {
+                    $customMessage = $detailedMessage;
+                }
             }
         }
 
@@ -81,8 +92,9 @@ class ResponseValidator extends AbstractValidator
         $status = isset($charge[ResponseInterface::CHARGE_STATUS]) ? $charge[ResponseInterface::CHARGE_STATUS] : '';
         if (in_array($status, $this->responseErrorStatus)) {
             $isValid = false;
-            $errorCodes[] = $charge[ResponseInterface::PAYMENT_RESPONSE][ResponseInterface::PAYMENT_RESPONSE_CODE];
-            $errorMessages[] = $charge[ResponseInterface::PAYMENT_RESPONSE][ResponseInterface::PAYMENT_RESPONSE_MESSAGE];
+            $paymentResponse = $charge[ResponseInterface::PAYMENT_RESPONSE] ?? [];
+            $errorCodes[] = (string) ($paymentResponse[ResponseInterface::PAYMENT_RESPONSE_CODE] ?? 'DECLINED');
+            $errorMessages[] = (string) ($paymentResponse[ResponseInterface::PAYMENT_RESPONSE_MESSAGE] ?? $status);
         }
 
         /** @var PaymentDataObjectInterface $paymentDataObject */
@@ -123,15 +135,21 @@ class ResponseValidator extends AbstractValidator
      *
      * @return \Magento\Framework\Phrase|null
      */
-    private function getDetailedErrorMessage(string $code, string $parameterName)
+    private function getDetailedErrorMessage(string $code, string $parameterName): ?\Magento\Framework\Phrase
     {
-        if (key_exists($code, $this->errors)) {
-            $friendlyParameterName = $this->getFriendlyParameterName($parameterName);
-            $message = __($this->errors[$code]);
-            return __('[%1] %2 (%3)', $code, $message, $friendlyParameterName);
+        if (!array_key_exists($code, $this->errors)) {
+            return null;
         }
 
-        return null;
+        $message = __($this->errors[$code]);
+
+        if ($parameterName === '') {
+            return __('[%1] %2', $code, $message);
+        }
+
+        $friendlyParameterName = $this->getFriendlyParameterName($parameterName);
+
+        return __('[%1] %2 (%3)', $code, $message, $friendlyParameterName);
     }
 
     /**
