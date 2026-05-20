@@ -119,6 +119,15 @@ define([
                     if (value === '' || value === null) {
                         return false;
                     }
+
+                    const normalized = self.normalizeCreditCardNumber(value);
+
+                    if (normalized !== value) {
+                        self.creditCardNumber(normalized);
+                        $('#' + self.getCode() + '_cc_number').val(normalized);
+                        return;
+                    }
+
                     result = cardNumberValidator(value);
 
                     if (!result.isPotentiallyValid && !result.isValid) {
@@ -167,9 +176,16 @@ define([
                     creditCardData.creditCardInstallments = value;
                 });
 
-                //Set owner to credit card data object
+                //Set owner to credit card data object (uppercase, no digits)
                 this.creditCardOwner.subscribe(function (value) {
-                    creditCardData.creditCardOwner = value;
+                    const normalized = self.normalizeOwnerNameLive(value);
+
+                    if (normalized !== value) {
+                        self.creditCardOwner(normalized);
+                        return;
+                    }
+
+                    creditCardData.creditCardOwner = normalized;
                 });
 
                 //Set expiration date to credit card data object and field mask
@@ -177,10 +193,20 @@ define([
                     expirationField = $('#' + self.getCode() + '_cc_expiration');
                     expirationField.mask('00/00');
 
+                    const normalized = self.normalizeExpirationDate(value);
+
+                    if (normalized !== value) {
+                        self.creditCardExpiration(normalized);
+                        expirationField.val(normalized);
+                        value = normalized;
+                    }
+
                     self.setExpirationDate(value);
                     creditCardData.creditCardExpMonth = self.creditCardExpMonth();
                     creditCardData.creditCardExpYear = self.creditCardExpYear();
                 });
+
+                self.bindCardFieldNormalizers();
 
                 //Set document to data object and field mask
                 this.taxId.subscribe(function (value) {
@@ -204,7 +230,19 @@ define([
             beforePlaceOrder(data, event) {
                 let self = this,
                     resultSecure,
-                    resultToken;
+                    resultToken,
+                    ownerField = $('#' + self.getCode() + '_cc_owner'),
+                    expirationField = $('#' + self.getCode() + '_cc_expiration'),
+                    cardNumberField = $('#' + self.getCode() + '_cc_number');
+
+                self.creditCardNumber(self.normalizeCreditCardNumber(cardNumberField.val()));
+                cardNumberField.val(self.creditCardNumber());
+
+                self.creditCardOwner(self.normalizeOwnerNameOnBlur(ownerField.val()));
+                ownerField.val(self.creditCardOwner());
+
+                self.creditCardExpiration(self.normalizeExpirationDate(expirationField.val()));
+                expirationField.val(self.creditCardExpiration());
 
                 if (!this.validate()) {
                     return false;
@@ -256,7 +294,7 @@ define([
                     'method': this.getCode(),
                     'additional_data': {
                         'cc_number_encrypted': this.creditCardNumberEncrypted(),
-                        'cc_owner': this.creditCardOwner(),
+                        'cc_owner': this.normalizeOwnerNameOnBlur(this.creditCardOwner()),
                         'cc_type': this.creditCardType(),
                         'cc_last_4': this.getLast4Numbers(),
                         'cc_exp_month': this.creditCardExpMonth(),
@@ -389,7 +427,7 @@ define([
                     cardEncrypted;
 
                 cardEncrypted = encryptCard(
-                    self.creditCardOwner(),
+                    self.normalizeOwnerNameOnBlur(self.creditCardOwner()),
                     self.creditCardNumber().replace(/ /g, ""),
                     self.creditCardExpMonth(),
                     self.creditCardExpYear(),
@@ -403,12 +441,121 @@ define([
             },
 
             /**
+             * Bind blur handlers for cardholder name and expiration normalization.
+             */
+            bindCardFieldNormalizers: function () {
+                const self = this,
+                    ownerSelector = '#' + self.getCode() + '_cc_owner',
+                    expirationSelector = '#' + self.getCode() + '_cc_expiration';
+
+                $(document)
+                    .off('blur.pagbankCcOwner', ownerSelector)
+                    .on('blur.pagbankCcOwner', ownerSelector, function () {
+                        const normalized = self.normalizeOwnerNameOnBlur($(this).val());
+
+                        $(this).val(normalized);
+                        self.creditCardOwner(normalized);
+                    });
+
+                $(document)
+                    .off('blur.pagbankCcExpiration', expirationSelector)
+                    .on('blur.pagbankCcExpiration', expirationSelector, function () {
+                        const normalized = self.normalizeExpirationDate($(this).val());
+
+                        $(this).val(normalized);
+                        self.creditCardExpiration(normalized);
+                    });
+            },
+
+            /**
+             * Allow only digits and spaces in the credit card number field.
+             *
+             * @param {String} value
+             * @returns {String}
+             */
+            normalizeCreditCardNumber: function (value) {
+                if (value === null || value === undefined) {
+                    return '';
+                }
+
+                return String(value).replace(/[^0-9 ]/g, '');
+            },
+
+            /**
+             * Uppercase cardholder name and strip digits while typing.
+             *
+             * @param {String} value
+             * @returns {String}
+             */
+            normalizeOwnerNameLive: function (value) {
+                if (value === null || value === undefined) {
+                    return '';
+                }
+
+                return String(value).replace(/[0-9]/g, '').toUpperCase();
+            },
+
+            /**
+             * Trim and collapse spaces on cardholder name (blur).
+             *
+             * @param {String} value
+             * @returns {String}
+             */
+            normalizeOwnerNameOnBlur: function (value) {
+                return this.normalizeOwnerNameLive(value).trim().replace(/\s+/g, ' ');
+            },
+
+            /**
+             * Prepend 0 to month when the first digit is greater than 1 (e.g. 5 -> 05).
+             *
+             * @param {String} value
+             * @returns {String}
+             */
+            normalizeExpirationDate: function (value) {
+                if (!value || !String(value).trim()) {
+                    return value;
+                }
+
+                const parts = String(value).split('/');
+                let month = (parts[0] || '').replace(/\D/g, '');
+                let year = (parts[1] || '').replace(/\D/g, '');
+
+                if (month.length === 1 && parseInt(month, 10) > 1) {
+                    month = '0' + month;
+                }
+
+                if (month.length > 2) {
+                    month = month.slice(0, 2);
+                }
+
+                if (year.length > 2) {
+                    year = year.slice(0, 2);
+                }
+
+                if (!year.length) {
+                    return month.length === 2 ? month + '/' : month;
+                }
+
+                return month + '/' + year;
+            },
+
+            /**
              * Set expiration date
              * @param value
              */
             setExpirationDate(value) {
                 let self = this,
-                    date = value.split('/');
+                    date;
+
+                if (!value || String(value).indexOf('/') === -1) {
+                    return;
+                }
+
+                date = value.split('/');
+
+                if (date.length < 2 || date[0].length < 2 || date[1].length < 2) {
+                    return;
+                }
 
                 self.creditCardExpMonth(date[0]);
                 self.creditCardExpYear('20' + date[1]);
