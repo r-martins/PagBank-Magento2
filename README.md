@@ -1,4 +1,4 @@
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.1-8892BF.svg?style=flat-square)](https://php.net/)
+[![Minimum PHP Version](https://img.shields.io/badge/php-8.1%20%E2%80%93%208.5-8892BF.svg?style=flat-square)](https://php.net/)
 [![GitHub release](https://img.shields.io/github/v/release/r-martins/PagBank-Magento2)](https://github.com/r-martins/PagBank-Magento2)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/r-martins/PagBank-Magento2/master)
 # Módulo PagBank(PagSeguro) para Magento2
@@ -37,7 +37,7 @@ Agora usando as Novas APIs do PagBank.
 
 # Pré-requisitos
 - Magento 2.4.4 ou superior
-- PHP 8.1 ou superior
+- PHP 8.1 a 8.5 (recomendado conforme a versão do Magento instalada)
 
 # Instalação
 
