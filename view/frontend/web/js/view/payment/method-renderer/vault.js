@@ -7,9 +7,9 @@ define([
     'Magento_Payment/js/model/credit-card-validation/credit-card-data',
     'RicardoMartins_PagBank/js/model/payment-validation/pagbank-customer-data',
     'RicardoMartins_PagBank/js/view/payment/form/customer-fields',
+    'RicardoMartins_PagBank/js/model/tax-id-subscriber',
     'RicardoMartins_PagBank/js/action/get-installments',
     'RicardoMartins_PagBank/js/action/set-interest',
-    'RicardoMartins_PagBank/js/lib/jquery/jquery.mask',
 ], function (
     $,
     _,
@@ -19,9 +19,9 @@ define([
     creditCardData,
     pagbankCustomerData,
     customerFields,
+    taxIdSubscriber,
     getInstallments,
     setInterest,
-    _mask,
 ) {
     'use strict';
 
@@ -51,24 +51,12 @@ define([
         /** @inheritdoc */
         initialize: function () {
             const self = this;
-            let documentField,
-                typeMaskDocument;
 
             this._super();
 
             //default installments options
             self.getInstallments(self.getCardBin());
-
-            //Set document to data object and field mask
-            this.taxId.subscribe(function (value) {
-                value = value.replace(/\D/g, '');
-
-                documentField = $('#' + self.getCode() + '_tax_id');
-                typeMaskDocument = value.length <= 11 ? '000.000.000-009' : '00.000.000/0000-00';
-                documentField.mask(typeMaskDocument, {clearIfNotMatch: true});
-
-                pagbankCustomerData.taxId = value;
-            });
+            taxIdSubscriber.bind(self);
 
             self.active.subscribe((value) => {
                 if (value === true) {

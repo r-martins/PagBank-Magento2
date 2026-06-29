@@ -11,6 +11,7 @@ use RicardoMartins\PagBank\Api\Connect\CustomerInterfaceFactory;
 use RicardoMartins\PagBank\Api\Connect\PhoneInterface;
 use RicardoMartins\PagBank\Api\Connect\PhoneInterfaceFactory;
 use RicardoMartins\PagBank\Gateway\Config\Config;
+use RicardoMartins\PagBank\Model\DocumentNormalizer;
 
 class Customer implements BuilderInterface
 {
@@ -27,7 +28,8 @@ class Customer implements BuilderInterface
     public function __construct(
         private CustomerInterfaceFactory $customerFactory,
         private PhoneInterfaceFactory $phoneFactory,
-        private Config $config
+        private Config $config,
+        private DocumentNormalizer $documentNormalizer
     ) {}
 
     /**
@@ -56,7 +58,7 @@ class Customer implements BuilderInterface
 
         $rawTelephone = $orderModel->getBillingAddress()->getTelephone();
         $digitsOnly = (string) preg_replace('/\D/', '', (string) $rawTelephone);
-        $document = preg_replace('/\D/', '', (string) $document);
+        $document = $this->documentNormalizer->normalize((string) $document);
 
         $localDigits = $this->extractBrazilLocalDigits($digitsOnly);
         $areaAndNumber = $this->splitBrazilAreaAndNumber($localDigits);

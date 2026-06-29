@@ -6,9 +6,16 @@ namespace RicardoMartins\PagBank\Model\Request;
 use Magento\Framework\DataObject;
 use RicardoMartins\PagBank\Api\Connect\HolderInterface;
 use RicardoMartins\PagBank\Api\Connect\AddressInterface;
+use RicardoMartins\PagBank\Model\DocumentNormalizer;
 
 class Holder extends DataObject implements HolderInterface
 {
+    public function __construct(
+        private readonly DocumentNormalizer $documentNormalizer,
+        array $data = []
+    ) {
+        parent::__construct($data);
+    }
     /**
      * @return string
      */
@@ -41,7 +48,7 @@ class Holder extends DataObject implements HolderInterface
      */
     public function setTaxId(string $taxId): HolderInterface
     {
-        $taxId = preg_replace('/\D/', '', $taxId);
+        $taxId = $this->documentNormalizer->normalize($taxId);
         return $this->setData(HolderInterface::TAX_ID, $taxId);
     }
 
