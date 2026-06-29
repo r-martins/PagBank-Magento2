@@ -15,6 +15,7 @@ define([
         'RicardoMartins_PagBank/js/action/threed-secure-action',
         'RicardoMartins_PagBank/js/action/threed-secure-session',
         'RicardoMartins_PagBank/js/view/payment/form/customer-fields',
+        'RicardoMartins_PagBank/js/model/tax-id-subscriber',
         'RicardoMartins_PagBank/js/lib/jquery/jquery.mask',
         'Magento_Checkout/js/model/full-screen-loader',
         'mage/translate',
@@ -37,6 +38,7 @@ define([
         threeDSecureAction,
         threedSecureSession,
         customerFields,
+        taxIdSubscriber,
         _mask,
         fullScreenLoader,
         $t
@@ -90,11 +92,9 @@ define([
              */
             initialize: function () {
                 const self = this;
-                let documentField,
-                    creditCardNumberField,
+                let creditCardNumberField,
                     expirationField,
                     cvvField,
-                    typeMaskDocument,
                     typeMaskCreditCard;
 
                 this._super();
@@ -207,17 +207,7 @@ define([
                 });
 
                 self.bindCardFieldNormalizers();
-
-                //Set document to data object and field mask
-                this.taxId.subscribe(function (value) {
-                    value = value.replace(/\D/g, '');
-
-                    documentField = $('#' + self.getCode() + '_tax_id');
-                    typeMaskDocument = value.length <= 11 ? '000.000.000-009' : '00.000.000/0000-00';
-                    documentField.mask(typeMaskDocument, {clearIfNotMatch: true});
-
-                    pagbankCustomerData.taxId = value;
-                });
+                taxIdSubscriber.bind(self);
 
                 //Set cvv to credit card mask
                 this.creditCardVerificationNumber.subscribe(function (value) {

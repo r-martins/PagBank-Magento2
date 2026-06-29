@@ -6,9 +6,16 @@ namespace RicardoMartins\PagBank\Model\Request;
 use Magento\Framework\DataObject;
 use RicardoMartins\PagBank\Api\Connect\CustomerInterface;
 use RicardoMartins\PagBank\Api\Connect\PhoneInterface;
+use RicardoMartins\PagBank\Model\DocumentNormalizer;
 
 class Customer extends DataObject implements CustomerInterface
 {
+    public function __construct(
+        private readonly DocumentNormalizer $documentNormalizer,
+        array $data = []
+    ) {
+        parent::__construct($data);
+    }
     /**
      * @return string
      */
@@ -41,7 +48,7 @@ class Customer extends DataObject implements CustomerInterface
      */
     public function setTaxId(string $taxId): CustomerInterface
     {
-        $taxId = preg_replace('/\D/', '', $taxId);
+        $taxId = $this->documentNormalizer->normalize($taxId);
         return $this->setData(CustomerInterface::TAX_ID, $taxId);
     }
 

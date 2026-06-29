@@ -16,7 +16,7 @@ interface HolderInterface
 
     /**
      * Customer document. CPF or CNPJ is required.
-     * CPF has 11 digits and CNPJ has 14 digits.
+     * CPF has 11 numeric digits; CNPJ has 14 alphanumeric characters (DV is numeric).
      * Receive a string.
      */
     public const TAX_ID = 'tax_id';
