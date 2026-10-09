@@ -9,14 +9,14 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\LocalizedException;
-use RicardoMartins\PagBank\Model\Vindi\Proxy;
+use RicardoMartins\PagBank\Model\Vindi\Client;
 
 abstract class AbstractVindi implements CsrfAwareActionInterface
 {
     public function __construct(
         private readonly JsonFactory $jsonFactory,
         private readonly RequestInterface $request,
-        private readonly Proxy $proxy
+        private readonly Client $vindiClient
     ) {
     }
 
@@ -61,8 +61,8 @@ abstract class AbstractVindi implements CsrfAwareActionInterface
         return true;
     }
 
-    protected function proxy(): Proxy
+    protected function proxy(): Client
     {
-        return $this->proxy;
+        return $this->vindiClient;
     }
 }

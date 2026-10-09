@@ -13,9 +13,9 @@ use RicardoMartins\PagBank\Gateway\Http\Client\GeneralClient;
 use RicardoMartins\PagBank\Model\DocumentNormalizer;
 
 /**
- * Server-side proxies for Vindi tokenize/3DS via API PB v1.
+ * Server-side Vindi tokenize/3DS calls via API PB v1.
  */
-class Proxy
+class Client
 {
     public function __construct(
         private readonly Config $config,
