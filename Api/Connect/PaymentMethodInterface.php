@@ -27,6 +27,11 @@ interface PaymentMethodInterface
     public const TYPE_CREDIT_CARD = 'CREDIT_CARD';
 
     /**
+     * Credit card after Vindi 3DS. Do not send CREDIT_CARD together with three_ds.
+     */
+    public const TYPE_CREDIT_CARD_3DS = 'CREDIT_CARD_3DS';
+
+    /**
      * Installments number.
      * Required for credit card payments.
      * Receives an integer value.
@@ -69,4 +74,14 @@ interface PaymentMethodInterface
      * @see \RicardoMartins\PagBank\Api\Connect\PaymentMethod\AuthenticationMethodInterface
      */
     public const AUTHENTICATION_METHOD = 'authentication_method';
+
+    /**
+     * Persisted Vindi payment profile id (3DS or saved card).
+     */
+    public const PAYMENT_PROFILE_ID = 'payment_profile_id';
+
+    /**
+     * Vindi 3DS authentication result (setup/enroll/validate).
+     */
+    public const THREE_DS = 'three_ds';
 }

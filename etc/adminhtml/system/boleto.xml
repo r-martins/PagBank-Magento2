@@ -16,15 +16,18 @@
         </field>
         <field id="expiration_time" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
             <label>Boleto expires in (days)</label>
+            <comment model="RicardoMartins\PagBank\Block\Adminhtml\System\BoletoExpirationComment"/>
             <validate>validate-digits no-whitespace</validate>
             <config_path>payment/ricardomartins_pagbank_boleto/expiration_time</config_path>
         </field>
         <field id="instruction_line_one" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
             <label>Instructions (line one)</label>
+            <comment model="RicardoMartins\PagBank\Block\Adminhtml\System\BoletoInstructionComment"/>
             <config_path>payment/ricardomartins_pagbank_boleto/instruction_line_one</config_path>
         </field>
         <field id="instruction_line_two" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
             <label>Instructions (line two)</label>
+            <comment model="RicardoMartins\PagBank\Block\Adminhtml\System\BoletoInstructionComment"/>
             <config_path>payment/ricardomartins_pagbank_boleto/instruction_line_two</config_path>
         </field>
     </group>

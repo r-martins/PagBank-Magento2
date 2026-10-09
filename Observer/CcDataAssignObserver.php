@@ -5,6 +5,7 @@ namespace RicardoMartins\PagBank\Observer;
 use Magento\Framework\Event\Observer;
 use Magento\Payment\Observer\AbstractDataAssignObserver;
 use Magento\Quote\Api\Data\PaymentInterface;
+use RicardoMartins\PagBank\Gateway\Config\Config;
 
 class CcDataAssignObserver extends AbstractDataAssignObserver
 {
@@ -16,10 +17,17 @@ class CcDataAssignObserver extends AbstractDataAssignObserver
     public const CC_INSTALLMENTS = 'cc_installments';
     public const CC_NUMBER_ENCRYPTED = 'cc_number_encrypted';
     public const THREED_SECURE_ID = 'threed_secure_id';
+    public const PAYMENT_PROFILE_ID = 'payment_profile_id';
+    public const PAYMENT_COMPANY_CODE = 'payment_company_code';
+    public const CC_3DS_PAYLOAD = 'cc_3ds_payload';
 
     public const CC_VAULT_IS_ACTIVE_CODE = 'is_active_payment_token_enabler';
 
     public const CUSTOMER_TAX_ID = 'tax_id';
+
+    public function __construct(private readonly Config $config)
+    {
+    }
 
     private array $paymentFields = [
         self::CC_TYPE,
@@ -33,6 +41,9 @@ class CcDataAssignObserver extends AbstractDataAssignObserver
         self::CC_INSTALLMENTS,
         self::CC_NUMBER_ENCRYPTED,
         self::THREED_SECURE_ID,
+        self::PAYMENT_PROFILE_ID,
+        self::PAYMENT_COMPANY_CODE,
+        self::CC_3DS_PAYLOAD,
         self::CUSTOMER_TAX_ID,
         self::CC_VAULT_IS_ACTIVE_CODE
     ];
@@ -68,5 +79,15 @@ class CcDataAssignObserver extends AbstractDataAssignObserver
                 );
             }
         }
+
+        $this->stampPartner($paymentInfo);
+    }
+
+    private function stampPartner($paymentInfo): void
+    {
+        $storeId = $paymentInfo->getOrder() ? $paymentInfo->getOrder()->getStoreId() : null;
+        $detector = $this->config->getPartnerDetector($storeId);
+        $paymentInfo->setAdditionalInformation('partner', $detector->getPartner());
+        $paymentInfo->setAdditionalInformation('connect_key_fp', $detector->fingerprint());
     }
 }

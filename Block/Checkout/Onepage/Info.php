@@ -8,6 +8,7 @@ use Magento\Sales\Model\Order;
 use RicardoMartins\PagBank\Gateway\Config\ConfigBoleto;
 use RicardoMartins\PagBank\Gateway\Config\ConfigCc;
 use RicardoMartins\PagBank\Gateway\Config\ConfigQrCode;
+use RicardoMartins\PagBank\Model\Pix\QrImage;
 
 class Info extends \Magento\Framework\View\Element\Template
 {
@@ -23,6 +24,7 @@ class Info extends \Magento\Framework\View\Element\Template
 
     public function __construct(
         private readonly Session $checkoutSession,
+        private readonly QrImage $qrImage,
         Context $context
     ) {
         $this->order = $this->checkoutSession->getLastRealOrder();
@@ -89,6 +91,13 @@ class Info extends \Magento\Framework\View\Element\Template
 
         if (!$blockName) {
             return '';
+        }
+
+        if (!empty($additionalInfo['payment_link_qrcode'])) {
+            $additionalInfo['payment_link_qrcode'] = $this->qrImage->displayUrl(
+                $this->order,
+                (string) $additionalInfo['payment_link_qrcode']
+            );
         }
 
         $this->_layout->getBlock($blockName)->setData($additionalInfo);

@@ -130,4 +130,14 @@ class PaymentMethod extends DataObject implements PaymentMethodInterface
     {
         return $this->setData(PaymentMethodInterface::AUTHENTICATION_METHOD, $authenticationMethod);
     }
+
+    public function setPaymentProfileId(?int $paymentProfileId): PaymentMethodInterface
+    {
+        return $this->setData(PaymentMethodInterface::PAYMENT_PROFILE_ID, $paymentProfileId);
+    }
+
+    public function setThreeDs(?array $threeDs): PaymentMethodInterface
+    {
+        return $this->setData(PaymentMethodInterface::THREE_DS, $threeDs);
+    }
 }

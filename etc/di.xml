@@ -393,7 +393,7 @@
     <!-- Logger -->
     <virtualType name="RicardoMartins\PagBank\Model\Method\VirtualDebug" type="Magento\Framework\Logger\Handler\Base">
         <arguments>
-            <argument name="fileName" xsi:type="string">/var/log/pagbank.log</argument>
+            <argument name="fileName" xsi:type="string">/var/log/pbintegracoes.log</argument>
         </arguments>
     </virtualType>
     <virtualType name="RicardoMartins\PagBank\Model\Method\VirtualLogger" type="Magento\Framework\Logger\Monolog">

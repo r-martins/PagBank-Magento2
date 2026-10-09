@@ -13,8 +13,7 @@ class InstallmentOptions implements OptionSourceInterface
     public function toOptionArray()
     {
         return [
-            ['value' => 'external', 'label' => __('Follow PagBank account settings (default)')],
-            ['value' => 'buyer', 'label' => __('Interest paid by the buyer')],
+            ['value' => 'buyer', 'label' => __('Interest paid by the buyer (default)')],
             ['value' => 'fixed', 'label' => __('Up to X interest-free installments')],
             ['value' => 'min_total', 'label' => __('Up to X interest-free installments depending on the amount of the installment')]
         ];

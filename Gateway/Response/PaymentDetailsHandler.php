@@ -3,14 +3,20 @@ declare(strict_types=1);
 
 namespace RicardoMartins\PagBank\Gateway\Response;
 
-use RicardoMartins\PagBank\Api\Connect\ConnectInterface;
-use RicardoMartins\PagBank\Api\Connect\ResponseInterface;
+use RicardoMartins\PagBank\Gateway\Config\Config;
+use RicardoMartins\PagBank\Model\Partner\Branding;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Response\HandlerInterface;
 use Magento\Sales\Model\Order\Payment;
 
 class PaymentDetailsHandler implements HandlerInterface
 {
+    public function __construct(
+        private readonly Config $config,
+        private readonly Branding $branding
+    ) {
+    }
+
     /**
      * @inheritDoc
      */
@@ -31,35 +37,41 @@ class PaymentDetailsHandler implements HandlerInterface
         }
 
         $charges = $response['charges'][0];
-        $paymetResponse = $charges['payment_response'];
-        $paymetMethod = $charges['payment_method'];
-        $paymentType = $paymetMethod['type'];
-        $links = $charges['links'];
+        $paymetResponse = $charges['payment_response'] ?? [];
+        $paymetMethod = $charges['payment_method'] ?? [];
+        $paymentType = $paymetMethod['type'] ?? '';
+        $links = $charges['links'] ?? [];
+
+        $storeId = $payment->getOrder() ? $payment->getOrder()->getStoreId() : null;
+        $detector = $this->config->getPartnerDetector($storeId);
+        $isSandbox = $detector->isSandbox();
 
         $data = [
             'payment_id' => $response['id'],
             'charge_id' => $charges['id'],
-            'status' => $charges['status']
+            'status' => $charges['status'],
+            'partner' => $detector->getPartner(),
+            'connect_key_fp' => $detector->fingerprint(),
+            'is_sandbox' => $isSandbox,
         ];
 
-        $data['is_sandbox'] = key_exists('is_sandbox', $response) ? $response['is_sandbox'] : false;
-
-        if (!$data['is_sandbox']) {
-            $chargeIdWithoutPrefix = str_replace('CHAR_', '', $data['charge_id']);
-            $transactionLink = ConnectInterface::PAGBANK_TRANSACTION_DETAILS_URL . $chargeIdWithoutPrefix;
-            $data['charge_link'] = $transactionLink;
+        $chargeLink = $this->branding->withDetector($detector)->adminChargeUrl((string) $data['charge_id'], $isSandbox);
+        if ($chargeLink) {
+            $data['charge_link'] = $chargeLink;
         }
 
-        if ($paymentType === 'CREDIT_CARD') {
+        if (is_string($paymentType) && str_starts_with($paymentType, 'CREDIT_CARD') && isset($paymetMethod['card'])) {
             $creditCard = $paymetMethod['card'];
-            $data['brand'] = $creditCard['brand'];
-            $data['cc_last_4'] = $creditCard['last_digits'];
-            $data['cc_owner'] = $creditCard['holder']['name'];
-            $data['installments'] = $paymetMethod['installments'];
+            $data['brand'] = $creditCard['brand'] ?? '';
+            $data['cc_last_4'] = $creditCard['last_digits'] ?? '';
+            $data['cc_owner'] = $creditCard['holder']['name'] ?? '';
+            $data['installments'] = $paymetMethod['installments'] ?? '';
 
-            $paymentRawData = $paymetResponse['raw_data'];
-            $data['authorization_code'] = $paymentRawData['authorization_code'];
-            $data['nsu'] = $paymentRawData['nsu'];
+            $paymentRawData = $paymetResponse['raw_data'] ?? [];
+            if (is_array($paymentRawData)) {
+                $data['authorization_code'] = $paymentRawData['authorization_code'] ?? '';
+                $data['nsu'] = $paymentRawData['nsu'] ?? '';
+            }
         }
 
         if ($paymentType === 'BOLETO') {

@@ -22,6 +22,7 @@
         <field id="soft_descriptor" translate="label tooltip" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
             <label>Soft Descriptor</label>
             <tooltip>Name that will be displayed on the Customer's invoice. Choose a name that reminds the customer that they purchased from your store and avoids chargebacks.</tooltip>
+            <comment model="RicardoMartins\PagBank\Block\Adminhtml\System\SoftDescriptorComment"/>
             <config_path>payment/ricardomartins_pagbank_cc/soft_descriptor</config_path>
         </field>
         <field id="cc_3ds" translate="label comment" type="select" sortOrder="45" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">

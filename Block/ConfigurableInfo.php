@@ -5,10 +5,21 @@ namespace RicardoMartins\PagBank\Block;
 
 use Magento\Framework\DataObject;
 use Magento\Framework\Phrase;
+use RicardoMartins\PagBank\Model\Partner\Branding;
+use RicardoMartins\PagBank\Model\Pix\QrImage;
 
 class ConfigurableInfo extends \Magento\Payment\Block\ConfigurableInfo
 {
     protected $_template = 'RicardoMartins_PagBank::info/pagbank.phtml';
+
+    public function __construct(
+        private readonly QrImage $qrImage,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Payment\Gateway\ConfigInterface $config,
+        array $data = []
+    ) {
+        parent::__construct($context, $config, $data);
+    }
 
     private const FIELD_LABELS = [
         'payment_id' => 'Payment ID',
@@ -72,6 +83,16 @@ class ConfigurableInfo extends \Magento\Payment\Block\ConfigurableInfo
      */
     protected function getLabel($field)
     {
+        if ($field === 'charge_link') {
+            $partner = '';
+            $info = $this->getInfo();
+            if ($info) {
+                $partner = (string) $info->getAdditionalInformation('partner');
+            }
+
+            return __(Branding::forOrderPartner($partner)->viewChargeLabel());
+        }
+
         if (isset(self::FIELD_LABELS[$field])) {
             return __(self::FIELD_LABELS[$field]);
         }
@@ -92,6 +113,11 @@ class ConfigurableInfo extends \Magento\Payment\Block\ConfigurableInfo
         if (isset(self::FIELD_VALUES[$field])) {
             if (self::FIELD_VALUES[$field] === 'date') {
                 return $this->formatDate($value, \IntlDateFormatter::SHORT, true);
+            }
+
+            if ($field === 'payment_link_qrcode') {
+                $order = $this->getInfo() ? $this->getInfo()->getOrder() : null;
+                $value = $this->qrImage->displayUrl($order, (string) $value);
             }
 
             return [

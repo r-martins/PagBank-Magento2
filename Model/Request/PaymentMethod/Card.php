@@ -25,6 +25,16 @@ class Card extends DataObject implements CardInterface
         return $this->setData(CardInterface::ENCRYPTED, $encrypted);
     }
 
+    public function setGatewayToken(?string $gatewayToken): CardInterface
+    {
+        return $this->setData(CardInterface::GATEWAY_TOKEN, $gatewayToken);
+    }
+
+    public function setPaymentProfileId(?int $paymentProfileId): CardInterface
+    {
+        return $this->setData(CardInterface::PAYMENT_PROFILE_ID, $paymentProfileId);
+    }
+
     /**
      * @return string|null
      */
