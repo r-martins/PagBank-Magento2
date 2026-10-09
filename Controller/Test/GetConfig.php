@@ -72,11 +72,16 @@ class GetConfig implements HttpGetActionInterface
     {
         $resultJson = $this->resultJsonFactory->create();
 
+        $detector = $this->config->getPartnerDetector();
+        $keyLength = strlen((string) $this->config->getConnectKey());
+        $keyOk = $detector->isVindi() ? $keyLength >= 8 : $keyLength === 40;
+
         $info = array(
             'platform' => $this->config->getMagentoPlatform(),
             'platform_version' => substr($this->config->getMagentoVersion(), 0, 1),
             'module_version' => $this->config->getModuleVersion(),
-            'connect_key' => strlen($this->config->getConnectKey()) == 40 ? 'Good' : 'Wrong size',
+            'partner' => $detector->getPartner(),
+            'connect_key' => $keyOk ? 'Good' : 'Wrong size',
             'sandbox_active' => $this->config->isSandbox(),
             'key_validate'  => $this->validateKey(),
             'settings'      => $this->getConfig()
@@ -102,9 +107,10 @@ class GetConfig implements HttpGetActionInterface
                 return 'Public Key is empty.';
             }
 
-            $url = ConnectInterface::WS_ENDPOINT_PUBLIC_KEY_VALIDATE;
-            if ($this->config->isSandbox()) {
-                $url .= '?isSandbox=1';
+            if ($this->config->isVindi()) {
+                $url = $this->config->getConnectInfoEndpoint();
+            } else {
+                $url = ConnectInterface::WS_ENDPOINT_PUBLIC_KEY_VALIDATE;
             }
             $this->curl->setHeaders([
                 'Content-Type' => 'application/json',
@@ -120,6 +126,9 @@ class GetConfig implements HttpGetActionInterface
         }
 
         $response = json_decode($response, true);
+        if ($this->config->isVindi()) {
+            return is_array($response) && $response !== [] ? 'Valid' : 'Invalid';
+        }
         if (!isset($response['public_key'])) {
             return 'Error in the response of the public key.';
         }

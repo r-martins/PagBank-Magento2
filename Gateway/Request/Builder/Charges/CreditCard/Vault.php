@@ -11,6 +11,7 @@ use RicardoMartins\PagBank\Api\Connect\ChargeInterfaceFactory;
 use RicardoMartins\PagBank\Api\Connect\PaymentMethod\CardInterfaceFactory;
 use RicardoMartins\PagBank\Api\Connect\PaymentMethodInterface;
 use RicardoMartins\PagBank\Api\Connect\PaymentMethodInterfaceFactory;
+use RicardoMartins\PagBank\Gateway\Config\Config;
 use RicardoMartins\PagBank\Gateway\Config\ConfigCc;
 
 class Vault implements BuilderInterface
@@ -26,7 +27,8 @@ class Vault implements BuilderInterface
         private readonly AmountInterfaceFactory $amountFactory,
         private readonly CardInterfaceFactory $cardFactory,
         private readonly PaymentMethodInterfaceFactory $paymentMethodFactory,
-        private readonly ConfigCc $config
+        private readonly ConfigCc $config,
+        private readonly Config $gatewayConfig
     ) {}
 
     /**
@@ -55,17 +57,27 @@ class Vault implements BuilderInterface
 
         $extensionAttributes = $payment->getExtensionAttributes();
         $paymentToken = $extensionAttributes->getVaultPaymentToken();
-        $card = $this->cardFactory->create();
-        $card->setCardId($paymentToken->getGatewayToken());
+        $gatewayToken = (string) $paymentToken->getGatewayToken();
+        $isVindi = $this->gatewayConfig->isVindi($orderModel->getStoreId());
 
+        $card = $this->cardFactory->create();
         $paymentMethod = $this->paymentMethodFactory->create();
         $paymentMethod->setType(PaymentMethodInterface::TYPE_CREDIT_CARD);
         $paymentMethod->setInstallments((int) $payment->getAdditionalInformation('cc_installments'));
         $paymentMethod->setCapture(true);
-        $paymentMethod->setCard($card->getData());
 
-        $softDescriptor = $this->config->getSoftDescriptor($orderModel->getStoreId());
-        $paymentMethod->setSoftDescriptor($softDescriptor);
+        if ($isVindi && ctype_digit($gatewayToken)) {
+            $profileId = (int) $gatewayToken;
+            $card->setPaymentProfileId($profileId);
+            $paymentMethod->setPaymentProfileId($profileId);
+        } elseif ($isVindi) {
+            $card->setGatewayToken($gatewayToken);
+        } else {
+            $card->setCardId($gatewayToken);
+            $paymentMethod->setSoftDescriptor($this->config->getSoftDescriptor($orderModel->getStoreId()));
+        }
+
+        $paymentMethod->setCard($card->getData());
 
         $charges->setPaymentMethod($paymentMethod->getData());
 

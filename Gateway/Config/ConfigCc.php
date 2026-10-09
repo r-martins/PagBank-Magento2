@@ -93,7 +93,13 @@ class ConfigCc extends BaseConfig implements ConfigInterface
      */
     public function getInstallmentsOptions($storeId = null): string
     {
-        return $this->getValue('installments_options', $storeId) ?? '';
+        $value = (string) ($this->getValue('installments_options', $storeId) ?? '');
+        // Legacy "external" (PagBank account settings) is no longer offered.
+        if ($value === '' || $value === 'external') {
+            return 'buyer';
+        }
+
+        return $value;
     }
 
     /**
@@ -133,26 +139,25 @@ class ConfigCc extends BaseConfig implements ConfigInterface
     }
 
     /**
-     * Get the max installments without interest based on order total and config options
-     * Will return '' if the option is set to get from the PagBank Config, 0 if the option is set to buyer,
-     * a fixed number if the option is set to fixed or the calculated number based on the order total.
+     * Get the max installments without interest based on order total and config options.
+     * Returns 0 when the buyer pays the interest (default, including the removed PagBank-account option),
+     * a fixed number for "fixed", or the number calculated from the order total for "min_total".
      *
      * @param $amount
      * @param null $storeId
-     * @return int|null
+     * @return int
      */
-    public function getMaxInstallmentsNoInterest($amount, $storeId = null): ?int
+    public function getMaxInstallmentsNoInterest($amount, $storeId = null): int
     {
         $installmentsOptions = $this->getInstallmentsOptions($storeId);
 
         return match ($installmentsOptions) {
             'fixed' => $this->getInstallmentsWithoutInterestNumber($storeId),
-            'buyer' => 0,
             'min_total' => $this->calculeInstallmentsNumberWithMinTotal(
                 $this->getInstallmentsMinAmount($storeId),
                 $amount
             ),
-            default => null,
+            default => 0,
         };
     }
 

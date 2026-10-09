@@ -12,6 +12,8 @@ define([
         'RicardoMartins_PagBank/js/action/get-installments',
         'RicardoMartins_PagBank/js/action/set-interest',
         'RicardoMartins_PagBank/js/action/encrypt-card',
+        'RicardoMartins_PagBank/js/action/tokenize-vindi',
+        'RicardoMartins_PagBank/js/action/vindi-threed-secure',
         'RicardoMartins_PagBank/js/action/threed-secure-action',
         'RicardoMartins_PagBank/js/action/threed-secure-session',
         'RicardoMartins_PagBank/js/view/payment/form/customer-fields',
@@ -35,6 +37,8 @@ define([
         getInstallments,
         setInterest,
         encryptCard,
+        tokenizeVindi,
+        vindiThreeDSecure,
         threeDSecureAction,
         threedSecureSession,
         customerFields,
@@ -54,6 +58,9 @@ define([
                 creditCardThreeDSecureId: '',
                 creditCardThreeDSecureSession: '',
                 creditCardNumberEncrypted: '',
+                paymentProfileId: null,
+                paymentCompanyCode: '',
+                cc3dsPayload: '',
                 creditCardBin: '',
                 creditCardExpiration: null,
                 creditCardInstallments: null,
@@ -76,6 +83,9 @@ define([
                         'creditCardThreeDSecureId',
                         'creditCardThreeDSecureSession',
                         'creditCardNumberEncrypted',
+                        'paymentProfileId',
+                        'paymentCompanyCode',
+                        'cc3dsPayload',
                         'creditCardBin',
                         'creditCardExpiration',
                         'creditCardInstallments',
@@ -244,6 +254,29 @@ define([
 
                 fullScreenLoader.startLoader();
 
+                if (this.isVindi()) {
+                    tokenizeVindi(self).then(function (tokenized) {
+                        if (!tokenized) {
+                            fullScreenLoader.stopLoader();
+                            return;
+                        }
+                        if (!window.checkoutConfig.payment[self.getCode()].ccThreeDSecure) {
+                            fullScreenLoader.stopLoader();
+                            self.placeOrder('parent');
+                            return;
+                        }
+                        vindiThreeDSecure(self).then(function (authenticated) {
+                            fullScreenLoader.stopLoader();
+                            if (authenticated) {
+                                self.placeOrder('parent');
+                            }
+                        });
+                    }).catch(function () {
+                        fullScreenLoader.stopLoader();
+                    });
+                    return false;
+                }
+
                 resultToken = this.tokenizeCard();
 
                 if (resultToken) {
@@ -292,6 +325,9 @@ define([
                         'cc_installments': this.creditCardInstallments(),
                         'tax_id': pagbankCustomerData.taxId,
                         'threed_secure_id': this.creditCardThreeDSecureId(),
+                        'payment_profile_id': this.paymentProfileId(),
+                        'payment_company_code': this.paymentCompanyCode(),
+                        'cc_3ds_payload': this.cc3dsPayload()
                     }
                 };
 
@@ -586,6 +622,11 @@ define([
              */
             isVaultEnabled: function () {
                 return this.vaultEnabler.isVaultEnabled();
+            },
+
+            isVindi: function () {
+                return !!(window.checkoutConfig.payment.ricardomartins_pagbank
+                    && window.checkoutConfig.payment.ricardomartins_pagbank.is_vindi);
             }
         });
     }

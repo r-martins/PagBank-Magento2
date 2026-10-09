@@ -1,29 +1,30 @@
 [![Minimum PHP Version](https://img.shields.io/badge/php-8.1%20%E2%80%93%208.5-8892BF.svg?style=flat-square)](https://php.net/)
 [![GitHub release](https://img.shields.io/github/v/release/r-martins/PagBank-Magento2)](https://github.com/r-martins/PagBank-Magento2)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/r-martins/PagBank-Magento2/master)
-# Módulo PagBank(PagSeguro) para Magento2
+# Módulo PB Integrações (antigo PagBank Integrações) para Magento2
 
 ## Nova Geração - Novas APIs, Novos Recursos, Mais Estabilidade
-Aceite mais de 30 cartões de crédito, PIX e boleto em sua loja Magento 2, usando o meio de pagamento mais aceito pelos brasileiros.
+Integre com os principais gateways de pagamento, com os melhores recursos, taxas, suporte e atualizações gratuitas.
 
-Agora usando as Novas APIs do PagBank.
+⭐️ Agora usando Vindi (menores taxas) ou PagBank (por tempo limitado). Em breve novos parceiros.
 
 # Recursos
 
 - Aceite pagamentos com Cartão de Crédito, PIX ou Boleto de forma transparente (sem sair da loja)
+- Connect Key **PagBank** (`CON…`) ou **Vindi** (`CONVD…` / `CONVDSANDBOX…`) no mesmo módulo (5.0+)
 - [3D Secure](https://ajuda.pbintegracoes.com/hc/pt-br/articles/22375922278157-Autentica%C3%A7%C3%A3o-3DS-Sua-prote%C3%A7%C3%A3o-contra-Chargeback) em Pagamentos com Cartão - Zero Chargeback fraudulento, MUITO mais conversão, sem necessidade de antifraude.
 - Permite [salvar o cartão](https://ajuda.pbintegracoes.com/hc/pt-br/articles/22592192276109-Salvar-Cart%C3%A3o-para-uso-posterior) para compras futuras (Magento Vault)
 - PIX e Boleto com [validade configurável](https://ajuda.pbintegracoes.com/hc/pt-br/articles/27060110031373-PIX-e-Boleto-com-validade-configur%C3%A1vel)
 - Atualização automática do status do pedido
 - Pagamento em 1x ou [parcelado](https://ajuda.pbintegracoes.com/hc/pt-br/articles/22592267621645-Op%C3%A7%C3%B5es-de-Parcelamento-no-Magento-2)
 - Identificador do nome da loja na fatura
-- Descontos nas taxa oficiais do PagBank (ou suas taxas)
+- Descontos nas taxa oficiais do PagBank (ou suas taxas) ou taxas ainda menores com outros parceiros (ex: Vindi)
 - Suporte a Sandbox
 - Link direto para a transação disponível no admin
 - Suporte a todos os tipos de produtos
 - Suporte a multi-loja
 - Desenvolvido nos padrões Magento 2 por desenvolvedores certificados pela Adobe 🏆
-- [Atualização pró-ativa de pedidos](https://ajuda.pbintegracoes.com/hc/pt-br/articles/27270191360653-For%C3%A7ar-atualiza%C3%A7%C3%A3o-de-pedidos)
+- [Atualização pró-ativa de pedidos (opcional)](https://ajuda.pbintegracoes.com/hc/pt-br/articles/27270191360653-For%C3%A7ar-atualiza%C3%A7%C3%A3o-de-pedidos)
 
 <details>
   <summary>VEJA ALGUNS SCREENSHOTS (clique aqui para expandir)</summary>
@@ -46,7 +47,7 @@ Agora usando as Novas APIs do PagBank.
   - `bin/magento setup:upgrade`
   - `bin/magento setup:di:compile`
   - `bin/magento setup:static-content:deploy`
-- Navegue até Lojas &gt; Configurações &gt; Vendas &gt; Métodos de Pagamento &gt; Soluções Recomendadas > PagBank (Ricardo Martins PagBank) e clique em Configurar
+- Navegue até Lojas &gt; Configurações &gt; Vendas &gt; Métodos de Pagamento &gt; Soluções Recomendadas > PB Integrações e clique em Configurar
   - Clique em "Obter Connect Key" e siga as instruções para obter sua Connect Key e preenche-la no campo indicado logo abaixo.
   - Salve as configurações e você está pronto para vender.
 - Se desejar, configure opções de parcelamento, e validade do boleto e código pix de acordo com suas necessidades.

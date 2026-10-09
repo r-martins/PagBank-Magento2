@@ -12,6 +12,7 @@ use Magento\Framework\Component\ComponentRegistrar;
 use Magento\Framework\Component\ComponentRegistrarInterface;
 use Magento\Framework\Filesystem\Directory\ReadFactory;
 use RicardoMartins\PagBank\Api\Connect\ConnectInterface;
+use RicardoMartins\PagBank\Model\Partner\Detector;
 
 class Config extends BaseConfig implements ConfigInterface
 {
@@ -61,17 +62,39 @@ class Config extends BaseConfig implements ConfigInterface
         parent::__construct($scopeConfig, $methodCode, $pathPattern);
     }
 
+    public function getPartnerDetector($storeId = null, ?string $connectKey = null): Detector
+    {
+        $key = $connectKey ?? (string) $this->getConnectKey($storeId);
+
+        return Detector::fromKey($key);
+    }
+
+    public function isVindi($storeId = null): bool
+    {
+        return $this->getPartnerDetector($storeId)->isVindi();
+    }
+
+    public function getWsBaseUrl(): string
+    {
+        return rtrim(ConnectInterface::WS_CONNECT_BASE_URI, '/') . '/';
+    }
+
+    public function getApiV1BaseUrl(): string
+    {
+        return rtrim(ConnectInterface::API_V1_URI, '/') . '/';
+    }
+
     /**
      * @param null $storeId
      * @return string
      */
     public function getOrdersEndpoint($storeId = null): string
     {
-        if ($this->isSandbox($storeId)) {
-            return ConnectInterface::WS_ENDPOINT_ORDERS . '?' . ConnectInterface::SANDBOX_PARAM;
+        if ($this->isVindi($storeId)) {
+            return $this->appendQuery($this->getApiV1BaseUrl() . 'orders', 'debug=1');
         }
 
-        return ConnectInterface::WS_ENDPOINT_ORDERS;
+        return $this->getWsBaseUrl() . 'ws/orders';
     }
 
     /**
@@ -80,11 +103,11 @@ class Config extends BaseConfig implements ConfigInterface
      */
     public function getInterestEndpoint($storeId = null): string
     {
-        if ($this->isSandbox($storeId)) {
-            return ConnectInterface::WS_ENDPOINT_INTEREST . '?' . ConnectInterface::SANDBOX_PARAM;
+        if ($this->isVindi($storeId)) {
+            return $this->getApiV1BaseUrl() . 'charges/fees/calculate';
         }
 
-        return ConnectInterface::WS_ENDPOINT_INTEREST;
+        return $this->getWsBaseUrl() . 'ws/charges/fees/calculate';
     }
 
     /**
@@ -93,12 +116,53 @@ class Config extends BaseConfig implements ConfigInterface
      */
     public function getPaymentInfoEndpoint($storeId = null): string
     {
-        $endpoint = ConnectInterface::WS_ENDPOINT_PAYMENT_INFO . '/%s/';
-        if ($this->isSandbox($storeId)) {
-            return $endpoint . '?' . ConnectInterface::SANDBOX_PARAM;
+        if ($this->isVindi($storeId)) {
+            return $this->getApiV1BaseUrl() . 'orders/%s';
         }
 
-        return $endpoint;
+        return $this->getWsBaseUrl() . 'ws/orders/%s/';
+    }
+
+    public function getTokenizeConfigEndpoint(): string
+    {
+        return $this->getApiV1BaseUrl() . 'tokenize/config';
+    }
+
+    public function getConnectInfoEndpoint($storeId = null): string
+    {
+        if ($this->isVindi($storeId)) {
+            return $this->getApiV1BaseUrl() . 'connectInfo';
+        }
+
+        return $this->getWsBaseUrl() . 'connectInfo';
+    }
+
+    public function getPaymentMethodsEndpoint($storeId = null): string
+    {
+        return $this->getApiV1BaseUrl() . 'payment_methods';
+    }
+
+    public function getPaymentProfilesEndpoint($storeId = null): string
+    {
+        return $this->getApiV1BaseUrl() . 'payment_profiles';
+    }
+
+    /**
+     * @param string $action setup|enroll|validate
+     */
+    public function getThreeDsEndpoint(string $action, $storeId = null): string
+    {
+        return $this->getApiV1BaseUrl() . 'three-d-secure/sessions/' . $action;
+    }
+
+    public function getPublicKeyEndpoint($storeId = null, ?string $connectKey = null): string
+    {
+        $detector = $this->getPartnerDetector($storeId, $connectKey);
+        if ($detector->isVindi()) {
+            return $this->getTokenizeConfigEndpoint();
+        }
+
+        return $this->getWsBaseUrl() . 'ws/public-keys';
     }
 
     /**
@@ -107,12 +171,7 @@ class Config extends BaseConfig implements ConfigInterface
      */
     public function get3DSecureSessionEndpoint($storeId = null): string
     {
-        $endpoint = ConnectInterface::CHECKOUT_SDK_SESSION_ENDPOINT;
-        if ($this->isSandbox($storeId)) {
-            return $endpoint . '?' . ConnectInterface::SANDBOX_PARAM;
-        }
-
-        return $endpoint;
+        return ConnectInterface::CHECKOUT_SDK_SESSION_ENDPOINT;
     }
 
     /**
@@ -182,11 +241,16 @@ class Config extends BaseConfig implements ConfigInterface
      */
     public function isSandbox($storeId = null): bool
     {
-        $connectKey = $this->getConnectKey($storeId);
-        if (str_contains($connectKey, ConnectInterface::SANDBOX_PREFIX)) {
-            return true;
+        return $this->getPartnerDetector($storeId)->isSandbox();
+    }
+
+    private function appendQuery(string $url, string $query): string
+    {
+        if ($query === '') {
+            return $url;
         }
-        return false;
+
+        return $url . (str_contains($url, '?') ? '&' : '?') . $query;
     }
 
     /**

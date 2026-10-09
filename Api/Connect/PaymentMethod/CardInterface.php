@@ -26,6 +26,16 @@ interface CardInterface
     public const ENCRYPTED = 'encrypted';
 
     /**
+     * Vindi gateway token from the public payment_profiles call.
+     */
+    public const GATEWAY_TOKEN = 'gateway_token';
+
+    /**
+     * Vindi payment profile id.
+     */
+    public const PAYMENT_PROFILE_ID = 'payment_profile_id';
+
+    /**
      * Credit card expiration month.
      * Receives an integer with the card expiration month.
      * Characters limit: 1 or 2 characters.

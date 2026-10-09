@@ -15,6 +15,17 @@
             <values>
                 <value id="pagbank-connect-sandbox" type="host">sandbox.sdk.pagseguro.com</value>
                 <value id="pagbank-connect-prod" type="host">sdk.pagseguro.com</value>
+                <value id="vindi-api" type="host">*.vindi.com.br</value>
+            </values>
+        </policy>
+        <policy id="frame-src">
+            <values>
+                <value id="vindi-mpi" type="host">*.vindi.com.br</value>
+            </values>
+        </policy>
+        <policy id="form-action">
+            <values>
+                <value id="vindi-mpi-form" type="host">*.vindi.com.br</value>
             </values>
         </policy>
     </policies>

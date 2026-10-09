@@ -60,7 +60,7 @@ class ListInstallments implements ListInstallmentsInterface
         $installmentsData->setValue((float) $grandTotalAmount);
         $installmentsData->setCreditCardBin($creditCardBin);
 
-        if ($this->config->isSandbox($storeId)) {
+        if ($this->config->isSandbox($storeId) && !$this->config->isVindi($storeId)) {
             $installmentsData->setCreditCardBin(555566); // Test bin (as most bins are not recognized in Sandbox)
         }
 

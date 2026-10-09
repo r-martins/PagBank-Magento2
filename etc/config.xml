@@ -46,6 +46,7 @@
                 <can_capture_vault>1</can_capture_vault>
                 <cc_3ds>0</cc_3ds>
                 <cc_3ds_allow_continue>0</cc_3ds_allow_continue>
+                <installments_options>buyer</installments_options>
                 <cctypes_pagbank_mapper><![CDATA[{"AE":"AMEX","AU":"AURA","DI":"DISCOVER","DN":"DINERS","ELO":"ELO","HC":"HIPERCARD","MC":"MASTERCARD","VI":"VISA"}]]></cctypes_pagbank_mapper>
                 <cctypes>AE,AU,DI,DN,ELO,HC,MC,MI,VI,unknown</cctypes>
                 <paymentInfoKeys>is_sandbox,payment_id,charge_id,brand,cc_owner,cc_last_4,installments,charge_link,authorization_code,nsu,threed_secure_id</paymentInfoKeys>

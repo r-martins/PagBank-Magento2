@@ -14,6 +14,7 @@ use RicardoMartins\PagBank\Api\Connect\PaymentMethodInterfaceFactory;
 use RicardoMartins\PagBank\Api\Connect\PaymentMethod\AuthenticationMethodInterface;
 use RicardoMartins\PagBank\Api\Connect\PaymentMethod\AuthenticationMethodInterfaceFactory;
 use RicardoMartins\PagBank\Api\Connect\PaymentMethod\CardInterfaceFactory;
+use RicardoMartins\PagBank\Gateway\Config\Config;
 use RicardoMartins\PagBank\Gateway\Config\ConfigCc;
 use RicardoMartins\PagBank\Model\Request\ChargeFactory;
 
@@ -32,7 +33,8 @@ class CreditCard implements BuilderInterface
         private readonly AuthenticationMethodInterfaceFactory $authenticationMethodFactory,
         private readonly HolderInterfaceFactory $holderFactory,
         private readonly PaymentMethodInterfaceFactory $paymentMethodFactory,
-        private readonly ConfigCc $config
+        private readonly ConfigCc $config,
+        private readonly Config $gatewayConfig
     ) {}
 
     /**
@@ -62,9 +64,21 @@ class CreditCard implements BuilderInterface
         $holder = $this->holderFactory->create();
         $holder->setName($payment->getData('cc_owner'));
 
+        $storeId = $orderModel->getStoreId();
+        $isVindi = $this->gatewayConfig->isVindi($storeId);
+        $profileId = (int) $payment->getAdditionalInformation('payment_profile_id');
+
         $card = $this->cardFactory->create();
         $card->setHolder($holder->getData());
-        $card->setEncrypted($payment->getAdditionalInformation('cc_number_encrypted'));
+        if ($isVindi) {
+            if ($profileId > 0) {
+                $card->setPaymentProfileId($profileId);
+            } else {
+                $card->setGatewayToken((string) $payment->getAdditionalInformation('cc_number_encrypted'));
+            }
+        } else {
+            $card->setEncrypted($payment->getAdditionalInformation('cc_number_encrypted'));
+        }
 
         $paymentMethod = $this->paymentMethodFactory->create();
         $paymentMethod->setType(PaymentMethodInterface::TYPE_CREDIT_CARD);
@@ -72,16 +86,30 @@ class CreditCard implements BuilderInterface
         $paymentMethod->setCapture(true);
         $paymentMethod->setCard($card->getData());
 
-        $softDescriptor = $this->config->getSoftDescriptor($orderModel->getStoreId());
-        $paymentMethod->setSoftDescriptor($softDescriptor);
+        if ($isVindi) {
+            if ($profileId > 0) {
+                $paymentMethod->setPaymentProfileId($profileId);
+            }
+            $threeDsRaw = $payment->getAdditionalInformation('cc_3ds_payload');
+            if (is_string($threeDsRaw) && $threeDsRaw !== '') {
+                $decoded = json_decode($threeDsRaw, true);
+                if (is_array($decoded) && $decoded !== []) {
+                    $paymentMethod->setType(PaymentMethodInterface::TYPE_CREDIT_CARD_3DS);
+                    $paymentMethod->setThreeDs($decoded);
+                }
+            }
+        } else {
+            $softDescriptor = $this->config->getSoftDescriptor($storeId);
+            $paymentMethod->setSoftDescriptor($softDescriptor);
 
-        if ($this->config->isThreeDSecureActive()) {
-            $threeDsId = $payment->getAdditionalInformation('threed_secure_id');
-            $allowContinue = $this->config->isThreeDSecureAllowContinue($orderModel->getStoreId());
-            $authenticationMethod = $this->getAuthenticationMethodData($threeDsId, $allowContinue);
+            if ($this->config->isThreeDSecureActive()) {
+                $threeDsId = $payment->getAdditionalInformation('threed_secure_id');
+                $allowContinue = $this->config->isThreeDSecureAllowContinue($storeId);
+                $authenticationMethod = $this->getAuthenticationMethodData($threeDsId, $allowContinue);
 
-            if ($authenticationMethod->getId()) {
-                $paymentMethod->setAuthenticationMethod($authenticationMethod->getData());
+                if ($authenticationMethod && $authenticationMethod->getId()) {
+                    $paymentMethod->setAuthenticationMethod($authenticationMethod->getData());
+                }
             }
         }
 

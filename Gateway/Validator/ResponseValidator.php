@@ -65,6 +65,14 @@ class ResponseValidator extends AbstractValidator
 
         $response = $validationSubject['response'];
 
+        $forwarded = $this->forwardedGatewayMessage($response);
+        if ($forwarded !== null) {
+            $isValid = false;
+            $errorCodes[] = (string) ($response['error'] ?? 'UPSTREAM_ERROR');
+            $errorMessages[] = $forwarded;
+            $customMessage = __('%1', $forwarded);
+        }
+
         if (isset($response[ResponseInterface::ERROR_MESSAGES])) {
             $isValid = false;
             foreach ($response[ResponseInterface::ERROR_MESSAGES] as $error) {
@@ -125,6 +133,32 @@ class ResponseValidator extends AbstractValidator
         }
 
         return $this->createResult($isValid, $errorMessages, $errorCodes);
+    }
+
+    /**
+     * PB v1 puts the partner text in message. PagBank uses error_messages.
+     * A Cloudflare 502 page replaces the origin body when the API answered 502.
+     */
+    private function forwardedGatewayMessage(array $response): ?string
+    {
+        if (isset($response['id']) || isset($response['qr_codes']) || isset($response['charges'])) {
+            return null;
+        }
+
+        $message = $response['message'] ?? null;
+        if (is_string($message) && $message !== '') {
+            return $message;
+        }
+
+        if (!empty($response['cloudflare_error'])) {
+            $title = is_string($response['title'] ?? null) ? $response['title'] : '';
+            $detail = is_string($response['detail'] ?? null) ? $response['detail'] : '';
+            $text = trim($title . ($detail !== '' ? ' — ' . $detail : ''));
+
+            return $text !== '' ? $text : null;
+        }
+
+        return null;
     }
 
     /**

@@ -14,6 +14,26 @@ interface ConnectInterface
     public const WS_URI = 'https://ws.pbintegracoes.com/';
 
     /**
+     * PagBank Connect v7 base URL (trailing slash).
+     */
+    public const WS_CONNECT_BASE_URI = 'https://ws.pbintegracoes.com/pspro/v7/connect/';
+
+    /**
+     * API PB v1 base URL (trailing slash). Used for Connect Keys CONVD… / CONVDSANDBOX…
+     */
+    public const API_V1_URI = 'https://api.pbintegracoes.com/v1/';
+
+    /**
+     * Sandbox prefix (Vindi).
+     */
+    public const VINDI_SANDBOX_PREFIX = 'CONVDSANDBOX';
+
+    /**
+     * Production prefix (Vindi).
+     */
+    public const VINDI_PREFIX = 'CONVD';
+
+    /**
      * WS Endpoint
      * @var string
      */
@@ -82,13 +102,6 @@ interface ConnectInterface
      * @var string
      */
     const CHECKOUT_SDK_SESSION_ENDPOINT = self::WS_URI . self::WS_SDK_ENDPOINT . 'checkout-sdk/sessions';
-
-    /**
-     * Sandbox Param.
-     * This param is used to indicate that the request is a test.
-     * @var string
-     */
-    public const SANDBOX_PARAM = 'isSandbox=1';
 
     /**
      * Sandbox Prefix.

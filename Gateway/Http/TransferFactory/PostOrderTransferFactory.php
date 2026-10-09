@@ -30,6 +30,7 @@ class PostOrderTransferFactory implements TransferFactoryInterface
     public function create(array $request)
     {
         $storeId = $request['store_id'] ?? null;
+        unset($request['store_id']);
 
         return $this->transferBuilder
             ->setHeaders($this->config->getHeaders($storeId))
