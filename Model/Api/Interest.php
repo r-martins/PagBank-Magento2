@@ -87,7 +87,7 @@ class Interest implements InterestInterface
 
         try {
             $quote->setData('ricardomartins_pagbank_interest_amount', $interestAmount);
-            $quote->setData('ricardomartins_pagbank_interest_base_amount', $interestAmount);
+            $quote->setData('ricardomartins_pagbank_base_interest_amount', $interestAmount);
             $this->cartRepository->save($quote);
         } catch (\Exception $e) {
             return false;
