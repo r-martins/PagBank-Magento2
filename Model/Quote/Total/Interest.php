@@ -61,7 +61,7 @@ class Interest extends AbstractTotal
         }
 
         $interest = $quote->getRicardomartinsPagbankInterestAmount();
-        $baseInterest = $quote->getBaseRicardomartinsPagbankInterestAmount();
+        $baseInterest = $quote->getRicardomartinsPagbankBaseInterestAmount();
 
         $currentMethod = $quote->getPayment()->getMethod();
         if (!in_array($currentMethod,$this->getInterestMethods())) {
@@ -70,7 +70,7 @@ class Interest extends AbstractTotal
         }
 
         $total->setRicardomartinsPagbankInterestAmount($interest);
-        $total->setBaseRicardomartinsPagbankInterestAmount($baseInterest);
+        $total->setRicardomartinsPagbankBaseInterestAmount($baseInterest);
 
         $total->setTotalAmount('ricardomartins_pagbank_interest_amount', $interest);
         $total->setBaseTotalAmount('ricardomartins_pagbank_base_interest_amount', $baseInterest);
@@ -94,7 +94,7 @@ class Interest extends AbstractTotal
         $total->setTotalAmount('ricardomartins_pagbank_interest_amount', $interest);
         $total->setBaseTotalAmount('ricardomartins_pagbank_base_interest_amount', $interest);
         $quote->setData('ricardomartins_pagbank_interest_amount', $interest);
-        $quote->setData('ricardomartins_pagbank_interest_base_amount', $interest);
+        $quote->setData('ricardomartins_pagbank_base_interest_amount', $interest);
     }
 
     /**
