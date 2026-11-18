@@ -62,11 +62,13 @@ class StreetAddressMapperTest extends TestCase
     {
         $result = $this->mapper->mapFromStreetLines([
             'Rua A',
+            '123',
             '',
             'Bairro X',
         ]);
 
         $this->assertSame('Rua A', $result['street']);
+        $this->assertSame('123', $result['number']);
         $this->assertNull($result['complement']);
         $this->assertSame('Bairro X', $result['locality']);
     }
